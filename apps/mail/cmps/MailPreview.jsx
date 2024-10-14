@@ -12,6 +12,7 @@ export function MailPreview({ mail, onRemoveMail }) {
                 {subject.length > 25 ? `${subject.slice(0, 25)}...` : subject}
             </span>
             <span className="mail-date">{date}</span>
+            
             <button className="delete-btn" onClick={() => onRemoveMail(mail.id)}>
                 🗑️
             </button>

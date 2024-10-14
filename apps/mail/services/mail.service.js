@@ -1,4 +1,5 @@
 import { storageService } from './storage.service.js'
+import { asyncStorageService } from './async-storage.service.js'
 
 
 export const mailService = {
@@ -70,6 +71,14 @@ function getById(mailId) {
         if (!mail) throw new Error('Mail not found')
         return mail
     })
+}
+
+function getById(mailId) {
+    return asyncStorageService.get(MAIL_KEY, mailId)
+}
+
+function remove(mailId) {
+    return asyncStorageService.remove(MAIL_KEY, mailId)
 }
 
 function getFilterFromSearchParams(searchParams) {

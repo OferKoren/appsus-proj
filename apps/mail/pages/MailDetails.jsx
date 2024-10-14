@@ -1,4 +1,3 @@
-// MailDetails.jsx
 const { useEffect, useState } = React
 const { useParams, useNavigate } = ReactRouterDOM
 import { mailService } from '../services/mail.service.js'
@@ -13,17 +12,19 @@ export function MailDetails() {
     }, [mailId])
 
     function loadMail() {
-        mailService.getById(mailId).then(setMail).catch(err => {
-            console.log('Error loading mail:', err)
-            navigate('/mail') 
-        })
+        mailService.getById(mailId)
+            .then(setMail)
+            .catch(err => {
+                console.error('Failed to load mail', err)
+                navigate('/mail') 
+            })
     }
 
     if (!mail) return <div>Loading...</div>
 
     return (
         <section className="mail-details">
-            <button onClick={() => navigate('/mail')}>Back to Inbox</button>
+            <button onClick={() => navigate('/mail')}>Back to List</button>
             <h2>{mail.subject}</h2>
             <p><strong>From:</strong> {mail.from}</p>
             <p><strong>To:</strong> {mail.to}</p>

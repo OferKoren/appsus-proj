@@ -1,7 +1,7 @@
 .mail-details {
     padding: 20px;
     max-width: 600px;
-    margin: 0 auto;
+    margin: auto;
 }
 
 .mail-details h2 {
@@ -14,4 +14,19 @@
 
 .mail-details hr {
     margin: 20px 0;
+}
+
+.mail-details button {
+    margin-bottom: 20px;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.mail-details button:hover {
+    background-color: #0056b3;
 }
