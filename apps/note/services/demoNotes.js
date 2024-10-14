@@ -20,7 +20,7 @@ function _createDemoNotes() {
             type: 'NoteTxt',
             isPinned: false,
             style: {
-                backgroundColor: '#00d',
+                backgroundColor: '#0fa968',
             },
             info: {
                 title: 'hello',
@@ -33,7 +33,7 @@ function _createDemoNotes() {
             type: 'NoteTxt',
             isPinned: false,
             style: {
-                backgroundColor: '#00d',
+                backgroundColor: '#ecff41',
             },
             info: {
                 txt: 'dear diary. its been 8 days since i last wrote you',
@@ -45,7 +45,7 @@ function _createDemoNotes() {
             type: 'NoteTxt',
             isPinned: false,
             style: {
-                backgroundColor: '#00d',
+                backgroundColor: '',
             },
             info: {
                 txt: 'Take me to church i worship like a dog at the shrine of your lies..',
@@ -57,7 +57,7 @@ function _createDemoNotes() {
             type: 'NoteTxt',
             isPinned: true,
             style: {
-                backgroundColor: '#00d',
+                backgroundColor: '#ecff41',
             },
             info: {
                 txt: 'birthday to mom...',
@@ -69,7 +69,7 @@ function _createDemoNotes() {
             type: 'NoteTxt',
             isPinned: false,
             style: {
-                backgroundColor: '#00d',
+                backgroundColor: '#72d942',
             },
             info: {
                 title: 'list of students',
@@ -82,7 +82,7 @@ function _createDemoNotes() {
             type: 'NoteTxt',
             isPinned: false,
             style: {
-                backgroundColor: '#00d',
+                backgroundColor: '',
             },
             info: {
                 title: 'mission to do ',
@@ -99,7 +99,7 @@ function _createDemoNotes() {
                 title: 'Bobi and Me',
             },
             style: {
-                backgroundColor: '#00d',
+                backgroundColor: '#72d942',
             },
         },
         {
