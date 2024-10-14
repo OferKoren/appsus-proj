@@ -25,12 +25,19 @@ export function NoteIndex() {
             })
         })
     }
-
+    function onDeleteNote(noteId) {
+        console.log('deleteing', noteId)
+        noteService.remove(noteId).then(() => {
+            setNotes((prevNotes) => {
+                return prevNotes.filter((note) => note.id !== noteId)
+            })
+        })
+    }
     if (!notes) return <div>loading...</div>
     return (
         <section className="note-index">
             <AddNote addNote={addNote} />
-            <NoteList notes={notes} />
+            <NoteList notes={notes} onDeleteNote={onDeleteNote} />
         </section>
     )
 }
