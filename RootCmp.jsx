@@ -9,6 +9,7 @@ import { NoteIndex } from "./apps/note/pages/NoteIndex.jsx"
 
 
 
+
 export function App() {
     return <Router>
         <section className="app">

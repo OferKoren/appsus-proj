@@ -1,0 +1,42 @@
+.mail-preview {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.mail-preview.unread {
+    background-color: #ffffff;
+    font-weight: bold;
+}
+
+.mail-preview.read {
+    background-color: #f9f9f9;
+    color: #888;
+}
+
+.mail-preview:hover {
+    background-color: #e3f2fd;
+}
+
+.mail-from {
+    flex: 1;
+    color: #333;
+}
+
+.mail-subject {
+    flex: 2;
+    margin-left: 10px;
+    color: #555;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mail-date {
+    flex: 0;
+    margin-left: auto;
+    color: #666;
+}
