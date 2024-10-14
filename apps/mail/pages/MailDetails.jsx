@@ -13,10 +13,13 @@ export function MailDetails() {
 
     function loadMail() {
         mailService.getById(mailId)
-            .then(setMail)
+            .then(mail => {
+                mail.date = new Date(mail.sentAt).toLocaleString() 
+                setMail(mail)
+            })
             .catch(err => {
                 console.error('Failed to load mail', err)
-                navigate('/mail') 
+                navigate('/mail')
             })
     }
 

@@ -1,5 +1,5 @@
 const { useEffect, useState } = React
-const { Link, useSearchParams } = ReactRouterDOM
+const { Link, useSearchParams, useNavigate } = ReactRouterDOM
 
 import { mailService } from '../services/mail.service.js'
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
@@ -19,12 +19,17 @@ export function MailIndex() {
     }, [filterBy])
 
     function loadMails() {
-        mailService.query(filterBy)
+        mailService.query()
             .then(fetchedMails => {
-                setMails(fetchedMails)
+                const mailsWithFormattedDate = fetchedMails.map(mail => ({
+                    ...mail,
+                    date: new Date(mail.sentAt).toLocaleString() 
+                }))
+                setMails(mailsWithFormattedDate)
+                
             })
             .catch(err => {
-                console.log('Problems getting mails:', err)
+                console.error('Error loading mails:', err)
                 showErrorMsg('Failed to load mails')
             })
     }
@@ -49,7 +54,7 @@ export function MailIndex() {
             <section className="main-content">
                 <MailFolderFilter onSetFilterBy={onSetFilterBy} />
                 <div className="mail-list-container">
-                    <Link to="/mail/edit">Compose Mail</Link>
+                    <Link to="/mail/compose">Compose Mail</Link>
                     <MailList
                         mails={mails}
                         onRemoveMail={onRemoveMail}
