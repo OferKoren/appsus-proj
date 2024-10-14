@@ -30,15 +30,11 @@ export function MailIndex() {
     }
 
     function onRemoveMail(mailId) {
-        mailService.remove(mailId)
-            .then(() => {
-                setMails(mails => mails.filter(mail => mail.id !== mailId))
-                showSuccessMsg('Mail removed successfully!')
-            })
-            .catch(err => {
-                console.log('Problems removing mail:', err)
-                showErrorMsg(`Problems removing mail (${mailId})`)
-            })
+        mailService.remove(mailId).then(() => {
+            setMails(mails => mails.filter(mail => mail.id !== mailId))
+        }).catch(err => {
+            console.error('Error deleting mail:', err)
+        })
     }
 
     function onSetFilterBy(newFilter) {
@@ -46,6 +42,7 @@ export function MailIndex() {
     }
 
     if (!mails) return <h1>Loading...</h1>
+
     return (
         <section className="mail-index">
             <MailFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
