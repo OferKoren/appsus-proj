@@ -1,6 +1,8 @@
 const { useEffect, useState } = React
 const { Link, useSearchParams, useNavigate } = ReactRouterDOM
 
+
+
 import { mailService } from '../services/mail.service.js'
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { getTruthyValues } from '../services/util.service.js'
@@ -9,17 +11,20 @@ import { MailFolderFilter } from '../cmps/MailFolderFilter.jsx'
 import { MailList } from '../cmps/MailList.jsx'
 
 export function MailIndex() {
-    const [mails, setMails] = useState(null)
-    const [searchParams, setSearchParams] = useSearchParams()
-    const [filterBy, setFilterBy] = useState(mailService.getFilterFromSearchParams(searchParams))
-
+    const [mails, setMails] = useState([])
+    const [ searchParams, setSearchParams] = useSearchParams()
+    const [filterBy, setFilterBy] = useState({
+        txt: '',
+        status: 'inbox' 
+    })
     useEffect(() => {
+        console.log(MailFolderFilter)
         setSearchParams(getTruthyValues(filterBy))
         loadMails()
     }, [filterBy])
 
     function loadMails() {
-        mailService.query()
+        mailService.query(filterBy)
             .then(fetchedMails => {
                 const mailsWithFormattedDate = fetchedMails.map(mail => ({
                     ...mail,

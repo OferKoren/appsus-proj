@@ -1,36 +1,48 @@
-export function MailFolderFilter({ onSetFilterBy }) {
-    function handleFolderChange(folder) {
-        onSetFilterBy({ status: folder })
-        setActiveButton(folder)
-    }
+const { useState, useEffect } = React
 
-    function setActiveButton(folder) {
-        const buttons = document.querySelectorAll('.mail-folder-filter button')
-        buttons.forEach(button => {
-            button.classList.remove('active')
-        })
-        
-        const activeButton = document.querySelector(`.mail-folder-filter button[data-folder="${folder}"]`)
-        if (activeButton) {
-            activeButton.classList.add('active')
-        }
+export function MailFolderFilter({ onSetFilterBy }) {
+    const [activeFolder, setActiveFolder] = useState('inbox')
+
+    function handleFolderChange(folder) {
+        setActiveFolder(folder)
+        onSetFilterBy({ status: folder })
     }
 
     return (
         <aside className="mail-folder-filter">
-            <button data-folder="inbox" onClick={() => handleFolderChange('inbox')}>
+            <button 
+                data-folder="inbox"
+                className={activeFolder === 'inbox' ? 'active' : ''} 
+                onClick={() => handleFolderChange('inbox')}
+            >
                 <i className="fa-solid fa-inbox"></i> Inbox
             </button>
-            <button data-folder="starred" onClick={() => handleFolderChange('starred')}>
+            <button 
+                data-folder="starred"
+                className={activeFolder === 'starred' ? 'active' : ''} 
+                onClick={() => handleFolderChange('starred')}
+            >
                 <i className="fa-regular fa-star"></i> Starred
             </button>
-            <button data-folder="sent" onClick={() => handleFolderChange('sent')}>
+            <button 
+                data-folder="sent"
+                className={activeFolder === 'sent' ? 'active' : ''} 
+                onClick={() => handleFolderChange('sent')}
+            >
                 <i className="fa-solid fa-paper-plane"></i> Sent
             </button>
-            <button data-folder="draft" onClick={() => handleFolderChange('draft')}>
+            <button 
+                data-folder="draft"
+                className={activeFolder === 'draft' ? 'active' : ''} 
+                onClick={() => handleFolderChange('draft')}
+            >
                 <i className="fa-solid fa-file"></i> Draft
             </button>
-            <button data-folder="trash" onClick={() => handleFolderChange('trash')}>
+            <button 
+                data-folder="trash"
+                className={activeFolder === 'trash' ? 'active' : ''} 
+                onClick={() => handleFolderChange('trash')}
+            >
                 <i className="fa-solid fa-trash-can"></i> Trash
             </button>
         </aside>

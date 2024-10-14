@@ -1,4 +1,5 @@
 const { useEffect, useState } = React
+const { Link, useSearchParams } = ReactRouterDOM
 
 export function MailFilter({ filterBy, onSetFilterBy }) {
     const [searchTxt, setSearchTxt] = useState(filterBy.txt || '')
