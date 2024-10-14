@@ -47,13 +47,13 @@ export function MailIndex() {
     }
 
     if (!mails) return <h1>Loading...</h1>
-
     return (
         <section className="mail-index">
             <aside className="mail-sidebar">
                 <Link to="/mail/compose" className="compose-btn">
                     <i className="fa-solid fa-pen"></i> Compose
                 </Link>
+                <hr className="sidebar-separator" />
                 <MailFolderFilter onSetFilterBy={onSetFilterBy} />
             </aside>
             <main className="mail-main-content">
