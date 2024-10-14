@@ -5,15 +5,27 @@ const { useState, useEffect } = React
 
 export function NoteIndex() {
     const [notes, setNotes] = useState(null)
+    const [filterBy, setFilterBy] = useState(null)
 
-    function addNote(note) {
-        noteService.save(note).then(() => {
-            console.log('successfully added a note')
+    useEffect(() => {
+        loadNotes()
+    }, [filterBy])
+
+    function loadNotes() {
+        noteService.query().then((res) => {
+            setNotes(res)
         })
     }
-    useEffect(() => {
-        noteService.query().then(setNotes)
-    }, [])
+
+    function addNote(note) {
+        noteService.save(note).then((newNote) => {
+            console.log('successfully added a note')
+            setNotes((prevNotes) => {
+                return [newNote, ...prevNotes]
+            })
+        })
+    }
+
     if (!notes) return <div>loading...</div>
     return (
         <section className="note-index">

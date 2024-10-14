@@ -25,16 +25,35 @@ export function AddNote({ addNote }) {
     function onAddNote(ev) {
         ev.preventDefault()
         addNote(note)
+        setIsEdit(false)
+        setNote(noteService.getEmptyNote())
     }
-    console.log(isEdit)
-    console.log(note)
+
     if (!note) return
     return (
         <React.Fragment>
             <div className="add-note" onClick={() => setIsEdit(true)}>
                 <form action="" className="add-note-form" onSubmit={onAddNote}>
-                    {isEdit && <input type="text" name="title" id="title" placeholder="title" onChange={handleChange} value={note.title} />}
-                    <input type="text" name="txt" id="txt" placeholder="write new note..." onChange={handleChange} value={note.txt} />
+                    {isEdit && (
+                        <input
+                            autoComplete="off"
+                            type="text"
+                            name="title"
+                            id="title"
+                            placeholder="title"
+                            onChange={handleChange}
+                            value={note.title}
+                        />
+                    )}
+                    <input
+                        type="text"
+                        autoComplete="off"
+                        name="txt"
+                        id="txt"
+                        placeholder="write new note..."
+                        onChange={handleChange}
+                        value={note.txt}
+                    />
                     {isEdit && <button>add</button>}
                 </form>
             </div>
