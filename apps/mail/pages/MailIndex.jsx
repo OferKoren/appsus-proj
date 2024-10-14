@@ -50,17 +50,18 @@ export function MailIndex() {
 
     return (
         <section className="mail-index">
-            <MailFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
-            <section className="main-content">
+            <aside className="mail-sidebar">
+                <Link to="/mail/compose" className="compose-btn">
+                    <i className="fa-solid fa-pen"></i> Compose
+                </Link>
                 <MailFolderFilter onSetFilterBy={onSetFilterBy} />
+            </aside>
+            <main className="mail-main-content">
+                <MailFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
                 <div className="mail-list-container">
-                    <Link to="/mail/compose">Compose Mail</Link>
-                    <MailList
-                        mails={mails}
-                        onRemoveMail={onRemoveMail}
-                    />
+                    <MailList mails={mails} onRemoveMail={onRemoveMail} />
                 </div>
-            </section>
+            </main>
         </section>
     )
 }

@@ -1,32 +1,58 @@
+/* MailDetails.css */
 .mail-details {
     padding: 20px;
-    max-width: 600px;
-    margin: auto;
+    font-family: "Google Sans", Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+    color: #202124;
+    line-height: 1.6;
 }
 
 .mail-details h2 {
+    font-size: 1.5em;
+    font-weight: normal;
     margin-bottom: 10px;
+    color: #202124;
 }
 
-.mail-details p {
-    margin: 5px 0;
+.mail-details .mail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.mail-details .mail-header button {
+    background: none;
+    border: none;
+    color: #1a73e8;
+    font-size: 0.9em;
+    cursor: pointer;
+}
+
+.mail-details .mail-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    color: #5f6368;
+    font-size: 0.9em;
+}
+
+.mail-details .mail-info p {
+    margin: 0;
+    margin-right: 20px;
+}
+
+.mail-details .mail-info strong {
+    color: #202124;
 }
 
 .mail-details hr {
-    margin: 20px 0;
-}
-
-.mail-details button {
-    margin-bottom: 20px;
-    padding: 8px 16px;
-    background-color: #007bff;
-    color: #fff;
     border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 20px;
 }
 
-.mail-details button:hover {
-    background-color: #0056b3;
+.mail-details .mail-body {
+    font-size: 1em;
+    color: #202124;
+    white-space: pre-wrap; /* Ensures line breaks are preserved */
 }
