@@ -47,8 +47,8 @@ function _createMails() {
     return [
         { id: 'e101', subject: 'Miss you!', body: 'Would love to catch up sometime', isRead: false, sentAt: Date.now(), from: 'friend@social.com', to: loggedinUser.email },
         { id: 'e102', subject: 'Meeting Reminder', body: 'Reminder for our meeting tomorrow at 10 AM.', isRead: true, sentAt: Date.now(), from: 'boss@company.com', to: loggedinUser.email },
-        { id: 'e103', subject: 'Invoice', body: 'Here is the invoice for last month’s services.', isRead: false, sentAt: Date.now(), from: 'accounting@company.com', to: loggedinUser.email },
-        { id: 'e104', subject: 'Trip Itinerary', body: 'Your itinerary for the upcoming trip.', isRead: true, sentAt: Date.now(), from: 'travel@agency.com', to: loggedinUser.email },
+        { id: 'e103', subject: 'New Linkedin Message', body: 'You have got a new message from : Coding Academy.', isRead: false, sentAt: Date.now(), from: 'accounting@company.com', to: loggedinUser.email },
+        { id: 'e104', subject: 'Slack Sign-Up', body: 'Your new Slack account is good to go!.', isRead: true, sentAt: Date.now(), from: 'travel@agency.com', to: loggedinUser.email },
         { id: 'e105', subject: 'Discount Offer', body: 'Exclusive discount for you!', isRead: false, sentAt: Date.now(), from: 'promo@service.com', to: loggedinUser.email },
     ]
 }

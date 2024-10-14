@@ -1,19 +1,11 @@
-const { useEffect, useState } = React
-const { Link, useSearchParams } = ReactRouterDOM
+import { MailPreview } from './MailPreview.jsx'
 
-export function MailList({ mails, onRemoveMail }) {
-    if (!mails || mails.length === 0) return <div>No mails to display.</div>
-    
+export function MailList({ mails }) {
     return (
-        <ul className="mail-list">
+        <div className="mail-list">
             {mails.map(mail => (
-                <li key={mail.id} className="mail-item">
-                    <h2>{mail.subject}</h2>
-                    <p>{mail.body}</p>
-                    <span>{mail.isRead ? 'Read' : 'Unread'}</span>
-                    <button onClick={() => onRemoveMail(mail.id)}>Delete</button>
-                </li>
+                <MailPreview key={mail.id} mail={mail} />
             ))}
-        </ul>
+        </div>
     )
 }
