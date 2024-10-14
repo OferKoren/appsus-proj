@@ -1,5 +1,15 @@
 import { storageService } from './storage.service.js'
 
+
+export const mailService = {
+    query,
+    remove,
+    getById,
+    getFilterFromSearchParams,
+
+}
+
+
 const MAIL_KEY = 'mailDB'
 const loggedinUser = { 
     email: 'user@appsus.com', 
@@ -43,14 +53,23 @@ function remove(mailId) {
     return Promise.resolve()
 }
 
+
 function _createMails() {
     return [
         { id: 'e101', subject: 'Miss you!', body: 'Would love to catch up sometime', isRead: false, sentAt: Date.now(), from: 'friend@social.com', to: loggedinUser.email },
         { id: 'e102', subject: 'Meeting Reminder', body: 'Reminder for our meeting tomorrow at 10 AM.', isRead: true, sentAt: Date.now(), from: 'boss@company.com', to: loggedinUser.email },
-        { id: 'e103', subject: 'New Linkedin Message', body: 'You have got a new message from : Coding Academy.', isRead: false, sentAt: Date.now(), from: 'accounting@company.com', to: loggedinUser.email },
-        { id: 'e104', subject: 'Slack Sign-Up', body: 'Your new Slack account is good to go!.', isRead: true, sentAt: Date.now(), from: 'travel@agency.com', to: loggedinUser.email },
+        { id: 'e103', subject: 'New Linkedin Message', body: 'You have got a new message from : Coding Academy.', isRead: false, sentAt: Date.now(), from: 'jobinterview@coding-academy.com', to: loggedinUser.email },
+        { id: 'e104', subject: 'Slack Sign-Up', body: 'Your new Slack account is good to go!.', isRead: true, sentAt: Date.now(), from: 'master@slack.com', to: loggedinUser.email },
         { id: 'e105', subject: 'Discount Offer', body: 'Exclusive discount for you!', isRead: false, sentAt: Date.now(), from: 'promo@service.com', to: loggedinUser.email },
     ]
+}
+
+function getById(mailId) {
+    return storageService.query(MAIL_KEY).then(mails => {
+        const mail = mails.find(mail => mail.id === mailId)
+        if (!mail) throw new Error('Mail not found')
+        return mail
+    })
 }
 
 function getFilterFromSearchParams(searchParams) {
@@ -61,10 +80,4 @@ function getFilterFromSearchParams(searchParams) {
         isStared: searchParams.has('isStared') ? searchParams.get('isStared') === 'true' : undefined,
         labels: searchParams.getAll('labels') || []
     }
-}
-
-export const mailService = {
-    query,
-    remove,
-    getFilterFromSearchParams
 }

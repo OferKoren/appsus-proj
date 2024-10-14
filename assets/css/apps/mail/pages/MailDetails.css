@@ -1,0 +1,17 @@
+.mail-details {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.mail-details h2 {
+    margin-bottom: 10px;
+}
+
+.mail-details p {
+    margin: 5px 0;
+}
+
+.mail-details hr {
+    margin: 20px 0;
+}

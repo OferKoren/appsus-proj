@@ -21,7 +21,6 @@ export function MailIndex() {
     function loadMails() {
         mailService.query(filterBy)
             .then(fetchedMails => {
-                console.log('Fetched Mails:', fetchedMails) // Log fetched mails
                 setMails(fetchedMails)
             })
             .catch(err => {
