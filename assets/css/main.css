@@ -24,3 +24,8 @@
 @import './apps/mail/cmps/MailList.css';
 @import './apps/mail/cmps/MailPreview.css';
 @import './apps/mail/pages/MailDetails.css';
+
+/* Notes */
+/* Notes Cmps */
+@import './apps/note/cmps/NoteList.css';
+@import './apps/note/cmps/NotePreview.css';
