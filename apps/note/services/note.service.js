@@ -15,7 +15,7 @@ export const noteService = {
 }
 
 const NOTES_KEY = 'notesDB'
-_CreateNotes()
+_createNotes()
 
 function query(filterBy = {}) {
     return asyncStorageService.query(NOTES_KEY).then((notes) => {
@@ -43,14 +43,13 @@ function save(note) {
     if (note.id) {
         return asyncStorageService.put(NOTES_KEY, note)
     } else {
-        alert('i got to save')
-        // const newNote = _CreateNotes(note)
-        // return asyncStorageService.post(NOTES_KEY, newNote)
+        const newNote = _createNote(note)
+        return asyncStorageService.post(NOTES_KEY, newNote)
     }
 }
 
-function getEmptyNote(title = '', amount = '') {
-    return { title, listPrice: { amount } }
+function getEmptyNote(title = '', txt = '') {
+    return { title, txt, type: 'NoteTxt', isPinned: false }
 }
 
 function getDefaultFilter() {
@@ -66,10 +65,21 @@ function getFilterFromSearchParams(searchParams) {
     }
 }
 
-function _CreateNotes() {
+function _createNotes() {
     let notes = storageService.loadFromStorage(NOTES_KEY)
     if (!notes || !notes.length) {
         notes = getDemoNotes()
         storageService.saveToStorage(NOTES_KEY, notes)
+    }
+}
+
+function _createNote(note) {
+    const createdAt = Date.now()
+    const { txt, title, isPinned, type } = note
+    return {
+        createdAt,
+        isPinned,
+        type,
+        info: { txt, title },
     }
 }
