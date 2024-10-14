@@ -1,42 +1,68 @@
+/* MailPreview.css */
 .mail-preview {
     display: flex;
     align-items: center;
     padding: 10px 15px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #e0e0e0;
     cursor: pointer;
+    font-family: "Google Sans", Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
     transition: background-color 0.3s;
 }
 
-.mail-preview.unread {
+.mail-preview.read {
+    font-weight: normal;
+    color: #4a4a4a;
     background-color: #ffffff;
-    font-weight: bold;
 }
 
-.mail-preview.read {
-    background-color: #f9f9f9;
-    color: #888;
+.mail-preview.unread {
+    font-weight: bold;
+    color: #202124;
+    background-color: #f8f8f8;
 }
 
 .mail-preview:hover {
-    background-color: #e3f2fd;
+    background-color: #f1f3f4;
 }
 
 .mail-from {
     flex: 1;
-    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 10px;
+    color: inherit;
 }
 
 .mail-subject {
     flex: 2;
-    margin-left: 10px;
-    color: #555;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-right: 10px;
+    color: inherit;
+}
+
+.mail-body {
+    flex: 3;
+    color: #5f6368;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 10px;
 }
 
 .mail-date {
-    flex: 0;
     margin-left: auto;
-    color: #666;
+    white-space: nowrap;
+    color: #5f6368;
+    font-size: 0.9em;
+}
+
+.delete-btn {
+    margin-left: 10px;
+    color: #d93025;
+    cursor: pointer;
+    background: none;
+    border: none;
 }

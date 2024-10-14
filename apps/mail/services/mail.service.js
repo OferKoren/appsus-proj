@@ -6,7 +6,9 @@ export const mailService = {
     query,
     remove,
     getById,
+    add,
     getFilterFromSearchParams,
+    
 
 }
 
@@ -75,6 +77,10 @@ function getById(mailId) {
 
 function getById(mailId) {
     return asyncStorageService.get(MAIL_KEY, mailId)
+}
+
+function add(mail) {
+    return asyncStorageService.post(MAIL_KEY, mail)
 }
 
 function remove(mailId) {
