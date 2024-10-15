@@ -8,6 +8,8 @@ import { MailFilter } from '../cmps/MailFilter.jsx'
 import { MailFolderFilter } from '../cmps/MailFolderFilter.jsx'
 import { MailList } from '../cmps/MailList.jsx'
 
+
+
 export function MailIndex({ rootFilterBy }) {
     const [mails, setMails] = useState([])
     const [searchParams, setSearchParams] = useSearchParams()
