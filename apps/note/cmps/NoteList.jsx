@@ -1,5 +1,5 @@
 import { NotePreview } from '../cmps/NotePreview.jsx'
-export function NoteList({ notes, onDeleteNote, onUpdateNote }) {
+export function NoteList({ notes, onDeleteNote, onUpdateNote, onDuplicate }) {
     const notesMap = mapNotes()
     function mapNotes() {
         return notes.reduce(
@@ -23,6 +23,7 @@ export function NoteList({ notes, onDeleteNote, onUpdateNote }) {
                         🗑️
                     </button>
                     <button onClick={() => togglePin(note)}>toggle pin</button>
+                    <button onClick={() => onDuplicate(note)}>Duplicate</button>
                     <NotePreview note={note} />
                 </div>
             )

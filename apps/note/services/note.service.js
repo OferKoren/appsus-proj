@@ -3,7 +3,7 @@ import { storageService } from '../../../services/storage.service.js'
 
 import { asyncStorageService } from '../../../services/async-storage.service.js'
 import { getDemoNotes } from './demoNotes.js'
-
+import { utilService, makeId } from '../../../services/util.service.js'
 export const noteService = {
     query,
     getNoteById,
@@ -39,11 +39,11 @@ function remove(note) {
     return asyncStorageService.remove(NOTES_KEY, note)
 }
 
-function save(note) {
+function save(note, isDup) {
     if (note.id) {
         return asyncStorageService.put(NOTES_KEY, note)
     } else {
-        const newNote = _createNote(note)
+        const newNote = isDup ? { ...note, id: makeId() } : _createNote(note)
         return asyncStorageService.post(NOTES_KEY, newNote)
     }
 }

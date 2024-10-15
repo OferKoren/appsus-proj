@@ -17,8 +17,8 @@ export function NoteIndex() {
         })
     }
 
-    function addNote(note) {
-        noteService.save(note).then((newNote) => {
+    function addNote(note, isDup = false) {
+        noteService.save(note, isDup).then((newNote) => {
             console.log('successfully added a note')
             setNotes((prevNotes) => {
                 return [newNote, ...prevNotes]
@@ -48,11 +48,16 @@ export function NoteIndex() {
             })
         })
     }
+
+    function onDuplicate(note) {
+        note.id = null
+        addNote(note, true)
+    }
     if (!notes) return <div>loading...</div>
     return (
         <section className="note-index">
             <AddNote addNote={addNote} />
-            <NoteList notes={notes} onDeleteNote={onDeleteNote} onUpdateNote={onUpdateNote} />
+            <NoteList notes={notes} onDeleteNote={onDeleteNote} onUpdateNote={onUpdateNote} onDuplicate={onDuplicate} />
         </section>
     )
 }
