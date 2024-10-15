@@ -7,10 +7,31 @@ header {
     display: flex;
     justify-content: space-between;
     padding: 20px 0;
+    font-family: 'PT Sans';
+    color: var(--clr-header);
+}
+.app-header img {
+    width: auto;
+    height: auto;
+}
+.app-header .img-wrapper {
+    border-radius: 50%;
+    padding: 0.5em;
+    display: flex;
+}
+.app-header .logo-wrapper {
+    display: flex;
+    align-items: center;
+}
+.app-header .img-wrapper:has(img:hover) {
+    background-color: var(--clr-hover-icon);
+}
+.app-header .header-nav {
+    display: flex;
 }
 
 nav a {
-    margin: .5em;
+    margin: 0.5em;
 }
 
 nav a:active {
