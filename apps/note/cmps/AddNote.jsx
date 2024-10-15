@@ -1,4 +1,5 @@
 import { noteService } from '../services/note.service.js'
+import { DynamicNote } from './notes/DynamicNote.jsx'
 const { useState, useEffect, useRef } = React
 
 export function AddNote({ addNote }) {
@@ -9,6 +10,20 @@ export function AddNote({ addNote }) {
     useEffect(() => {
         console.log(note)
     }, [note])
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [])
+
+    function handleClickOutside(ev) {
+        if (formRef.current && !formRef.current.contains(ev.target)) {
+            setIsEdit(false)
+        }
+    }
+
     function handleChange({ target }) {
         const field = target.name
         let value = target.value
@@ -24,9 +39,7 @@ export function AddNote({ addNote }) {
         }
         setNote((prevNote) => ({ ...prevNote, [field]: value }))
     }
-    function onBlurNote() {
-        if (note.txt === '' && note.title === '') setIsEdit(false)
-    }
+
     function onAddNote(ev) {
         ev.preventDefault()
         addNote(note)
@@ -38,35 +51,15 @@ export function AddNote({ addNote }) {
     }
     if (!note) return
     return (
-        <React.Fragment>
-            <div className="add-note" onClick={() => setIsEdit(true)}>
-                <form ref={formRef} action="" className="add-note-form" onSubmit={onAddNote} onBlur={onBlurNote}>
-                    {isEdit && (
-                        <input
-                            autoComplete="off"
-                            type="text"
-                            name="title"
-                            id="title"
-                            placeholder="title"
-                            onChange={handleChange}
-                            value={note.title}
-                        />
-                    )}
-                    <input
-                        type="text"
-                        autoComplete="off"
-                        name="txt"
-                        id="txt"
-                        placeholder="write new note..."
-                        onChange={handleChange}
-                        value={note.txt}
-                    />
-                    {isEdit && <button>add</button>}
-                </form>
-                <button className="todo-btn" onClick={() => changeNoteType('NoteTodo')}>
-                    todo
-                </button>
-            </div>
-        </React.Fragment>
+        <div className="add-note" onClick={() => setIsEdit(true)}>
+            <form ref={formRef} action="" className="add-note-form" onSubmit={onAddNote}>
+                <DynamicNote note={note} handleChange={handleChange} isEdit={isEdit} />
+
+                {isEdit && <button>add</button>}
+            </form>
+            <button className="todo-btn" onClick={() => changeNoteType('NoteTodo')}>
+                todo
+            </button>
+        </div>
     )
 }
