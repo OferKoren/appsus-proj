@@ -17,7 +17,7 @@ export function AppHeader({ app, setApp, filterBy, onSetFilterBy }) {
                 <NavLink to="/" onClick={() => setApp('Appsus')}>
                     Home
                 </NavLink>
-                <NavLink to="/about" onClick={() => setApp('appsus')}>
+                <NavLink to="/about" onClick={() => setApp('Appsus')}>
                     About
                 </NavLink>
                 <NavLink to="/mail" onClick={() => setApp('Mail')}>
