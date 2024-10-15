@@ -9,7 +9,7 @@ export function AppHeader({ app, setApp, filterBy, onSetFilterBy }) {
             <Link to={`/${app}`}>
                 <div className="logo-wrapper">
                     <span>{app}</span>
-                    <img src={`/assets/img/logos/${app}-logo.png`} alt="" />
+                    <img src={`./assets/img/logos/${app}-logo.png`} alt="" />
                 </div>
             </Link>
             <HeaderFilter app={app} filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
@@ -22,12 +22,12 @@ export function AppHeader({ app, setApp, filterBy, onSetFilterBy }) {
                 </NavLink>
                 <NavLink to="/mail" onClick={() => setApp('Mail')}>
                     <div className="img-wrapper">
-                        <img src="/assets/img/gmail-icons/gmail-nav-icon2.png" alt="" />
+                        <img src="./assets/img/gmail-icons/gmail-nav-icon2.png" alt="" />
                     </div>
                 </NavLink>
                 <NavLink to="/note" onClick={() => setApp('Keep')}>
                     <div className="img-wrapper">
-                        <img src="/assets/img/notes-icons/keep-nav-icon2.png" alt="" />
+                        <img src="./assets/img/notes-icons/keep-nav-icon2.png" alt="" />
                     </div>
                 </NavLink>
             </nav>

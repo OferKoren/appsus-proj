@@ -26,7 +26,6 @@ export function App() {
                 break
         }
     }, [app])
-    console.log(filterBy)
     return (
         <Router>
             <section className="app">
