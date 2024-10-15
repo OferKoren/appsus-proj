@@ -5,7 +5,7 @@ const { useState } = React
 
 export function AppHeader({ app, setApp, filterBy, onSetFilterBy }) {
     return (
-        <header className="app-header">
+        <header className="app-header full">
             <Link to={`/${app}`}>
                 <div className="logo-wrapper">
                     <span>{app}</span>

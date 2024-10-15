@@ -75,11 +75,11 @@ function _createNotes() {
 
 function _createNote(note) {
     const createdAt = Date.now()
-    const { txt, title, isPinned, type } = note
+    const { txt, title, isPinned, type, todos } = note
     return {
         createdAt,
         isPinned,
         type,
-        info: { txt, title },
+        info: { txt, title, todos },
     }
 }

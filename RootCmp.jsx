@@ -28,7 +28,7 @@ export function App() {
     }, [app])
     return (
         <Router>
-            <section className="app">
+            <section className="app main-layout">
                 <AppHeader app={app} setApp={(val) => setApp(val)} filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
                 <Routes>
                     <Route path="/" element={<Home />} />

@@ -38,12 +38,9 @@ export function NoteIndex() {
         console.log(notes)
         noteService.save(updatedNote).then(() => {
             setNotes((prevNotes) => {
-                console.log(prevNotes)
                 const idx = prevNotes.findIndex((note) => note.id === updatedNote.id)
-                console.log(idx)
                 const newNote = [...prevNotes]
                 newNote.splice(idx, 1, updatedNote)
-                console.log(newNote)
                 return newNote
             })
         })

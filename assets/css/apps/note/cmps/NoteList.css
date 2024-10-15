@@ -4,4 +4,13 @@
 
     grid-template-columns: repeat(auto-fit, minmax(180px, 200px));
     gap: 1em;
+    align-items: start;
+}
+.note-list-container h2 {
+    font-size: 1em;
+    color: var(--clr-titles);
+    letter-spacing: 1px;
+    font-family: 'PT Sans';
+    font-weight: normal;
+    padding-inline-start: 1em;
 }
