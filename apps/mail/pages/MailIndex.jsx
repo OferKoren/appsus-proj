@@ -8,6 +8,8 @@ import { MailFilter } from '../cmps/MailFilter.jsx'
 import { MailFolderFilter } from '../cmps/MailFolderFilter.jsx'
 import { MailList } from '../cmps/MailList.jsx'
 
+
+
 export function MailIndex({ rootFilterBy }) {
     const [mails, setMails] = useState([])
     const [searchParams, setSearchParams] = useSearchParams()
@@ -21,7 +23,6 @@ export function MailIndex({ rootFilterBy }) {
         status: 'inbox',
     }) */
     useEffect(() => {
-        console.log(MailFolderFilter)
         setSearchParams(getTruthyValues(filterBy))
         loadMails()
     }, [filterBy])
@@ -57,6 +58,12 @@ export function MailIndex({ rootFilterBy }) {
         setFilterBy((prevFilter) => ({ ...prevFilter, ...newFilter }))
     }
 
+    function markAsRead(mailId) {
+        setMails((prevMails) => prevMails.map(mail => 
+            mail.id === mailId ? { ...mail, isRead: true } : mail
+        ))
+    }
+
     if (!mails) return <h1>Loading...</h1>
     return (
         <section className="mail-index">
@@ -70,7 +77,7 @@ export function MailIndex({ rootFilterBy }) {
             <main className="mail-main-content">
                 <MailFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
                 <div className="mail-list-container">
-                    <MailList mails={mails} onRemoveMail={onRemoveMail} />
+                    <MailList mails={mails} onRemoveMail={onRemoveMail} onMarkAsRead={markAsRead}/>
                 </div>
             </main>
         </section>

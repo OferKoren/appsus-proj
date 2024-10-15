@@ -66,3 +66,26 @@
     background: none;
     border: none;
 }
+
+.mail-preview.unread .mail-subject,
+.mail-preview.unread .mail-from {
+    font-weight: bold;
+}
+
+.mail-preview.read .mail-subject,
+.mail-preview.read .mail-from {
+    font-weight: normal;
+    color: #666;
+}
+
+.toggle-read-status-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.toggle-read-status-btn .fa-envelope,
+.toggle-read-status-btn .fa-envelope-open {
+    color: #555;
+}
