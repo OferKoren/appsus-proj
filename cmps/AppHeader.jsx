@@ -9,7 +9,7 @@ export function AppHeader({ app, setApp, filterBy, onSetFilterBy }) {
             <Link to={`/${app}`}>
                 <div className="logo-wrapper">
                     <span>{app}</span>
-                    <img src={`./assets/img/logos/${app}-logo.png`} alt="" />
+                    <img src={`./assets/img/logos/${app}.png`} alt="" />
                 </div>
             </Link>
             <HeaderFilter app={app} filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
