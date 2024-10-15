@@ -1,13 +1,16 @@
 import { noteService } from '../services/note.service.js'
-const { useState, useEffect } = React
+const { useState, useEffect, useRef } = React
 
 export function AddNote({ addNote }) {
-    const [isEdit, setIsEdit] = useState(false)
     const [note, setNote] = useState(noteService.getEmptyNote())
+    const [isEdit, setIsEdit] = useState(false)
+    const formRef = useRef()
 
+    useEffect(() => {
+        console.log(note)
+    }, [note])
     function handleChange({ target }) {
         const field = target.name
-        // console.log('field:', field)
         let value = target.value
         switch (target.type) {
             case 'number':
@@ -21,19 +24,23 @@ export function AddNote({ addNote }) {
         }
         setNote((prevNote) => ({ ...prevNote, [field]: value }))
     }
-
+    function onBlurNote() {
+        if (note.txt === '' && note.title === '') setIsEdit(false)
+    }
     function onAddNote(ev) {
         ev.preventDefault()
         addNote(note)
         setIsEdit(false)
         setNote(noteService.getEmptyNote())
     }
-
+    function changeNoteType(toType) {
+        setNote((prevNote) => ({ ...prevNote, type: toType }))
+    }
     if (!note) return
     return (
         <React.Fragment>
             <div className="add-note" onClick={() => setIsEdit(true)}>
-                <form action="" className="add-note-form" onSubmit={onAddNote}>
+                <form ref={formRef} action="" className="add-note-form" onSubmit={onAddNote} onBlur={onBlurNote}>
                     {isEdit && (
                         <input
                             autoComplete="off"
@@ -56,6 +63,9 @@ export function AddNote({ addNote }) {
                     />
                     {isEdit && <button>add</button>}
                 </form>
+                <button className="todo-btn" onClick={() => changeNoteType('NoteTodo')}>
+                    todo
+                </button>
             </div>
         </React.Fragment>
     )

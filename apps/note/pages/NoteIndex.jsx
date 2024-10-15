@@ -33,11 +33,26 @@ export function NoteIndex() {
             })
         })
     }
+
+    function onUpdateNote(updatedNote) {
+        console.log(notes)
+        noteService.save(updatedNote).then(() => {
+            setNotes((prevNotes) => {
+                console.log(prevNotes)
+                const idx = prevNotes.findIndex((note) => note.id === updatedNote.id)
+                console.log(idx)
+                const newNote = [...prevNotes]
+                newNote.splice(idx, 1, updatedNote)
+                console.log(newNote)
+                return newNote
+            })
+        })
+    }
     if (!notes) return <div>loading...</div>
     return (
         <section className="note-index">
             <AddNote addNote={addNote} />
-            <NoteList notes={notes} onDeleteNote={onDeleteNote} />
+            <NoteList notes={notes} onDeleteNote={onDeleteNote} onUpdateNote={onUpdateNote} />
         </section>
     )
 }
