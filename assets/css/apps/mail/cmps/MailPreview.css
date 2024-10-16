@@ -89,3 +89,30 @@
 .toggle-read-status-btn .fa-envelope-open {
     color: #555;
 }
+
+
+.mail-compose-modal {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modal-content {
+    position: relative;
+    padding: 20px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+}

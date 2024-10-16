@@ -8,6 +8,7 @@ export const mailService = {
     getById,
     add,
     getFilterFromSearchParams,
+    toggleReadStatus
     
 
 }
@@ -23,30 +24,45 @@ let mails = storageService.loadFromStorage(MAIL_KEY) || _createMails()
 storageService.saveToStorage(MAIL_KEY, mails)
 
 function query(filterBy = {}) {
-    return Promise.resolve(mails.filter(mail => {
-        if (filterBy.status) {
-            if (filterBy.status === 'inbox' && mail.to !== loggedinUser.email) return false
-            if (filterBy.status === 'sent' && mail.from !== loggedinUser.email) return false
-            if (filterBy.status === 'trash' && !mail.removedAt) return false
-            if (filterBy.status === 'draft' && mail.sentAt) return false
-        }
+    return Promise.resolve()
+        .then(() => {
+            let filteredMails = mails
 
-        if (filterBy.txt) {
-            const regExp = new RegExp(filterBy.txt, 'i')
-            if (!regExp.test(mail.subject) && !regExp.test(mail.body)) return false
-        }
+            if (filterBy.status) {
+                if (filterBy.status === 'inbox') {
+                    filteredMails = filteredMails.filter(mail => mail.to === loggedinUser.email)
+                } else if (filterBy.status === 'sent') {
+                    filteredMails = filteredMails.filter(mail => mail.from === loggedinUser.email)
+                } else if (filterBy.status === 'trash') {
+                    filteredMails = filteredMails.filter(mail => mail.removedAt)
+                } else if (filterBy.status === 'draft') {
+                    filteredMails = filteredMails.filter(mail => !mail.sentAt)
+                }
+            }
 
-        if (filterBy.isRead !== undefined && mail.isRead !== filterBy.isRead) return false
-        if (filterBy.isStared !== undefined && mail.isStared !== filterBy.isStared) return false
+            if (filterBy.txt) {
+                const regExp = new RegExp(filterBy.txt, 'i')
+                filteredMails = filteredMails.filter(mail => regExp.test(mail.subject) || regExp.test(mail.body))
+            }
 
-        if (filterBy.labels && filterBy.labels.length) {
-            const hasLabel = filterBy.labels.some(label => mail.labels && mail.labels.includes(label))
-            if (!hasLabel) return false
-        }
+            if (filterBy.isRead !== undefined) {
+                filteredMails = filteredMails.filter(mail => mail.isRead === filterBy.isRead)
+            }
 
-        return true
-    }))
+            if (filterBy.isStared !== undefined) {
+                filteredMails = filteredMails.filter(mail => mail.isStared === filterBy.isStared)
+            }
+
+            if (filterBy.labels && filterBy.labels.length) {
+                filteredMails = filteredMails.filter(mail => 
+                    filterBy.labels.some(label => mail.labels && mail.labels.includes(label))
+                )
+            }
+
+            return filteredMails
+        })
 }
+
 
 function remove(mailId) {
     const idx = mails.findIndex(mail => mail.id === mailId)
@@ -96,3 +112,14 @@ function getFilterFromSearchParams(searchParams) {
         labels: searchParams.getAll('labels') || []
     }
 }
+
+function toggleReadStatus(mailId) {
+    return asyncStorageService.get(MAIL_KEY, mailId).then(mail => {
+    mail.isRead = !mail.isRead 
+console.log(asyncStorageService.put(MAIL_KEY, mail))
+
+    return asyncStorageService.put(MAIL_KEY, mail)
+    
+    })
+}
+

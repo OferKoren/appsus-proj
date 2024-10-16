@@ -22,8 +22,9 @@ export function MailCompose() {
 
         mailService.add(newMail)
             .then(() => {
-                navigate('/mail')
-            })
+                navigate('/mail', { state: {hasMailsChanged: true } 
+        })
+        })
             .catch(err => {
                 console.error('Failed to send mail:', err)
             })
