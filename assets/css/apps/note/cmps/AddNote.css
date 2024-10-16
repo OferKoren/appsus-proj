@@ -16,6 +16,8 @@
     width: clamp(200px, 100%, 600px);
     margin: auto;
     margin-bottom: 1em;
+    background-color: white;
+    border-radius: 0.5em;
 }
 .add-note .btn {
     position: absolute;

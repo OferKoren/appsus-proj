@@ -49,7 +49,13 @@ function save(note, isDup) {
 }
 
 function getEmptyNote(title = '', txt = '') {
-    return { title, txt, type: 'NoteTxt', isPinned: false }
+    // return { title, txt, type: 'NoteTxt', isPinned: false }
+    return {
+        type: 'NoteTxt',
+        info: { txt: '', title: '', todos: [] },
+        isPinned: false,
+        style: {},
+    }
 }
 
 function getDefaultFilter() {
@@ -75,11 +81,8 @@ function _createNotes() {
 
 function _createNote(note) {
     const createdAt = Date.now()
-    const { txt, title, isPinned, type, todos } = note
     return {
+        ...note,
         createdAt,
-        isPinned,
-        type,
-        info: { txt, title, todos },
     }
 }

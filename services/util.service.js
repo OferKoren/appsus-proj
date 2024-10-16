@@ -6,8 +6,11 @@ export const utilService = {
     padNum,
     getDayName,
     getMonthName,
+    deepCopy,
 }
-
+export function deepCopy(obj) {
+    return JSON.parse(JSON.stringify(obj))
+}
 export function makeId(length = 6) {
     var txt = ''
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'

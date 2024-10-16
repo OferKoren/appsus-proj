@@ -1,0 +1,27 @@
+.edit-note-backdrop {
+    position: absolute;
+    inset: 0;
+
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.4s;
+}
+.edit-note-backdrop.on {
+    opacity: 0.7;
+    z-index: 1;
+    background-color: #797a7c;
+}
+
+.edit-note {
+    width: clamp(200px, 100%, 600px);
+    position: absolute;
+    left: 50%;
+    top: 25.5%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+/* .edit-note-backdrop .add-note > * {
+    opacity: 1;
+    background-color: white;
+} */

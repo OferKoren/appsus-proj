@@ -1,15 +1,16 @@
 const { useState, useEffect } = React
-export function NotePreview({ note, onUpdateNote }) {
-    const { id, createdAt, type, isPinned, style, info } = note
+import { deepCopy } from '../../../services/util.service.js'
+export function NotePreview({ notes, note, onUpdateNote }) {
+    const { id, createdAt, type, isPinned, style, info } = deepCopy(note)
     const { title, txt } = info
     const [todos, setTodos] = useState(info.todos)
+
+    useEffect(() => {}, [todos])
+
     useEffect(() => {
-        if (todos) {
-            const newNote = { ...note }
-            newNote.todos = todos
-            onUpdateNote(newNote)
-        }
-    }, [todos])
+        setTodos(() => info.todos)
+    }, [notes])
+    if (todos && todos.length) console.log(todos.length)
     return (
         <section style={style} className="note-preview">
             {title && <h3 className="note-preview-title">{title}</h3>}
@@ -18,7 +19,7 @@ export function NotePreview({ note, onUpdateNote }) {
         </section>
     )
 
-    function handleChange({ target }) {
+    /* function handleChange({ target }) {
         const field = target.name
         let value = target.value
         switch (target.type) {
@@ -47,13 +48,43 @@ export function NotePreview({ note, onUpdateNote }) {
             newTodos[idx][newField] = value
             return newTodos
         })
+    } */
+
+    function handleTodos({ target }, todo) {
+        const field = target.name
+        let value = target.value
+        switch (target.type) {
+            case 'number':
+            case 'range':
+                value = +value
+                break
+
+            case 'checkbox':
+                value = target.checked ? Date.now() : null
+                break
+        }
+
+        setTodos((prevTodos) => {
+            const newTodo = { ...todo, [field]: value }
+            const idx = todos.findIndex((todo) => todo.id === newTodo.id)
+            const newTodos = [...prevTodos]
+
+            newTodos.splice(idx, 1, newTodo)
+
+            const newNote = { ...note }
+            newNote.info.todos = newTodos
+            onUpdateNote(newNote)
+            return newTodos
+        })
     }
+
     function TodosPreview() {
-        return todos.map((todo, idx) => {
+        return todos.map((todo) => {
+            console.log(!!todo.doneAt)
             return (
-                <div className="todo-preview" key={idx}>
+                <div className="todo-preview" key={`1${todo.id}`}>
                     <span>{todo.txt}</span>
-                    <input type="checkbox" name={`select ${idx}`} checked={todo.select} onChange={handleChange} />
+                    <input type="checkbox" name={`doneAt`} checked={!!todo.doneAt} onChange={(ev) => handleTodos(ev, todo)} />
                 </div>
             )
         })

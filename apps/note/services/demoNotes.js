@@ -105,13 +105,13 @@ function _createDemoNotes() {
         {
             id: 'n109',
             createdAt: 1112224,
-            type: 'NoteTodos',
+            type: 'NoteTodo',
             isPinned: false,
             info: {
                 title: 'Get my stuff together',
                 todos: [
-                    { txt: 'Driving license', doneAt: null },
-                    { txt: 'Coding power', doneAt: 187111111 },
+                    { txt: 'Driving license', doneAt: null, id: 213 },
+                    { txt: 'Coding power', doneAt: 187111111, id: 23212 },
                 ],
             },
         },
