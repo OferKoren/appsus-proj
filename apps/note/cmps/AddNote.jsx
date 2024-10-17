@@ -12,7 +12,6 @@ export function AddNote({ addNote, noteToEdit }) {
     const noteRef = useRef(note)
 
     useEffect(() => {
-        console.log(note)
         noteRef.current = note
     }, [note])
 
@@ -97,8 +96,9 @@ export function AddNote({ addNote, noteToEdit }) {
 
     if (!note) return
     const addBtnContent = noteToEdit ? 'Update Note' : 'Add Note'
-
-    const todoSrc = '../../../assets/img/notes-icons/checked-box-icon.svg'
+    const threeDotsIconsSrc = '../../../assets/img/notes-icons/small-three-dots-icon.svg'
+    const colorsIconSrc = '../../../assets/img/notes-icons/color-pallet-icon.svg'
+    const todoIconSrc = '../../../assets/img/notes-icons/checked-box-icon.svg'
     return (
         <div className="add-note" onClick={() => setIsEdit(true)}>
             <form ref={formRef} action="" className="add-note-form" onSubmit={onAddNote}>
@@ -106,17 +106,25 @@ export function AddNote({ addNote, noteToEdit }) {
 
                 {isEdit && (
                     <React.Fragment>
-                        <button className="btn add-btn">{addBtnContent}</button>
                         <button type="button" className="btn pin-btn" onClick={togglePin}>
                             <img ref={pinRef} src="../../../assets/img/notes-icons/pinned-not-active.svg" alt="" />
                         </button>
+                        <div className="btns-control-panel">
+                            <button type="butten" className="btn color-picker-btn">
+                                <img src={colorsIconSrc} alt="" />
+                            </button>
+                            <button type="butten" className="btn color-picker-btn">
+                                <img src={threeDotsIconsSrc} alt="" />
+                            </button>
+                            <button className="btn add-btn">{addBtnContent}</button>
+                        </div>
                     </React.Fragment>
                 )}
             </form>
 
             {!isEdit && (
                 <button className="todo-btn btn" onClick={() => changeNoteType('NoteTodo')}>
-                    <img src={todoSrc} alt="" />
+                    <img src={todoIconSrc} alt="" />
                 </button>
             )}
         </div>

@@ -19,6 +19,11 @@
     background-color: white;
     border-radius: 0.5em;
 }
+.add-note .btns-control-panel {
+    background-color: aqua;
+    display: flex;
+}
+
 .add-note .btn {
     position: absolute;
     border: none;
@@ -30,6 +35,10 @@
     transition: 0.3s;
     border-radius: 50%;
     padding: 0.4em 0.5em;
+}
+.add-note .btns-control-panel > * {
+    position: static;
+    transform: none;
 }
 .add-note .btn:hover {
     opacity: 0.8;
@@ -43,8 +52,6 @@
     top: 1.2em;
 }
 .add-note .add-btn {
-    right: 1em;
-    bottom: -1.375em;
     border-radius: 0.2em;
 }
 .add-note input {
