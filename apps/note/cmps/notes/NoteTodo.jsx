@@ -6,12 +6,13 @@ export function NoteTodo({ isEdit, handleChange, note }) {
     const [todos, setTodos] = useState(null)
 
     useEffect(() => {
+        const newEmptyTodo = { txt: '', doneAt: false, id: utilService.makeId() }
+        const newTodos = [...note.info.todos, newEmptyTodo]
+        const newNote = { ...note, info: { ...note.info, todos: newTodos } }
         setTodos(() => {
-            const newEmptyTodo = { txt: '', doneAt: false, id: utilService.makeId() }
-            /* const todosToCopy = [...note.info.todos]
-            const todosDeepCopy = JSON.parse(JSON.stringify(todosToCopy)) */
-            return [...note.info.todos, newEmptyTodo]
+            return newTodos
         })
+        handleChange({ target: null }, newNote)
     }, [])
 
     function generateTodos() {
@@ -70,7 +71,7 @@ export function NoteTodo({ isEdit, handleChange, note }) {
     return (
         <React.Fragment>
             {isEdit && (
-                <input autoComplete="off" type="text" name="title" id="title" placeholder="title" onChange={handleChange} value={note.title} />
+                <input autoComplete="off" type="text" name="title" id="title" placeholder="title" onChange={handleChange} value={note.info.title} />
             )}
             {generateTodos()}
         </React.Fragment>

@@ -12,6 +12,7 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
     const formRef = useRef()
     const pinRef = useRef()
     const noteRef = useRef(note)
+    const inputRef = useRef(null)
 
     useEffect(() => {
         noteRef.current = note
@@ -75,9 +76,28 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
             })
             return
         }
+
+        if (field === 'url') {
+            changeNoteType('NoteImg')
+            setIsEdit(true)
+            addFileDataURLToNote(target.files[0])
+            return
+        }
         setNote((prevNote) => ({ ...prevNote, [field]: value }))
     }
+    function addFileDataURLToNote(file) {
+        const reader = new FileReader()
+        reader.readAsDataURL(file)
+        // This event fires when the reading operation is successfully completed
+        reader.onloadend = () => {
+            const dataUrl = reader.result // This contains the Data URL
+            const newInfo = { ...note.info, url: dataUrl }
 
+            setNote((prevNote) => ({ ...prevNote, info: newInfo })) // Store it in state if using React
+        }
+
+        // Start reading the file as a Data URL
+    }
     function onAddNote(ev, EditedNote = null) {
         ev.preventDefault()
         const noteToAdd = EditedNote ? EditedNote : { ...note }
@@ -88,7 +108,7 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
             noteToAdd.info.todos === todos
         }
         const info = { ...note.info }
-        if (info.txt || info.title || info.todos.length > 0) addNote(noteToAdd)
+        if (info.txt || info.title || info.todos.length > 0 || info.url) addNote(noteToAdd)
         setIsEdit(false)
         setNote(noteService.getEmptyNote())
         onToggleColorPicker(true)
@@ -115,7 +135,15 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
         <div className="add-note" onClick={() => setIsEdit(true)} style={note.style}>
             <form ref={formRef} action="" className="add-note-form" onSubmit={onAddNote}>
                 <DynamicNote note={note} handleChange={handleChange} isEdit={isEdit} />
-
+                <input
+                    ref={inputRef}
+                    type="file"
+                    name="url"
+                    className="img-input hidden"
+                    onChange={handleChange}
+                    accept="image/png, image/jpeg, image/gif"
+                    onClick={(ev) => ev.stopPropagation()}
+                />
                 {isEdit && (
                     <React.Fragment>
                         <button type="button" className="btn pin-btn" onClick={togglePin}>
@@ -151,7 +179,14 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
                         <img src={todoIconSrc} alt="" />
                     </button>
 
-                    <button className="img-btn btn" onClick={() => changeNoteType('NoteImg')}>
+                    <button
+                        className="img-btn btn"
+                        onClick={(ev) => {
+                            console.log(ev.target)
+                            ev.stopPropagation()
+                            inputRef.current.click()
+                        }}
+                    >
                         <img src={addPictureIconSrc} alt="" />
                     </button>
                 </React.Fragment>

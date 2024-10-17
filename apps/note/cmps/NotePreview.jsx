@@ -2,7 +2,7 @@ const { useState, useEffect } = React
 import { deepCopy } from '../../../services/util.service.js'
 export function NotePreview({ notes, note, onUpdateNote }) {
     const { id, createdAt, type, isPinned, style, info } = deepCopy(note)
-    const { title, txt } = info
+    const { title, txt, url } = info
     const [todos, setTodos] = useState(info.todos)
 
     useEffect(() => {}, [todos])
@@ -14,7 +14,8 @@ export function NotePreview({ notes, note, onUpdateNote }) {
     return (
         <section style={style} className="note-preview">
             {title && <h3 className="note-preview-title">{title}</h3>}
-            {txt && <p className="re">{txt}</p>}
+            {txt && <p className="note-preview-text">{txt}</p>}
+            {url && <img src={url} />}
             {todos && <TodosPreview />}
         </section>
     )
