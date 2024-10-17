@@ -111,7 +111,7 @@ export function MailIndex({ rootFilterBy }) {
     }
     if (!mails) return <h1>Loading...</h1>
     return (
-        <section className="mail-index">
+        <section className="mail-index full">
             <aside className="mail-sidebar">
                 {/* <Link to="/mail/compose" className="compose-btn">
                     <i className="fa-solid fa-pen"></i> Compose

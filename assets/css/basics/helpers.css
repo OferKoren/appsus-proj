@@ -21,3 +21,6 @@
 .grid {
     display: grid;
 }
+.hidden {
+    display: none;
+}

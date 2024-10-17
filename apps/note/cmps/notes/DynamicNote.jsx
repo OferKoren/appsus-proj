@@ -8,5 +8,9 @@ export function DynamicNote(props) {
             return <NoteTxt {...props} />
         case 'NoteTodo':
             return <NoteTodo {...props} />
+        case 'NoteImg':
+            return <NoteImg {...props} />
+        case 'NoteVideo':
+            return <NoteVideo {...props} />
     }
 }

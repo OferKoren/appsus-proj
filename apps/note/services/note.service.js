@@ -52,7 +52,7 @@ function getEmptyNote(title = '', txt = '') {
     // return { title, txt, type: 'NoteTxt', isPinned: false }
     return {
         type: 'NoteTxt',
-        info: { txt: '', title: '', todos: [] },
+        info: { txt: '', title: '', todos: [], url: '' },
         isPinned: false,
         style: {},
     }

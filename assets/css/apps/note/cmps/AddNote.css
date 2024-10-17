@@ -49,7 +49,10 @@
     background-color: var(--clr-hover-icon);
 }
 .add-note .todo-btn {
-    right: 0;
+    right: 1em;
+}
+.add-note .img-btn {
+    right: 4em;
 }
 .add-note .pin-btn {
     right: 0;

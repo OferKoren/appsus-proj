@@ -9,14 +9,14 @@ export function ColorPicker({ colorPicker, colorPickerRef }) {
     const [pickedColor, setPickedColor] = useState(chosenColor)
 
     const buttonRect = ev.target.getBoundingClientRect() // Get the button's position
-    const top = buttonRect.bottom // Position the modal below the button
-    const left = buttonRect.left
+    const top = buttonRect.bottom + window.scrollY // Adjust for scrolling
+    const left = buttonRect.left + window.scrollX
 
     function onChangeColor(idx) {
         const color = colors[idx]
         const style = { ...note.style, backgroundColor: color }
-
-        setNote((prevNote) => ({ ...prevNote, style }))
+        const newNote = { ...note, style }
+        setNote(newNote)
         setPickedColor(idx)
     }
 

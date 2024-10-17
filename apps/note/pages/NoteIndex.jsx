@@ -10,11 +10,25 @@ export function NoteIndex() {
     const [notes, setNotes] = useState(null)
     const [filterBy, setFilterBy] = useState(null)
     const [noteToEdit, setNoteToEdit] = useState(null)
+
     const [colorPicker, setColorPicker] = useState({ isOpen: false, ev: null, note: null, setNote: null })
+    const [isClrBtn, setIsClrBtn] = useState(false)
+    const isClrRef = useRef(null)
     const colorPickerRef = useRef(null)
+
     useEffect(() => {
         loadNotes()
     }, [filterBy])
+    useEffect(() => {
+        isClrRef.current = isClrBtn
+    }, [isClrBtn])
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutsideColorPicker)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutsideColorPicker)
+        }
+    }, [])
 
     function loadNotes() {
         noteService.query().then((res) => {
@@ -66,9 +80,23 @@ export function NoteIndex() {
             setColorPicker(() => ({ isOpen: false, ev: null, note: null, setNote: null }))
             return null
         }
+        ev.stopPropagation()
         const isOpen = colorPicker.isOpen
         if (isOpen) setColorPicker(() => ({ isOpen: false, ev: null, note: null, setNote: null }))
         else setColorPicker(() => ({ isOpen: true, ev: ev, note: note, setNote: setNote }))
+    }
+
+    function handleClickOutsideColorPicker(ev) {
+        setTimeout(() => {
+            const isColorPicker = colorPickerRef.current && colorPickerRef.current.contains(ev.target)
+            if (!isColorPicker) {
+                if (isClrRef.current) {
+                    setIsClrBtn(false)
+                    return
+                }
+                onToggleColorPicker(true)
+            }
+        }, 100)
     }
     if (!notes) return <div>loading...</div>
     return (
@@ -76,10 +104,25 @@ export function NoteIndex() {
             <section className={`edit-note-backdrop ${noteToEdit ? 'on' : ''}`}></section>
             {colorPicker.isOpen && <ColorPicker colorPicker={colorPicker} colorPickerRef={colorPickerRef} />}
             {noteToEdit && (
-                <EditNote addNote={onUpdateNote} noteToEdit={noteToEdit} onToggleColorPicker={onToggleColorPicker} colorPickerRef={colorPickerRef} />
+                <EditNote
+                    addNote={onUpdateNote}
+                    noteToEdit={noteToEdit}
+                    onToggleColorPicker={onToggleColorPicker}
+                    setIsClrBtn={setIsClrBtn}
+                    colorPickerRef={colorPickerRef}
+                />
             )}
-            <AddNote addNote={addNote} onToggleColorPicker={onToggleColorPicker} colorPickerRef={colorPickerRef} />
-            <NoteList notes={notes} onDeleteNote={onDeleteNote} onUpdateNote={onUpdateNote} onDuplicate={onDuplicate} onEditNote={onEditNote} />
+            <AddNote addNote={addNote} onToggleColorPicker={onToggleColorPicker} colorPickerRef={colorPickerRef} setIsClrBtn={setIsClrBtn} />
+            <NoteList
+                notes={notes}
+                onDeleteNote={onDeleteNote}
+                onUpdateNote={onUpdateNote}
+                onDuplicate={onDuplicate}
+                onEditNote={onEditNote}
+                onToggleColorPicker={onToggleColorPicker}
+                colorPickerRef={colorPickerRef}
+                setIsClrBtn={setIsClrBtn}
+            />
         </section>
     )
 }

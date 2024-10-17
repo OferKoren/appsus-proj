@@ -4,7 +4,7 @@ import { ColorPicker } from './ColorPicker.jsx'
 import { DynamicNote } from './notes/DynamicNote.jsx'
 const { useState, useEffect, useRef } = React
 // import {} from '../../../assets/img/notes-icons/'
-export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerRef }) {
+export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerRef, setIsClrBtn }) {
     const initNote = noteToEdit ? deepCopy(noteToEdit) : noteService.getEmptyNote()
     const [note, setNote] = useState(initNote)
     const [isEdit, setIsEdit] = useState(false)
@@ -33,7 +33,7 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
     function handleClickOutside(ev) {
         const isColorPicker = colorPickerRef.current && colorPickerRef.current.contains(ev.target)
         const isNotForm = formRef.current && !formRef.current.contains(ev.target)
-        return
+
         if (isNotForm) {
             if (isColorPicker) return null
             const note1 = noteRef.current
@@ -110,6 +110,7 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
     const threeDotsIconsSrc = '../../../assets/img/notes-icons/small-three-dots-icon.svg'
     const colorsIconSrc = '../../../assets/img/notes-icons/color-pallet-icon.svg'
     const todoIconSrc = '../../../assets/img/notes-icons/checked-box-icon.svg'
+    const addPictureIconSrc = '../../../assets/img/notes-icons/add-pitcure-icon.svg'
     return (
         <div className="add-note" onClick={() => setIsEdit(true)} style={note.style}>
             <form ref={formRef} action="" className="add-note-form" onSubmit={onAddNote}>
@@ -121,12 +122,23 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
                             <img ref={pinRef} src="../../../assets/img/notes-icons/pinned-not-active.svg" alt="" />
                         </button>
                         <div className="btns-control-panel">
-                            <button onClick={(ev) => onToggleColorPicker(null, ev, note, setNote)} type="button" className="btn color-picker-btn">
+                            <button
+                                onClick={(ev) => {
+                                    setIsClrBtn(() => {
+                                        return true
+                                    })
+                                    onToggleColorPicker(null, ev, note, setNote)
+                                }}
+                                type="button"
+                                className="btn color-picker-btn"
+                            >
                                 <img src={colorsIconSrc} alt="" />
                             </button>
+
                             <button type="button" className="btn color-picker-btn">
                                 <img src={threeDotsIconsSrc} alt="" />
                             </button>
+
                             <button className="btn add-btn">{addBtnContent}</button>
                         </div>
                     </React.Fragment>
@@ -134,9 +146,15 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
             </form>
 
             {!isEdit && (
-                <button className="todo-btn btn" onClick={() => changeNoteType('NoteTodo')}>
-                    <img src={todoIconSrc} alt="" />
-                </button>
+                <React.Fragment>
+                    <button className="todo-btn btn" onClick={() => changeNoteType('NoteTodo')}>
+                        <img src={todoIconSrc} alt="" />
+                    </button>
+
+                    <button className="img-btn btn" onClick={() => changeNoteType('NoteImg')}>
+                        <img src={addPictureIconSrc} alt="" />
+                    </button>
+                </React.Fragment>
             )}
         </div>
     )
