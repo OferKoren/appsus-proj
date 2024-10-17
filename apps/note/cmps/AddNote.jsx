@@ -1,12 +1,14 @@
 import { deepCopy } from '../../../services/util.service.js'
 import { noteService } from '../services/note.service.js'
+import { ColorPicker } from './ColorPicker.jsx'
 import { DynamicNote } from './notes/DynamicNote.jsx'
 const { useState, useEffect, useRef } = React
 // import {} from '../../../assets/img/notes-icons/'
-export function AddNote({ addNote, noteToEdit }) {
+export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerRef }) {
     const initNote = noteToEdit ? deepCopy(noteToEdit) : noteService.getEmptyNote()
     const [note, setNote] = useState(initNote)
     const [isEdit, setIsEdit] = useState(false)
+
     const formRef = useRef()
     const pinRef = useRef()
     const noteRef = useRef(note)
@@ -29,14 +31,22 @@ export function AddNote({ addNote, noteToEdit }) {
     }, [])
 
     function handleClickOutside(ev) {
-        if (formRef.current && !formRef.current.contains(ev.target)) {
+        const isColorPicker = colorPickerRef.current && colorPickerRef.current.contains(ev.target)
+        const isNotForm = formRef.current && !formRef.current.contains(ev.target)
+        return
+        if (isNotForm) {
+            if (isColorPicker) return null
             const note1 = noteRef.current
-            if (note1.txt || note1.title || note1.todos) return
+            const info = note1.info
+            if ((info.txt || info.title || info.todos.length > 0) && !noteToEdit) {
+                return null
+            }
             setIsEdit(false)
             if (noteToEdit) {
                 onAddNote(ev, note1)
             }
             setNote(noteService.getEmptyNote())
+            onToggleColorPicker(true)
         }
     }
 
@@ -70,17 +80,18 @@ export function AddNote({ addNote, noteToEdit }) {
 
     function onAddNote(ev, EditedNote = null) {
         ev.preventDefault()
-        const noteToAdd = EditedNote ? deepCopy(EditedNote) : { ...note }
+        const noteToAdd = EditedNote ? EditedNote : { ...note }
 
         if (noteToAdd.type === 'NoteTodo') {
             const todos = noteToAdd.info.todos
             todos.splice(todos.length - 1, 1)
             noteToAdd.info.todos === todos
         }
-        console.log(noteToAdd)
-        addNote(noteToAdd)
+        const info = { ...note.info }
+        if (info.txt || info.title || info.todos.length > 0) addNote(noteToAdd)
         setIsEdit(false)
         setNote(noteService.getEmptyNote())
+        onToggleColorPicker(true)
     }
     function changeNoteType(toType) {
         setNote((prevNote) => ({ ...prevNote, type: toType }))
@@ -100,7 +111,7 @@ export function AddNote({ addNote, noteToEdit }) {
     const colorsIconSrc = '../../../assets/img/notes-icons/color-pallet-icon.svg'
     const todoIconSrc = '../../../assets/img/notes-icons/checked-box-icon.svg'
     return (
-        <div className="add-note" onClick={() => setIsEdit(true)}>
+        <div className="add-note" onClick={() => setIsEdit(true)} style={note.style}>
             <form ref={formRef} action="" className="add-note-form" onSubmit={onAddNote}>
                 <DynamicNote note={note} handleChange={handleChange} isEdit={isEdit} />
 
@@ -110,10 +121,10 @@ export function AddNote({ addNote, noteToEdit }) {
                             <img ref={pinRef} src="../../../assets/img/notes-icons/pinned-not-active.svg" alt="" />
                         </button>
                         <div className="btns-control-panel">
-                            <button type="butten" className="btn color-picker-btn">
+                            <button onClick={(ev) => onToggleColorPicker(null, ev, note, setNote)} type="button" className="btn color-picker-btn">
                                 <img src={colorsIconSrc} alt="" />
                             </button>
-                            <button type="butten" className="btn color-picker-btn">
+                            <button type="button" className="btn color-picker-btn">
                                 <img src={threeDotsIconsSrc} alt="" />
                             </button>
                             <button className="btn add-btn">{addBtnContent}</button>

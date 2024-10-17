@@ -18,6 +18,10 @@
     margin-bottom: 1em;
     background-color: white;
     border-radius: 0.5em;
+    transition: background-color 0.4s;
+}
+.add-note input {
+    background-color: transparent;
 }
 .add-note .btns-control-panel {
     background-color: aqua;

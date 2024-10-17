@@ -1,5 +1,5 @@
 export const getDemoNotes = _createDemoNotes
-
+const colors = ['white', '#FAAFA8', '#F39F76', '#FFF8B8', '#E2F6D3', '#B4DDD3', '#D4E4ED', '#AECCDC', '#D3BFDB', '#F6E2DD', '#E9E3D4', '#EFEFF1']
 function _createDemoNotes() {
     return [
         {
@@ -8,7 +8,7 @@ function _createDemoNotes() {
             type: 'NoteTxt',
             isPinned: true,
             style: {
-                backgroundColor: '#00d',
+                backgroundColor: 'white',
             },
             info: {
                 txt: 'Fullstack Me Baby!',
@@ -20,10 +20,10 @@ function _createDemoNotes() {
             type: 'NoteTxt',
             isPinned: false,
             style: {
-                backgroundColor: '#0fa968',
+                backgroundColor: 'white',
             },
             info: {
-                title: 'hello',
+                title: 'white',
                 txt: 'here we go again!',
             },
         },
@@ -33,7 +33,7 @@ function _createDemoNotes() {
             type: 'NoteTxt',
             isPinned: false,
             style: {
-                backgroundColor: '#ecff41',
+                backgroundColor: '#FFF8B8',
             },
             info: {
                 txt: 'dear diary. its been 8 days since i last wrote you',
@@ -45,7 +45,7 @@ function _createDemoNotes() {
             type: 'NoteTxt',
             isPinned: false,
             style: {
-                backgroundColor: '',
+                backgroundColor: '#AECCDC',
             },
             info: {
                 txt: 'Take me to church i worship like a dog at the shrine of your lies..',
@@ -57,7 +57,7 @@ function _createDemoNotes() {
             type: 'NoteTxt',
             isPinned: true,
             style: {
-                backgroundColor: '#ecff41',
+                backgroundColor: '#AECCDC',
             },
             info: {
                 txt: 'birthday to mom...',
@@ -69,7 +69,7 @@ function _createDemoNotes() {
             type: 'NoteTxt',
             isPinned: false,
             style: {
-                backgroundColor: '#72d942',
+                backgroundColor: '#AECCDC',
             },
             info: {
                 title: 'list of students',
@@ -99,7 +99,7 @@ function _createDemoNotes() {
                 title: 'Bobi and Me',
             },
             style: {
-                backgroundColor: '#72d942',
+                backgroundColor: '#F39F76',
             },
         },
         {

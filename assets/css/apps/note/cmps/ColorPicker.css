@@ -1,0 +1,49 @@
+.color-picker {
+    position: absolute;
+    display: flex;
+    padding: 0.5em 0.7em;
+    border-radius: 0.5em;
+    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    background-color: white;
+    gap: 4.6px;
+    z-index: 3;
+}
+.clr-btn {
+    cursor: pointer;
+    position: relative;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+}
+.clr-btn:first-of-type {
+    border: 2px solid #e0e0e0;
+}
+.clr-btn:first-of-type .no-color-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 60%;
+}
+.clr-btn:hover {
+    border: 2px solid black;
+}
+.clr-btn.active {
+    border: #a142f4 2px solid;
+}
+.clr-btn .check {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    top: -7px;
+    left: -5px;
+    opacity: 0;
+}
+.clr-btn .check > * {
+    position: absolute;
+}
+
+.clr-btn.active .check {
+    opacity: 1;
+}

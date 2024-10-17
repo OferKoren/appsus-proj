@@ -49,7 +49,7 @@ export function NoteList({ notes, onDeleteNote, onUpdateNote, onDuplicate, onEdi
         })
     }
     console.log('rendering list')
-    console.log(notesMap.others[0])
+
     return (
         <section className="note-list-container">
             <h2>Pinned Notes</h2>

@@ -3,19 +3,19 @@ import { deepCopy } from '../../../services/util.service.js'
 import { NoteList } from '../cmps/NoteList.jsx'
 import { AddNote } from '../cmps/AddNote.jsx'
 import { EditNote } from '../cmps/EditNote.jsx'
-const { useState, useEffect } = React
+import { ColorPicker } from '../cmps/ColorPicker.jsx'
+const { useState, useEffect, useRef } = React
 
 export function NoteIndex() {
     const [notes, setNotes] = useState(null)
     const [filterBy, setFilterBy] = useState(null)
     const [noteToEdit, setNoteToEdit] = useState(null)
-
+    const [colorPicker, setColorPicker] = useState({ isOpen: false, ev: null, note: null, setNote: null })
+    const colorPickerRef = useRef(null)
     useEffect(() => {
         loadNotes()
     }, [filterBy])
-    useEffect(() => {
-        if (notes) console.log(notes[0])
-    }, [notes])
+
     function loadNotes() {
         noteService.query().then((res) => {
             setNotes(res)
@@ -61,12 +61,24 @@ export function NoteIndex() {
     function onEditNote(note) {
         setNoteToEdit(() => deepCopy(note))
     }
+    function onToggleColorPicker(close, ev, note, setNote) {
+        if (close) {
+            setColorPicker(() => ({ isOpen: false, ev: null, note: null, setNote: null }))
+            return null
+        }
+        const isOpen = colorPicker.isOpen
+        if (isOpen) setColorPicker(() => ({ isOpen: false, ev: null, note: null, setNote: null }))
+        else setColorPicker(() => ({ isOpen: true, ev: ev, note: note, setNote: setNote }))
+    }
     if (!notes) return <div>loading...</div>
     return (
         <section className="note-index">
             <section className={`edit-note-backdrop ${noteToEdit ? 'on' : ''}`}></section>
-            {noteToEdit && <EditNote addNote={onUpdateNote} noteToEdit={noteToEdit} />}
-            <AddNote addNote={addNote} />
+            {colorPicker.isOpen && <ColorPicker colorPicker={colorPicker} colorPickerRef={colorPickerRef} />}
+            {noteToEdit && (
+                <EditNote addNote={onUpdateNote} noteToEdit={noteToEdit} onToggleColorPicker={onToggleColorPicker} colorPickerRef={colorPickerRef} />
+            )}
+            <AddNote addNote={addNote} onToggleColorPicker={onToggleColorPicker} colorPickerRef={colorPickerRef} />
             <NoteList notes={notes} onDeleteNote={onDeleteNote} onUpdateNote={onUpdateNote} onDuplicate={onDuplicate} onEditNote={onEditNote} />
         </section>
     )

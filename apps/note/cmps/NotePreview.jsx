@@ -10,7 +10,7 @@ export function NotePreview({ notes, note, onUpdateNote }) {
     useEffect(() => {
         setTodos(() => info.todos)
     }, [notes])
-    if (todos && todos.length) console.log(todos.length)
+
     return (
         <section style={style} className="note-preview">
             {title && <h3 className="note-preview-title">{title}</h3>}
@@ -18,37 +18,6 @@ export function NotePreview({ notes, note, onUpdateNote }) {
             {todos && <TodosPreview />}
         </section>
     )
-
-    /* function handleChange({ target }) {
-        const field = target.name
-        let value = target.value
-        switch (target.type) {
-            case 'number':
-            case 'range':
-                value = +value
-                break
-
-            case 'checkbox':
-                value = target.checked
-                break
-        }
-
-        setTodos((prevTodos) => {
-            console.log(prevTodos)
-            const fieldData = field.split(' ')
-            const newField = fieldData[0]
-            const idx = fieldData[1]
-            console.log(newField)
-            console.log(idx)
-            const newTodos = [...prevTodos]
-            if (!newTodos[idx]) {
-                newTodos[idx] = {}
-                setTodoCount((prevcount) => prevcount + 1)
-            }
-            newTodos[idx][newField] = value
-            return newTodos
-        })
-    } */
 
     function handleTodos({ target }, todo) {
         const field = target.name
@@ -76,7 +45,6 @@ export function NotePreview({ notes, note, onUpdateNote }) {
 
     function TodosPreview() {
         return todos.map((todo) => {
-            console.log(!!todo.doneAt)
             return (
                 <div className="todo-preview" key={`1${todo.id}`}>
                     <span>{todo.txt}</span>
