@@ -1,6 +1,8 @@
 import { MailPreview } from './MailPreview.jsx'
 
-export function MailList({ mails, onRemoveMail,  onToggleReadStatus}) {
+
+
+export function MailList({ mails, onRemoveMail,  onToggleReadStatus,  onToggleStar}) {
     return (
         <div className="mail-list">
             {mails.map(mail => (
@@ -8,6 +10,8 @@ export function MailList({ mails, onRemoveMail,  onToggleReadStatus}) {
                 mail={mail} 
                 onRemoveMail={onRemoveMail} 
                 onToggleReadStatus={onToggleReadStatus}
+                onToggleStar={onToggleStar} 
+
                 />
             ))}
         </div>

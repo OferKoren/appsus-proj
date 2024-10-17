@@ -1,3 +1,4 @@
+
 .mail-index {
     display: flex;
     height: 100vh;
@@ -33,8 +34,10 @@
 }
 
 .compose-btn:hover {
-    background-color: #e8f0fe;
+    background-color:  #bdd7f1;
 }
+
+
 
 .mail-folder-filter button {
     display: block;
@@ -54,18 +57,6 @@
     background-color: rgba(32, 33, 36, 0.06);
 }
 
-.mail-folder-filter button.active {
-    background-color: #d3e3fd;
-    color: #1a73e8;
-    font-weight: bold;
-}
-
-.mail-main-content {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-}
 
 .mail-filter {
     /* margin-bottom: 20px; */
@@ -96,4 +87,41 @@
     border: none;
     border-top: 1px solid #e0e0e0;
     margin: 0px 0;
+}
+.mail-folder-filter button {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px 15px;
+    background: none;
+    border: none;
+    border-radius: 5px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: normal;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.mail-folder-filter button i {
+    margin-right: 10px;
+}
+
+.mail-folder-filter button:hover {
+    background-color: #dbe9fd;
+}
+
+.mail-folder-filter button.active {
+    background-color: #c6dffb; 
+    color: #000; 
+}
+
+.count-badge {
+    margin-left: auto;
+    padding: 2px 6px;
+    color: black;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: bold;
 }

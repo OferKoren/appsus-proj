@@ -3,3 +3,26 @@
     flex-direction: column;
     width: 100%;
 }
+.sort-buttons {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.sort-buttons button {
+    padding: 8px 15px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+}
+
+.sort-buttons button.active {
+    background-color: #dbe9fd;
+    font-weight: bold;
+}
+
+.sort-buttons button:hover {
+    background-color: #f1f3f4;
+}

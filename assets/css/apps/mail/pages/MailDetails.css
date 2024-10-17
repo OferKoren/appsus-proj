@@ -54,5 +54,5 @@
 .mail-details .mail-body {
     font-size: 1em;
     color: #202124;
-    white-space: pre-wrap; /* Ensures line breaks are preserved */
+    white-space: pre-wrap; 
 }
