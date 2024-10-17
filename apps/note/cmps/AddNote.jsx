@@ -12,6 +12,7 @@ export function AddNote({ addNote, noteToEdit }) {
     const noteRef = useRef(note)
 
     useEffect(() => {
+        console.log(note)
         noteRef.current = note
     }, [note])
 

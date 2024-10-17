@@ -63,19 +63,15 @@ export function NotePreview({ notes, note, onUpdateNote }) {
                 value = target.checked ? Date.now() : null
                 break
         }
+        const newTodo = { ...todo, [field]: value }
+        const idx = todos.findIndex((todo) => todo.id === newTodo.id)
+        const newTodos = [...todos]
+        newTodos.splice(idx, 1, newTodo)
+        const newNote = { ...note }
+        newNote.info.todos = newTodos
 
-        setTodos((prevTodos) => {
-            const newTodo = { ...todo, [field]: value }
-            const idx = todos.findIndex((todo) => todo.id === newTodo.id)
-            const newTodos = [...prevTodos]
-
-            newTodos.splice(idx, 1, newTodo)
-
-            const newNote = { ...note }
-            newNote.info.todos = newTodos
-            onUpdateNote(newNote)
-            return newTodos
-        })
+        setTodos(() => newTodos)
+        onUpdateNote(newNote)
     }
 
     function TodosPreview() {

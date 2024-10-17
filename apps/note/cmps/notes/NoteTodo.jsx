@@ -8,9 +8,9 @@ export function NoteTodo({ isEdit, handleChange, note }) {
     useEffect(() => {
         setTodos(() => {
             const newEmptyTodo = { txt: '', doneAt: false, id: utilService.makeId() }
-            const todosToCopy = [...note.info.todos]
-            const todosDeepCopy = JSON.parse(JSON.stringify(todosToCopy))
-            return [...todosDeepCopy, newEmptyTodo]
+            /* const todosToCopy = [...note.info.todos]
+            const todosDeepCopy = JSON.parse(JSON.stringify(todosToCopy)) */
+            return [...note.info.todos, newEmptyTodo]
         })
     }, [])
 
@@ -25,9 +25,6 @@ export function NoteTodo({ isEdit, handleChange, note }) {
 
     useEffect(() => {
         if (todos && todos.length) {
-            const newNote = { ...note }
-            newNote.info.todos = [...todos]
-            handleChange({ target: null }, newNote)
         }
     }, [todos])
 
@@ -41,24 +38,25 @@ export function NoteTodo({ isEdit, handleChange, note }) {
                 break
 
             case 'checkbox':
-                value = target.checked ? Date.now : null
+                value = target.checked ? Date.now() : null
                 break
         }
+        const newTodo = { ...todo, [field]: value }
+        const idx = todos.findIndex((todo) => todo.id === newTodo.id)
+        const newTodos = [...todos]
 
-        setTodos((prevTodos) => {
-            const newTodo = { ...todo, [field]: value }
-            const idx = todos.findIndex((todo) => todo.id === newTodo.id)
-            const newTodos = [...prevTodos]
+        if (idx === todoCount - 1 && newTodos[idx].txt === '') {
+            const newEmptyTodo = { txt: '', doneAt: false, id: utilService.makeId() }
+            newTodos.push(newEmptyTodo)
+            setTodoCount((prevcount) => prevcount + 1)
+        }
 
-            if (idx === todoCount - 1 && newTodos[idx].txt === '') {
-                const newEmptyTodo = { txt: '', doneAt: false, id: utilService.makeId() }
-                newTodos.push(newEmptyTodo)
-                setTodoCount((prevcount) => prevcount + 1)
-            }
+        newTodos.splice(idx, 1, newTodo)
+        const newNote = { ...note }
+        newNote.info.todos = [...newTodos]
 
-            newTodos.splice(idx, 1, newTodo)
-            return newTodos
-        })
+        setTodos(() => newTodos)
+        handleChange({ target: null }, newNote)
     }
 
     function onDeleteTodo(todoId) {
