@@ -9,6 +9,7 @@ export function MailDetails() {
 
     useEffect(() => {
         loadMail()
+        markAsRead()
     }, [mailId])
 
     function loadMail() {
@@ -22,6 +23,17 @@ export function MailDetails() {
                 navigate('/mail')
             })
     }
+
+    function markAsRead() {
+        mailService.toggleReadStatus(mailId, true) 
+            .then((mail) => {
+                console.log(mail , 'Mail marked as read')
+            })
+            .catch(err => {
+                console.error('Failed to mark mail as read', err)
+            })
+    }
+
 
     if (!mail) return <div>Loading...</div>
 
