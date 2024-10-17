@@ -81,8 +81,21 @@ function _createMails() {
         { id: 'e103', subject: 'New Linkedin Message', body: 'You have got a new message from : Coding Academy.', isRead: false, sentAt: Date.now(), from: 'jobinterview@coding-academy.com', to: loggedinUser.email },
         { id: 'e104', subject: 'Slack Sign-Up', body: 'Your new Slack account is good to go!.', isRead: true, sentAt: Date.now(), from: 'master@slack.com', to: loggedinUser.email },
         { id: 'e105', subject: 'Discount Offer', body: 'Exclusive discount for you!', isRead: false, sentAt: Date.now(), from: 'promo@service.com', to: loggedinUser.email },
+
+        { id: 'e106', subject: 'Payment Received', body: 'You have received a payment of $150.00 USD from John Doe. It may take a few minutes for this transaction to appear in your account.', isRead: false, sentAt: Date.now(), from: 'service@paypal.com', to: loggedinUser.email },
+        { id: 'e107', subject: 'New Sign-in from Chrome on Windows', body: 'We noticed a new sign-in to your Google Account from a Windows device. If this was you, you can safely disregard this email.', isRead: true, sentAt: Date.now() - 1000000, from: 'no-reply@accounts.google.com', to: loggedinUser.email },
+        { id: 'e108', subject: 'PayPal Receipt for Your Payment', body: 'Your payment of $45.00 USD to ABC Store has been completed. It may take a few moments for this transaction to show up on your account.', isRead: false, sentAt: Date.now() - 2000000, from: 'service@paypal.com', to: loggedinUser.email },
+        { id: 'e109', subject: 'Security Alert: Suspicious Login Attempt', body: 'Google blocked someone with the password for your account. They used a device that Google could not recognize. Please change your password.', isRead: false, sentAt: Date.now() - 3000000, from: 'security@google.com', to: loggedinUser.email },
+        { id: 'e110', subject: 'Payment to Netflix - Receipt', body: 'You have successfully made a payment of $13.99 USD to Netflix. This payment will appear in your activity log shortly.', isRead: true, sentAt: Date.now() - 4000000, from: 'service@paypal.com', to: loggedinUser.email },
+
+        { id: 'e111', subject: 'Google Account Recovery Attempt', body: 'A request to reset your Google Account password was made. If you did not make this request, please review your account activity and change your password.', isRead: false, sentAt: Date.now() - 5000000, from: 'account-recovery@google.com', to: loggedinUser.email },
+        { id: 'e112', subject: 'Your Invoice from PayPal', body: 'Your invoice for $29.99 USD is ready. Please review the details and make the necessary payment at your earliest convenience.', isRead: true, sentAt: Date.now() - 6000000, from: 'billing@paypal.com', to: loggedinUser.email },
+        { id: 'e113', subject: 'New Login to PayPal Account', body: 'We noticed a new login to your PayPal account from an unknown device. If this was not you, please secure your account immediately.', isRead: false, sentAt: Date.now() - 7000000, from: 'security@paypal.com', to: loggedinUser.email },
+        { id: 'e114', subject: 'Payment Confirmation for $89.00', body: 'Your payment to XYZ Electronics for $89.00 USD has been completed. The details of this transaction will be available in your account activity.', isRead: true, sentAt: Date.now() - 8000000, from: 'service@paypal.com', to: loggedinUser.email },
+        { id: 'e115', subject: 'Critical Security Update', body: 'Google has identified a potential security issue with your account. We recommend reviewing your recent activity and updating your security settings.', isRead: false, sentAt: Date.now() - 9000000, from: 'security-update@google.com', to: loggedinUser.email },
     ]
 }
+
 
 function getById(mailId) {
     return storageService.query(MAIL_KEY).then(mails => {
