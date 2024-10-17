@@ -8,16 +8,17 @@ export const mailService = {
     getById,
     add,
     getFilterFromSearchParams,
-    toggleReadStatus
-    
+    toggleReadStatus,
+    toggleStarStatus
+
 
 }
 
 
 const MAIL_KEY = 'mailDB'
-const loggedinUser = { 
-    email: 'user@appsus.com', 
-    fullname: 'Mahatma Appsus' 
+const loggedinUser = {
+    email: 'user@appsus.com',
+    fullname: 'Mahatma Appsus'
 }
 
 let mails = storageService.loadFromStorage(MAIL_KEY) || _createMails()
@@ -54,7 +55,7 @@ function query(filterBy = {}) {
             }
 
             if (filterBy.labels && filterBy.labels.length) {
-                filteredMails = filteredMails.filter(mail => 
+                filteredMails = filteredMails.filter(mail =>
                     filterBy.labels.some(label => mail.labels && mail.labels.includes(label))
                 )
             }
@@ -113,13 +114,18 @@ function getFilterFromSearchParams(searchParams) {
     }
 }
 
-function toggleReadStatus(mailId) {
-    return asyncStorageService.get(MAIL_KEY, mailId).then(mail => {
-    mail.isRead = !mail.isRead 
-console.log(asyncStorageService.put(MAIL_KEY, mail))
-
-    return asyncStorageService.put(MAIL_KEY, mail)
-    
+function toggleReadStatus(mailId, isRead = null) {
+    return asyncStorageService.get(MAIL_KEY, mailId).then((mail) => {
+        mail.isRead = (isRead !== null && isRead !== undefined) ? isRead : !mail.isRead
+        asyncStorageService.put(MAIL_KEY, mail) 
+        return mail 
     })
 }
 
+export function toggleStarStatus(mailId) {
+    return asyncStorageService.get(MAIL_KEY, mailId).then((mail) => {
+        mail.isStarred = !mail.isStarred
+        asyncStorageService.put(MAIL_KEY, mail) 
+        return mail 
+    })
+}
