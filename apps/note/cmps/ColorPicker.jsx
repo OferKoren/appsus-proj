@@ -8,8 +8,8 @@ export function ColorPicker({ colorPicker, colorPickerRef }) {
     chosenColor = chosenColor === -1 ? 0 : chosenColor
     const [pickedColor, setPickedColor] = useState(chosenColor)
 
-    const buttonRect = ev.target.getBoundingClientRect() // Get the button's position
-    const top = buttonRect.bottom + window.scrollY // Adjust for scrolling
+    const buttonRect = ev.target.getBoundingClientRect()
+    const top = buttonRect.bottom + window.scrollY
     const left = buttonRect.left + window.scrollX
 
     function onChangeColor(idx) {

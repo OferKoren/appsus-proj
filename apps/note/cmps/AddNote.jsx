@@ -4,7 +4,7 @@ import { ColorPicker } from './ColorPicker.jsx'
 import { DynamicNote } from './notes/DynamicNote.jsx'
 const { useState, useEffect, useRef } = React
 // import {} from '../../../assets/img/notes-icons/'
-export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerRef, setIsClrBtn }) {
+export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerRef, setIsClrBtn, isClrRef, testing }) {
     const initNote = noteToEdit ? deepCopy(noteToEdit) : noteService.getEmptyNote()
     const [note, setNote] = useState(initNote)
     const [isEdit, setIsEdit] = useState(false)
@@ -47,7 +47,6 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
                 onAddNote(ev, note1)
             }
             setNote(noteService.getEmptyNote())
-            onToggleColorPicker(true)
         }
     }
 
@@ -111,7 +110,6 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
         if (info.txt || info.title || info.todos.length > 0 || info.url) addNote(noteToAdd)
         setIsEdit(false)
         setNote(noteService.getEmptyNote())
-        onToggleColorPicker(true)
     }
     function changeNoteType(toType) {
         setNote((prevNote) => ({ ...prevNote, type: toType }))
@@ -152,9 +150,7 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
                         <div className="btns-control-panel">
                             <button
                                 onClick={(ev) => {
-                                    setIsClrBtn(() => {
-                                        return true
-                                    })
+                                    isClrRef.current = true
                                     onToggleColorPicker(null, ev, note, setNote)
                                 }}
                                 type="button"

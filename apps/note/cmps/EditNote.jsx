@@ -1,5 +1,5 @@
 import { AddNote } from './AddNote.jsx'
-export function EditNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerRef, setIsClrBtn }) {
+export function EditNote({ addNote, noteToEdit, onToggleColorPicker, testing, colorPickerRef, setIsClrBtn, isClrRef }) {
     if (!noteToEdit) return
     return (
         <React.Fragment>
@@ -10,6 +10,8 @@ export function EditNote({ addNote, noteToEdit, onToggleColorPicker, colorPicker
                     noteToEdit={noteToEdit}
                     onToggleColorPicker={onToggleColorPicker}
                     colorPickerRef={colorPickerRef}
+                    isClrRef={isClrRef}
+                    testing={testing}
                 />
             </section>
         </React.Fragment>

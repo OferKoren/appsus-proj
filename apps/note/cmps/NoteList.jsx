@@ -1,6 +1,16 @@
 import { NotePreview } from '../cmps/NotePreview.jsx'
 const { useState, useEffect, useRef } = React
-export function NoteList({ notes, onDeleteNote, onUpdateNote, onDuplicate, onEditNote, onToggleColorPicker, togglePickerRef, setIsClrBtn }) {
+export function NoteList({
+    notes,
+    onDeleteNote,
+    onUpdateNote,
+    isClrRef,
+    onDuplicate,
+    onEditNote,
+    onToggleColorPicker,
+    togglePickerRef,
+    setIsClrBtn,
+}) {
     const notesMap = mapNotes()
     const pinRef = useRef()
 
@@ -23,7 +33,7 @@ export function NoteList({ notes, onDeleteNote, onUpdateNote, onDuplicate, onEdi
     function createNoteList(noteArr) {
         return noteArr.map((note) => {
             const notActiveSrc = './assets/img/notes-icons/pinned-not-active.svg'
-            const activeSrc = '/assets/img/notes-icons/pinned-active-icon.svg'
+            const activeSrc = './assets/img/notes-icons/pinned-active-icon.svg'
             const threeDots = './assets/img/notes-icons/small-three-dots-icon.svg'
             const colorPalletSrc = './assets/img/notes-icons/color-pallet-icon.svg'
             return (
@@ -47,7 +57,9 @@ export function NoteList({ notes, onDeleteNote, onUpdateNote, onDuplicate, onEdi
                             <button
                                 className="btn color-btn"
                                 onClick={(ev) => {
-                                    setIsClrBtn(true)
+                                    // setIsClrBtn(true)
+                                    ev.stopPropagation()
+                                    isClrRef.current = true
                                     onToggleColorPicker(null, ev, note, onUpdateNote)
                                 }}
                             >

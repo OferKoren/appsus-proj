@@ -6,9 +6,9 @@ import { EditNote } from '../cmps/EditNote.jsx'
 import { ColorPicker } from '../cmps/ColorPicker.jsx'
 const { useState, useEffect, useRef } = React
 
-export function NoteIndex() {
+export function NoteIndex({ rootFilterBy, setApp }) {
     const [notes, setNotes] = useState(null)
-    const [filterBy, setFilterBy] = useState(null)
+    const [filterBy, setFilterBy] = useState({ ...rootFilterBy })
     const [noteToEdit, setNoteToEdit] = useState(null)
 
     const [colorPicker, setColorPicker] = useState({ isOpen: false, ev: null, note: null, setNote: null })
@@ -17,13 +17,18 @@ export function NoteIndex() {
     const colorPickerRef = useRef(null)
 
     useEffect(() => {
-        loadNotes()
-    }, [filterBy])
-    useEffect(() => {
-        isClrRef.current = isClrBtn
-    }, [isClrBtn])
+        setFilterBy({ ...rootFilterBy })
+    }, [rootFilterBy])
 
     useEffect(() => {
+        loadNotes()
+    }, [filterBy])
+    /*   useEffect(() => {
+        isClrRef.current = isClrBtn
+    }, [isClrBtn]) */
+
+    useEffect(() => {
+        setApp('Keep')
         document.addEventListener('mousedown', handleClickOutsideColorPicker)
         return () => {
             document.removeEventListener('mousedown', handleClickOutsideColorPicker)
@@ -31,7 +36,7 @@ export function NoteIndex() {
     }, [])
 
     function loadNotes() {
-        noteService.query().then((res) => {
+        noteService.query(filterBy).then((res) => {
             setNotes(res)
         })
     }
@@ -83,15 +88,20 @@ export function NoteIndex() {
         ev.stopPropagation()
         const isOpen = colorPicker.isOpen
         if (isOpen) setColorPicker(() => ({ isOpen: false, ev: null, note: null, setNote: null }))
-        else setColorPicker(() => ({ isOpen: true, ev: ev, note: note, setNote: setNote }))
+        else {
+            setColorPicker(() => ({ isOpen: true, ev: ev, note: note, setNote: setNote }))
+        }
     }
-
+    function testing() {
+        console.log('just testing')
+    }
     function handleClickOutsideColorPicker(ev) {
         setTimeout(() => {
             const isColorPicker = colorPickerRef.current && colorPickerRef.current.contains(ev.target)
             if (!isColorPicker) {
                 if (isClrRef.current) {
-                    setIsClrBtn(false)
+                    // setIsClrBtn(false)
+                    isClrRef.current = false
                     return
                 }
                 onToggleColorPicker(true)
@@ -100,7 +110,7 @@ export function NoteIndex() {
     }
     if (!notes) return <div>loading...</div>
     return (
-        <section className="note-index">
+        <section className="note-index full main-layout">
             <section className={`edit-note-backdrop ${noteToEdit ? 'on' : ''}`}></section>
             {colorPicker.isOpen && <ColorPicker colorPicker={colorPicker} colorPickerRef={colorPickerRef} />}
             {noteToEdit && (
@@ -109,10 +119,19 @@ export function NoteIndex() {
                     noteToEdit={noteToEdit}
                     onToggleColorPicker={onToggleColorPicker}
                     setIsClrBtn={setIsClrBtn}
+                    isClrRef={isClrRef}
                     colorPickerRef={colorPickerRef}
+                    testing={testing}
                 />
             )}
-            <AddNote addNote={addNote} onToggleColorPicker={onToggleColorPicker} colorPickerRef={colorPickerRef} setIsClrBtn={setIsClrBtn} />
+            <AddNote
+                addNote={addNote}
+                isClrRef={isClrRef}
+                onToggleColorPicker={onToggleColorPicker}
+                colorPickerRef={colorPickerRef}
+                setIsClrBtn={setIsClrBtn}
+                testing={testing}
+            />
             <NoteList
                 notes={notes}
                 onDeleteNote={onDeleteNote}
@@ -122,6 +141,7 @@ export function NoteIndex() {
                 onToggleColorPicker={onToggleColorPicker}
                 colorPickerRef={colorPickerRef}
                 setIsClrBtn={setIsClrBtn}
+                isClrRef={isClrRef}
             />
         </section>
     )

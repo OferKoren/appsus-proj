@@ -2,7 +2,8 @@ const { useEffect, useState } = React
 const { Link, useSearchParams } = ReactRouterDOM
 
 export function MailFilter({ filterBy, onSetFilterBy }) {
-    const [searchTxt, setSearchTxt] = useState(filterBy.txt || '')
+    const [searchTxt, setSearchTxt] = useState('')
+    // const [searchTxt, setSearchTxt] = useState(filterBy.txt || '')
 
     function handleChange({ target }) {
         const { value } = target
@@ -12,12 +13,7 @@ export function MailFilter({ filterBy, onSetFilterBy }) {
 
     return (
         <section className="mail-filter">
-            <input
-                type="text"
-                placeholder="Search mails"
-                value={searchTxt}
-                onChange={handleChange}
-            />
+            <input type="text" placeholder="Search mails" value={searchTxt} onChange={handleChange} />
         </section>
     )
 }

@@ -30,15 +30,10 @@
 
 .add-note .btn {
     position: absolute;
-    border: none;
-    cursor: pointer;
-    background: none;
     opacity: 0.6;
     top: 50%;
     transform: translateY(-50%);
     transition: 0.3s;
-    border-radius: 50%;
-    padding: 0.4em 0.5em;
 }
 .add-note .btns-control-panel > * {
     position: static;
@@ -46,7 +41,6 @@
 }
 .add-note .btn:hover {
     opacity: 0.8;
-    background-color: var(--clr-hover-icon);
 }
 .add-note .todo-btn {
     right: 1em;

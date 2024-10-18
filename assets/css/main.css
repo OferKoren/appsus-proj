@@ -34,5 +34,6 @@
 @import './apps/note/cmps/AddNote.css';
 @import './apps/note/cmps/EditNote.css';
 @import './apps/note/cmps/ColorPicker.css';
+@import './apps/note/cmps/NoteFilter.css';
 
 @import './apps/note/pages/NoteIndex.css';

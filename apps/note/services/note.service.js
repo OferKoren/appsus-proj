@@ -21,11 +21,14 @@ function query(filterBy = {}) {
     return asyncStorageService.query(NOTES_KEY).then((notes) => {
         if (filterBy.txt) {
             const regExp = new RegExp(filterBy.txt, 'i')
-            notes = notes.filter((note) => regExp.test(note.title))
+            notes = notes.filter((note) => {
+                const isInTitle = regExp.test(note.info.title)
+                const isInTxt = regExp.test(note.info.txt)
+                const isInTodos = regExp.test(JSON.stringify(note.info.todos, null, 2))
+                return isInTitle || isInTxt || isInTodos
+            })
         }
-        if (filterBy.price) {
-            notes = notes.filter((note) => note.listPrice.amount <= filterBy.price)
-        }
+
         return notes
     })
 }
