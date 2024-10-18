@@ -6,15 +6,19 @@ import { EditNote } from '../cmps/EditNote.jsx'
 import { ColorPicker } from '../cmps/ColorPicker.jsx'
 const { useState, useEffect, useRef } = React
 
-export function NoteIndex() {
+export function NoteIndex({ rootFilterBy, setApp }) {
     const [notes, setNotes] = useState(null)
-    const [filterBy, setFilterBy] = useState(null)
+    const [filterBy, setFilterBy] = useState({ ...rootFilterBy })
     const [noteToEdit, setNoteToEdit] = useState(null)
 
     const [colorPicker, setColorPicker] = useState({ isOpen: false, ev: null, note: null, setNote: null })
     const [isClrBtn, setIsClrBtn] = useState(false)
     const isClrRef = useRef(null)
     const colorPickerRef = useRef(null)
+
+    useEffect(() => {
+        setFilterBy({ ...rootFilterBy })
+    }, [rootFilterBy])
 
     useEffect(() => {
         loadNotes()
@@ -24,6 +28,7 @@ export function NoteIndex() {
     }, [isClrBtn])
 
     useEffect(() => {
+        setApp('Keep')
         document.addEventListener('mousedown', handleClickOutsideColorPicker)
         return () => {
             document.removeEventListener('mousedown', handleClickOutsideColorPicker)
@@ -31,7 +36,7 @@ export function NoteIndex() {
     }, [])
 
     function loadNotes() {
-        noteService.query().then((res) => {
+        noteService.query(filterBy).then((res) => {
             setNotes(res)
         })
     }

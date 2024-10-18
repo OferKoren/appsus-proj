@@ -10,7 +10,7 @@ import { MailCompose } from './apps/mail/cmps/MailCompose.jsx'
 import { NoteIndex } from './apps/note/pages/NoteIndex.jsx'
 
 export function App() {
-    const [app, setApp] = useState('appsus')
+    const [app, setApp] = useState('Appsus')
     const [filterBy, setFilterBy] = useState({})
 
     function onSetFilterBy(newFilter) {
@@ -24,6 +24,11 @@ export function App() {
                     status: 'inbox',
                 }))
                 break
+            case 'Keep':
+                setFilterBy(() => ({
+                    txt: '',
+                    tag: '',
+                }))
         }
     }, [app])
     return (
@@ -33,11 +38,11 @@ export function App() {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/about" element={<About />} />
-                    <Route path="/mail" element={<MailIndex rootFilterBy={filterBy} />} />
+                    <Route path="/mail" element={<MailIndex rootFilterBy={filterBy} setApp={setApp} />} />
                     <Route path="/mail/:mailId" element={<MailDetails />} />
                     <Route path="/mail/compose" element={<MailCompose />} />
 
-                    <Route path="/note" element={<NoteIndex />} />
+                    <Route path="/note" element={<NoteIndex rootFilterBy={filterBy} setApp={setApp} />} />
                 </Routes>
             </section>
         </Router>
