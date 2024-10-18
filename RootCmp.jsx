@@ -10,7 +10,7 @@ import { MailCompose } from './apps/mail/cmps/MailCompose.jsx'
 import { NoteIndex } from './apps/note/pages/NoteIndex.jsx'
 
 export function App() {
-    const [app, setApp] = useState('appsus')
+    const [app, setApp] = useState('Appsus')
     const [filterBy, setFilterBy] = useState({})
 
     function onSetFilterBy(newFilter) {
