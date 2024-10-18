@@ -4,8 +4,11 @@ import { NoteList } from '../cmps/NoteList.jsx'
 import { AddNote } from '../cmps/AddNote.jsx'
 import { EditNote } from '../cmps/EditNote.jsx'
 import { ColorPicker } from '../cmps/ColorPicker.jsx'
-const { useState, useEffect, useRef } = React
+import { NoteAside } from '../cmps/NoteAside.jsx'
 
+const { useState, useEffect, useRef } = React
+const { Route, Routes } = ReactRouterDOM
+const Router = ReactRouterDOM.HashRouter
 export function NoteIndex({ rootFilterBy, setApp }) {
     const [notes, setNotes] = useState(null)
     const [filterBy, setFilterBy] = useState({ ...rootFilterBy })
@@ -116,7 +119,9 @@ export function NoteIndex({ rootFilterBy, setApp }) {
         <section className="note-index full main-layout">
             <section className={`edit-note-backdrop ${noteToEdit ? 'on' : ''}`}></section>
             {colorPicker.isOpen && <ColorPicker colorPicker={colorPicker} colorPickerRef={colorPickerRef} />}
+
             {noteToEdit && <EditNote noteToEdit={noteToEdit} {...EditNoteProps} />}
+            <NoteAside />
             <AddNote {...addNoteProps} />
             <NoteList
                 notes={notes}

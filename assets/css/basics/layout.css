@@ -9,8 +9,8 @@
     grid-column: 1 / -1;
 }
 .main-layout .vertical-full {
-    grid-row: 1/-1;
+    grid-row: 1 / span 2;
 }
-.main-layout > :not(.full) {
+.main-layout > :not(.full):not(.vertical-full) {
     grid-column: 2;
 }
