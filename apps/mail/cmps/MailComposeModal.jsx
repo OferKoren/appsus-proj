@@ -1,8 +1,6 @@
-// import { useState } from 'react'
-const { useState } = React
-import { mailService } from '../services/mail.service.js'
+const { useState, useEffect } = React
 
-export function MailComposeModal({ onClose, onSendMail }) {
+export function MailComposeModal({ onClose, onSendMail, onSaveDraft }) {
     const [mail, setMail] = useState({ to: '', subject: '', body: '' })
 
     function handleChange({ target }) {
@@ -10,48 +8,53 @@ export function MailComposeModal({ onClose, onSendMail }) {
         setMail((prevMail) => ({ ...prevMail, [name]: value }))
     }
 
-    /* function onSendMail(ev) {
+    function handleSubmit(ev) {
         ev.preventDefault()
+        onSendMail(ev, mail)
+    }
 
-        const newMail = {
-            ...mail,
-            from: 'user@appsus.com', 
-            sentAt: Date.now()
+    function handleClose() {
+        if (mail.subject || mail.body || mail.to) {
+            const draftMail = {
+                ...mail,
+                isDraft: true,
+                sentAt: Date.now(), 
+                status: 'draft' 
+            }
+            onSaveDraft(draftMail)
         }
-
-        mailService.add(newMail)
-            .then(() => {
-                onMailAdded()
-                onClose()
-            })
-            .catch(err => {
-                console.error('Failed to send mail:', err)
-            })
-    } */
+        onClose()
+    }
 
     return (
-        <div className="mail-compose-modal">
+        <section className="mail-compose-modal">
             <div className="modal-content">
-                <button className="close-btn" onClick={onClose}>
-                    ✖
-                </button>
-                <h2>Compose Mail</h2>
-                <form onSubmit={(ev) => onSendMail(ev, mail)}>
-                    <label>
-                        To:
-                        <input type="email" name="to" value={mail.to} onChange={handleChange} required />
-                    </label>
-                    <label>
-                        Subject:
-                        <input type="text" name="subject" value={mail.subject} onChange={handleChange} required />
-                    </label>
-                    <label>
-                        Body:
-                        <textarea name="body" value={mail.body} onChange={handleChange} required></textarea>
-                    </label>
+                <button className="close-btn" onClick={handleClose}>X</button>
+                <form onSubmit={handleSubmit}>
+                    <input
+                        type="email"
+                        name="to"
+                        placeholder="To"
+                        value={mail.to}
+                        onChange={handleChange}
+                    />
+                    <input
+                        type="text"
+                        name="subject"
+                        placeholder="Subject"
+                        value={mail.subject}
+                        onChange={handleChange}
+                    />
+                    <textarea
+                        name="body"
+                        placeholder="Body"
+                        value={mail.body}
+                        onChange={handleChange}
+                    ></textarea>
                     <button type="submit">Send</button>
                 </form>
             </div>
-        </div>
+        </section>
     )
 }
+

@@ -19,6 +19,7 @@ export function MailIndex({ rootFilterBy, setApp }) {
     const [filterBy, setFilterBy] = useState({ ...rootFilterBy })
     const [compose, setCompose] = useState(false)
     const [sortCriteria, setSortCriteria] = useState('date')
+    const [draftMail, setDraftMail] = useState(null)
 
     useEffect(() => {
         setFilterBy({ ...rootFilterBy })
@@ -51,17 +52,21 @@ export function MailIndex({ rootFilterBy, setApp }) {
             .then((fetchedMails) => {
                 const mailsWithFormattedDate = fetchedMails.map((mail) => ({
                     ...mail,
+                    id: mail.id || Date.now().toString(),
                     date: new Date(mail.sentAt).toLocaleString(),
                 }))
-
-                // mailsWithFormattedDate = sortMails(mailsWithFormattedDate)
-
-                const filteredMails = filterBy.status === 'starred' ? mailsWithFormattedDate.filter((mail) => mail.isStarred) : mailsWithFormattedDate
+                const filteredMails = filterBy.status === 'starred'
+                    ? mailsWithFormattedDate.filter(mail => mail.isStarred)
+                    : filterBy.status === 'draft'
+                        ? mailsWithFormattedDate.filter(mail => mail.isDraft)
+                        : mailsWithFormattedDate.filter(mail => !mail.isDraft)
+                        // mailsWithFormattedDate = sortMails(mailsWithFormattedDate)
 
                 setMails(filteredMails)
-                const count = fetchedMails.filter((mail) => !mail.isRead).length
+                const count = fetchedMails.filter((mail) => !mail.isRead && !mail.isDraft).length
                 setUnreadCount(count)
             })
+            
             .catch((err) => {
                 showErrorMsg('Failed to load mails')
             })
@@ -147,6 +152,34 @@ export function MailIndex({ rootFilterBy, setApp }) {
                 console.error('Failed to send mail:', err)
             })
     }
+    function onSaveDraft(mail) {
+        const draftMail = {
+            ...mail,
+            id: mail.id || Date.now(),
+            from: 'user@appsus.com',
+            sentAt: Date.now(),
+            isDraft: true,
+        }
+
+        mailService
+            .saveDraft(draftMail)
+            .then((savedDraft) => {
+                setMails((prevMails) => {
+                    const mailWithDate = {
+                        ...savedDraft,
+                        date: new Date(savedDraft.sentAt).toLocaleString(),
+                    }
+                    return [mailWithDate, ...prevMails]
+                })
+                showSuccessMsg('Draft saved successfully')
+            })
+            .catch((err) => {
+                console.error('Failed to save draft', err)
+                showErrorMsg('Failed to save draft')
+            })
+    }
+
+
     if (!mails) return <h1>Loading...</h1>
     return (
         <section className="mail-index full">
@@ -173,7 +206,7 @@ export function MailIndex({ rootFilterBy, setApp }) {
                 <div className="mail-list-container">
                     <MailList mails={mails} onRemoveMail={onRemoveMail} onToggleReadStatus={onToggleReadStatus} onToggleStar={onToggleStar} />
                 </div>
-                {compose && <MailComposeModal onClose={() => setCompose(() => false)} onSendMail={onSendMail} />}
+                {compose && <MailComposeModal onClose={() => setCompose(() => false)} onSendMail={onSendMail} onSaveDraft={onSaveDraft} />}
             </main>
         </section>
     )

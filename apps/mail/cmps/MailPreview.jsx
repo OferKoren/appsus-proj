@@ -13,15 +13,15 @@ export function MailPreview({ mail, onRemoveMail, onToggleReadStatus, onToggleSt
     }
     return (
         <div className={`mail-preview ${isRead ? 'read' : 'unread'}`}>
-            <button 
-                className={`star-btn ${isStarred ? 'starred' : ''}`} 
+            <button
+                className={`star-btn ${isStarred ? 'starred' : ''}`}
                 onClick={(ev) => {
                     ev.stopPropagation()
                     onToggleStar(id)
                 }}
             >
                 <i className={`fa-star ${isStarred ? 'fa' : 'fa-regular'}`}></i>
-                </button>
+            </button>
             <span className="mail-from" onClick={handleClick}>{from}</span>
             <span className="mail-subject" onClick={handleClick}>
                 {subject.length > 25 ? `${subject.slice(0, 25)}...` : subject}
