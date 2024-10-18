@@ -23,9 +23,9 @@ export function NoteIndex({ rootFilterBy, setApp }) {
     useEffect(() => {
         loadNotes()
     }, [filterBy])
-    useEffect(() => {
+    /*   useEffect(() => {
         isClrRef.current = isClrBtn
-    }, [isClrBtn])
+    }, [isClrBtn]) */
 
     useEffect(() => {
         setApp('Keep')
@@ -88,15 +88,20 @@ export function NoteIndex({ rootFilterBy, setApp }) {
         ev.stopPropagation()
         const isOpen = colorPicker.isOpen
         if (isOpen) setColorPicker(() => ({ isOpen: false, ev: null, note: null, setNote: null }))
-        else setColorPicker(() => ({ isOpen: true, ev: ev, note: note, setNote: setNote }))
+        else {
+            setColorPicker(() => ({ isOpen: true, ev: ev, note: note, setNote: setNote }))
+        }
     }
-
+    function testing() {
+        console.log('just testing')
+    }
     function handleClickOutsideColorPicker(ev) {
         setTimeout(() => {
             const isColorPicker = colorPickerRef.current && colorPickerRef.current.contains(ev.target)
             if (!isColorPicker) {
                 if (isClrRef.current) {
-                    setIsClrBtn(false)
+                    // setIsClrBtn(false)
+                    isClrRef.current = false
                     return
                 }
                 onToggleColorPicker(true)
@@ -105,7 +110,7 @@ export function NoteIndex({ rootFilterBy, setApp }) {
     }
     if (!notes) return <div>loading...</div>
     return (
-        <section className="note-index">
+        <section className="note-index full main-layout">
             <section className={`edit-note-backdrop ${noteToEdit ? 'on' : ''}`}></section>
             {colorPicker.isOpen && <ColorPicker colorPicker={colorPicker} colorPickerRef={colorPickerRef} />}
             {noteToEdit && (
@@ -114,10 +119,19 @@ export function NoteIndex({ rootFilterBy, setApp }) {
                     noteToEdit={noteToEdit}
                     onToggleColorPicker={onToggleColorPicker}
                     setIsClrBtn={setIsClrBtn}
+                    isClrRef={isClrRef}
                     colorPickerRef={colorPickerRef}
+                    testing={testing}
                 />
             )}
-            <AddNote addNote={addNote} onToggleColorPicker={onToggleColorPicker} colorPickerRef={colorPickerRef} setIsClrBtn={setIsClrBtn} />
+            <AddNote
+                addNote={addNote}
+                isClrRef={isClrRef}
+                onToggleColorPicker={onToggleColorPicker}
+                colorPickerRef={colorPickerRef}
+                setIsClrBtn={setIsClrBtn}
+                testing={testing}
+            />
             <NoteList
                 notes={notes}
                 onDeleteNote={onDeleteNote}
@@ -127,6 +141,7 @@ export function NoteIndex({ rootFilterBy, setApp }) {
                 onToggleColorPicker={onToggleColorPicker}
                 colorPickerRef={colorPickerRef}
                 setIsClrBtn={setIsClrBtn}
+                isClrRef={isClrRef}
             />
         </section>
     )

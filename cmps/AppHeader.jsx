@@ -11,6 +11,10 @@ export function AppHeader(props) {
         case 'Keep':
             return <NoteHeader {...props} />
         case 'Mail':
-            return <AppHeaderBase {...props} />
+            return (
+                <AppHeaderBase {...props}>
+                    <div className="filler"></div>
+                </AppHeaderBase>
+            )
     }
 }

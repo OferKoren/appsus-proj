@@ -1,6 +1,16 @@
 import { NotePreview } from '../cmps/NotePreview.jsx'
 const { useState, useEffect, useRef } = React
-export function NoteList({ notes, onDeleteNote, onUpdateNote, onDuplicate, onEditNote, onToggleColorPicker, togglePickerRef, setIsClrBtn }) {
+export function NoteList({
+    notes,
+    onDeleteNote,
+    onUpdateNote,
+    isClrRef,
+    onDuplicate,
+    onEditNote,
+    onToggleColorPicker,
+    togglePickerRef,
+    setIsClrBtn,
+}) {
     const notesMap = mapNotes()
     const pinRef = useRef()
 
@@ -47,7 +57,9 @@ export function NoteList({ notes, onDeleteNote, onUpdateNote, onDuplicate, onEdi
                             <button
                                 className="btn color-btn"
                                 onClick={(ev) => {
-                                    setIsClrBtn(true)
+                                    // setIsClrBtn(true)
+                                    ev.stopPropagation()
+                                    isClrRef.current = true
                                     onToggleColorPicker(null, ev, note, onUpdateNote)
                                 }}
                             >
