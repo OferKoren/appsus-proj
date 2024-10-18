@@ -5,10 +5,13 @@ import { AddNote } from '../cmps/AddNote.jsx'
 import { EditNote } from '../cmps/EditNote.jsx'
 import { ColorPicker } from '../cmps/ColorPicker.jsx'
 import { NoteAside } from '../cmps/NoteAside.jsx'
+import { NoteHome } from './NoteHome.jsx'
+import { NoteArchive } from './NoteArchive.jsx'
+import { NoteTrash } from './NoteTrash.jsx'
 
 const { useState, useEffect, useRef } = React
-const { Route, Routes } = ReactRouterDOM
-const Router = ReactRouterDOM.HashRouter
+const { Route, Routes, Navigate } = ReactRouterDOM
+
 export function NoteIndex({ rootFilterBy, setApp }) {
     const [notes, setNotes] = useState(null)
     const [filterBy, setFilterBy] = useState({ ...rootFilterBy })
@@ -115,25 +118,20 @@ export function NoteIndex({ rootFilterBy, setApp }) {
     if (!notes) return <div>loading...</div>
     const addNoteProps = { addNote, isClrRef, onToggleColorPicker, colorPickerRef }
     const EditNoteProps = { ...addNoteProps, addNote: onUpdateNote, noteToEdit }
+    const listNoteProps = { notes, onDeleteNote, onUpdateNote, onDuplicate, onEditNote, onToggleColorPicker, colorPickerRef, setIsClrBtn, isClrRef }
     return (
         <section className="note-index full main-layout">
             <section className={`edit-note-backdrop ${noteToEdit ? 'on' : ''}`}></section>
             {colorPicker.isOpen && <ColorPicker colorPicker={colorPicker} colorPickerRef={colorPickerRef} />}
-
             {noteToEdit && <EditNote noteToEdit={noteToEdit} {...EditNoteProps} />}
             <NoteAside />
-            <AddNote {...addNoteProps} />
-            <NoteList
-                notes={notes}
-                onDeleteNote={onDeleteNote}
-                onUpdateNote={onUpdateNote}
-                onDuplicate={onDuplicate}
-                onEditNote={onEditNote}
-                onToggleColorPicker={onToggleColorPicker}
-                colorPickerRef={colorPickerRef}
-                setIsClrBtn={setIsClrBtn}
-                isClrRef={isClrRef}
-            />
+            <Routes>
+                <Route path="/" element={<Navigate to="/note/noteHome" />} />
+                <Route path="/noteHome" element={<NoteHome addNoteProps={addNoteProps} listNoteProps={listNoteProps} />} />
+                {/* <Route path="/filter" element={<NoteHome addNoteProps={addNoteProps} listNoteProps={listNoteProps} />} /> */}
+                <Route path="/archive" element={<NoteArchive listNoteProps={listNoteProps} />} />
+                <Route path="/trash" element={<NoteTrash listNoteProps={listNoteProps} />} />
+            </Routes>
         </section>
     )
 }
