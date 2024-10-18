@@ -22,10 +22,10 @@ export function NoteList({ notes, onDeleteNote, onUpdateNote, onDuplicate, onEdi
     }
     function createNoteList(noteArr) {
         return noteArr.map((note) => {
-            const notActiveSrc = './../../../assets/img/notes-icons/pinned-not-active.svg'
-            const activeSrc = './../../../assets/img/notes-icons/pinned-active-icon.svg'
-            const threeDots = './../../../assets/img/notes-icons/small-three-dots-icon.svg'
-            const colorPalletSrc = './../../../assets/img/notes-icons/color-pallet-icon.svg'
+            const notActiveSrc = './assets/img/notes-icons/pinned-not-active.svg'
+            const activeSrc = '/assets/img/notes-icons/pinned-active-icon.svg'
+            const threeDots = './assets/img/notes-icons/small-three-dots-icon.svg'
+            const colorPalletSrc = './assets/img/notes-icons/color-pallet-icon.svg'
             return (
                 <div key={note.id} className="note-wrapper" onClick={() => onEditNote(note)}>
                     <div className="btns-wrapper">

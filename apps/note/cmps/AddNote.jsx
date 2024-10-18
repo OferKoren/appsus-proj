@@ -118,8 +118,8 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
     }
 
     function togglePin() {
-        const notActiveSrc = '../../assets/img/notes-icons/pinned-not-active.svg'
-        const activeSrc = '../../assets/img/notes-icons/pinned-active-icon.svg'
+        const notActiveSrc = './assets/img/notes-icons/pinned-not-active.svg'
+        const activeSrc = './assets/img/notes-icons/pinned-active-icon.svg'
         setNote((prevNote) => ({ ...prevNote, isPinned: !prevNote.isPinned }))
 
         pinRef.current.src = note.isPinned ? notActiveSrc : activeSrc
@@ -127,10 +127,10 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
 
     if (!note) return
     const addBtnContent = noteToEdit ? 'Update Note' : 'Add Note'
-    const threeDotsIconsSrc = '.../../assets/img/notes-icons/small-three-dots-icon.svg'
-    const colorsIconSrc = '.../../assets/img/notes-icons/color-pallet-icon.svg'
-    const todoIconSrc = '.../../assets/img/notes-icons/checked-box-icon.svg'
-    const addPictureIconSrc = '.../../assets/img/notes-icons/add-pitcure-icon.svg'
+    const threeDotsIconsSrc = './assets/img/notes-icons/small-three-dots-icon.svg'
+    const colorsIconSrc = './assets/img/notes-icons/color-pallet-icon.svg'
+    const todoIconSrc = './assets/img/notes-icons/checked-box-icon.svg'
+    const addPictureIconSrc = './assets/img/notes-icons/add-pitcure-icon.svg'
     return (
         <div className="add-note" onClick={() => setIsEdit(true)} style={note.style}>
             <form ref={formRef} action="" className="add-note-form" onSubmit={onAddNote}>
@@ -147,7 +147,7 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
                 {isEdit && (
                     <React.Fragment>
                         <button type="button" className="btn pin-btn" onClick={togglePin}>
-                            <img ref={pinRef} src="../../../assets/img/notes-icons/pinned-not-active.svg" alt="" />
+                            <img ref={pinRef} src="./assets/img/notes-icons/pinned-not-active.svg" alt="" />
                         </button>
                         <div className="btns-control-panel">
                             <button
