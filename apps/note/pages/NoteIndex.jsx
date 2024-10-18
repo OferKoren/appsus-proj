@@ -108,30 +108,16 @@ export function NoteIndex({ rootFilterBy, setApp }) {
             }
         }, 100)
     }
+
     if (!notes) return <div>loading...</div>
+    const addNoteProps = { addNote, isClrRef, onToggleColorPicker, colorPickerRef }
+    const EditNoteProps = { ...addNoteProps, addNote: onUpdateNote, noteToEdit }
     return (
         <section className="note-index full main-layout">
             <section className={`edit-note-backdrop ${noteToEdit ? 'on' : ''}`}></section>
             {colorPicker.isOpen && <ColorPicker colorPicker={colorPicker} colorPickerRef={colorPickerRef} />}
-            {noteToEdit && (
-                <EditNote
-                    addNote={onUpdateNote}
-                    noteToEdit={noteToEdit}
-                    onToggleColorPicker={onToggleColorPicker}
-                    setIsClrBtn={setIsClrBtn}
-                    isClrRef={isClrRef}
-                    colorPickerRef={colorPickerRef}
-                    testing={testing}
-                />
-            )}
-            <AddNote
-                addNote={addNote}
-                isClrRef={isClrRef}
-                onToggleColorPicker={onToggleColorPicker}
-                colorPickerRef={colorPickerRef}
-                setIsClrBtn={setIsClrBtn}
-                testing={testing}
-            />
+            {noteToEdit && <EditNote noteToEdit={noteToEdit} {...EditNoteProps} />}
+            <AddNote {...addNoteProps} />
             <NoteList
                 notes={notes}
                 onDeleteNote={onDeleteNote}

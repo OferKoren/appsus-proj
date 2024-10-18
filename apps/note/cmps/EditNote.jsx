@@ -1,18 +1,10 @@
 import { AddNote } from './AddNote.jsx'
-export function EditNote({ addNote, noteToEdit, onToggleColorPicker, testing, colorPickerRef, setIsClrBtn, isClrRef }) {
-    if (!noteToEdit) return
+export function EditNote(props) {
+    if (!props.noteToEdit) return
     return (
         <React.Fragment>
             <section className="edit-note">
-                <AddNote
-                    setIsClrBtn={setIsClrBtn}
-                    addNote={addNote}
-                    noteToEdit={noteToEdit}
-                    onToggleColorPicker={onToggleColorPicker}
-                    colorPickerRef={colorPickerRef}
-                    isClrRef={isClrRef}
-                    testing={testing}
-                />
+                <AddNote {...props} />
             </section>
         </React.Fragment>
     )
