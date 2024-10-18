@@ -9,14 +9,14 @@
 
 //     function handleFolderChange(folder) {
 //         onSetFilterBy({ status: folder })
-//         toggleSidebar() 
+//         toggleSidebar()
 //     }
-
-//     return (
+const hamburgerSrc = './assets/img/notes-icons/hamburger-icon.svg'
+return
 //         <header className="mail-header">
 //             <div className="header-content">
 //                 <button className="hamburger-btn" onClick={toggleSidebar}>
-//                     <i className="fa fa-bars"></i> 
+;<img src={hamburgerSrc} />
 //                 </button>
 //                 <div className="logo">Your Logo</div>
 //             </div>
