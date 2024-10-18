@@ -60,13 +60,14 @@ export function MailIndex({ rootFilterBy, setApp }) {
                     : filterBy.status === 'draft'
                         ? mailsWithFormattedDate.filter(mail => mail.isDraft)
                         : mailsWithFormattedDate.filter(mail => !mail.isDraft)
-                        // mailsWithFormattedDate = sortMails(mailsWithFormattedDate)
 
                 setMails(filteredMails)
-                const count = fetchedMails.filter((mail) => !mail.isRead && !mail.isDraft).length
-                setUnreadCount(count)
+                const unreadCount = fetchedMails.filter(mail => !mail.isRead && !mail.isDraft).length
+                setUnreadCount(unreadCount)
+                
+                mailsWithFormattedDate = sortMails(mailsWithFormattedDate)
             })
-            
+
             .catch((err) => {
                 showErrorMsg('Failed to load mails')
             })
@@ -132,51 +133,67 @@ export function MailIndex({ rootFilterBy, setApp }) {
 
     function onSendMail(ev, mail) {
         ev.preventDefault()
-
+    
         const newMail = {
             ...mail,
             from: 'user@appsus.com',
             sentAt: Date.now(),
+            isDraft: false 
         }
-
+    
         mailService
             .add(newMail)
             .then((newMail) => {
-                setCompose(() => false)
+                setCompose(false) 
+    
                 setMails((prevMails) => {
+                    const updatedMails = prevMails.filter(m => m.id !== mail.id)
                     const mailWithDate = { ...newMail, date: new Date(newMail.sentAt).toLocaleString() }
-                    return [mailWithDate, ...prevMails]
+                    return [mailWithDate, ...updatedMails]
                 })
+    
+                showSuccessMsg('Mail sent successfully')
             })
             .catch((err) => {
                 console.error('Failed to send mail:', err)
+                showErrorMsg('Failed to send mail')
             })
     }
+    
+    
     function onSaveDraft(mail) {
+    const existingDraftIndex = mails.findIndex(existingMail => existingMail.id === mail.id)
+
+    if (existingDraftIndex !== -1) {
+        const updatedMails = [...mails]
+        updatedMails[existingDraftIndex] = {
+            ...mail,
+            sentAt: Date.now(),
+            isDraft: true
+        }
+        setMails(updatedMails)
+        mailService.saveDraft(updatedMails[existingDraftIndex])
+    } else {
         const draftMail = {
             ...mail,
-            id: mail.id || Date.now(),
+            id: mail.id || utilService.makeId(), 
             from: 'user@appsus.com',
             sentAt: Date.now(),
             isDraft: true,
         }
 
-        mailService
-            .saveDraft(draftMail)
-            .then((savedDraft) => {
-                setMails((prevMails) => {
-                    const mailWithDate = {
-                        ...savedDraft,
-                        date: new Date(savedDraft.sentAt).toLocaleString(),
-                    }
-                    return [mailWithDate, ...prevMails]
-                })
-                showSuccessMsg('Draft saved successfully')
-            })
-            .catch((err) => {
-                console.error('Failed to save draft', err)
-                showErrorMsg('Failed to save draft')
-            })
+        setMails((prevMails) => [...prevMails, draftMail])
+        mailService.saveDraft(draftMail)
+    }
+
+    showSuccessMsg('Draft saved successfully')
+}
+
+    
+
+    function onEditDraft(mail) {
+        setDraftMail(mail) 
+        setCompose(true)    
     }
 
 
@@ -204,9 +221,9 @@ export function MailIndex({ rootFilterBy, setApp }) {
                 </div>
                 <MailFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
                 <div className="mail-list-container">
-                    <MailList mails={mails} onRemoveMail={onRemoveMail} onToggleReadStatus={onToggleReadStatus} onToggleStar={onToggleStar} />
+                    <MailList mails={mails} onRemoveMail={onRemoveMail} onToggleReadStatus={onToggleReadStatus} onToggleStar={onToggleStar} onEditDraft={onEditDraft}/>
                 </div>
-                {compose && <MailComposeModal onClose={() => setCompose(() => false)} onSendMail={onSendMail} onSaveDraft={onSaveDraft} />}
+                {compose && <MailComposeModal onClose={() => setCompose(() => false)} onSendMail={onSendMail} onSaveDraft={onSaveDraft} draftMail={draftMail}/>}
             </main>
         </section>
     )

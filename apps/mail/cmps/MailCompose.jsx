@@ -18,6 +18,7 @@ export function MailCompose() {
             ...mail,
             from: 'user@appsus.com', 
             sentAt: Date.now()
+            
         }
 
         mailService.add(newMail)

@@ -1,15 +1,19 @@
 const { useNavigate } = ReactRouterDOM
 
-export function MailPreview({ mail, onRemoveMail, onToggleReadStatus, onToggleStar }) {
-    const { id, from, subject, body, isRead, isStarred, date, to } = mail
+export function MailPreview({ mail, onRemoveMail, onToggleReadStatus, onToggleStar, onEditDraft  }) {
+    const { id, from, subject, body, isRead, isStarred, date, to, isDraft } = mail
     const navigate = useNavigate()
     const previewLength = 50
 
     function handleClick() {
-        if (!isRead) {
-            onToggleReadStatus(id)
+        if (isDraft) {
+            onEditDraft(mail) 
+        } else {
+            if (!isRead) {
+                onToggleReadStatus(id)
+            }
+            navigate(`/mail/${id}`)
         }
-        navigate(`/mail/${id}`)
     }
     return (
         <div className={`mail-preview ${isRead ? 'read' : 'unread'}`}>

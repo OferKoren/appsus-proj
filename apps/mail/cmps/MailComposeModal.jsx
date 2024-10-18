@@ -1,7 +1,8 @@
 const { useState, useEffect } = React
 
-export function MailComposeModal({ onClose, onSendMail, onSaveDraft }) {
-    const [mail, setMail] = useState({ to: '', subject: '', body: '' })
+export function MailComposeModal({ onClose, onSendMail, onSaveDraft,draftMail }) {
+    const [mail, setMail] = useState(draftMail || { to: '', subject: '', body: '' })
+    const [isDraftSaved, setIsDraftSaved] = useState(false)
 
     function handleChange({ target }) {
         const { name, value } = target
@@ -22,6 +23,7 @@ export function MailComposeModal({ onClose, onSendMail, onSaveDraft }) {
                 status: 'draft' 
             }
             onSaveDraft(draftMail)
+            setIsDraftSaved(true)
         }
         onClose()
     }
