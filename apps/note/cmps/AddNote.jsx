@@ -127,10 +127,10 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
 
     if (!note) return
     const addBtnContent = noteToEdit ? 'Update Note' : 'Add Note'
-    const threeDotsIconsSrc = '../../assets/img/notes-icons/small-three-dots-icon.svg'
-    const colorsIconSrc = '../../assets/img/notes-icons/color-pallet-icon.svg'
-    const todoIconSrc = '../../assets/img/notes-icons/checked-box-icon.svg'
-    const addPictureIconSrc = '../../assets/img/notes-icons/add-pitcure-icon.svg'
+    const threeDotsIconsSrc = '.../../assets/img/notes-icons/small-three-dots-icon.svg'
+    const colorsIconSrc = '.../../assets/img/notes-icons/color-pallet-icon.svg'
+    const todoIconSrc = '.../../assets/img/notes-icons/checked-box-icon.svg'
+    const addPictureIconSrc = '.../../assets/img/notes-icons/add-pitcure-icon.svg'
     return (
         <div className="add-note" onClick={() => setIsEdit(true)} style={note.style}>
             <form ref={formRef} action="" className="add-note-form" onSubmit={onAddNote}>
