@@ -140,20 +140,20 @@
     cursor: pointer;
     font-size: 18px;
     padding: 5px;
-    color: #cccccc; /* Light grey for unstarred */
+    color: #cccccc; 
     transition: color 0.3s ease;
 }
 
 .star-btn.starred {
-    color: #f4c542; /* Yellow for starred */
+    color: #f4c542;
 }
 
 .star-btn .fa-regular {
-    color: #cccccc; /* Light grey for outlined star */
+    color: #cccccc; 
 }
 
 .star-btn .fa {
-    color: #f4c542; /* Yellow for filled star */
+    color: #f4c542; 
 }
 
 

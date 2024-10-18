@@ -5,6 +5,15 @@
     color: #202124;
     line-height: 1.6;
 }
+.mail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #c2e7ff;
+    position: relative;
+    z-index: 1050; /* Ensure it's above other content */
+}
 
 .mail-details h2 {
     font-size: 1.5em;
