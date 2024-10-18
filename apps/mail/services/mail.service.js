@@ -23,8 +23,8 @@ let mails = storageService.loadFromStorage(MAIL_KEY) || _createMails()
 storageService.saveToStorage(MAIL_KEY, mails)
 
 function query(filterBy = {}) {
-    return Promise.resolve()
-        .then(() => {
+    return storageService.query(MAIL_KEY)
+        .then(mails => {
             let filteredMails = mails
 
             if (filterBy.status) {
@@ -45,11 +45,11 @@ function query(filterBy = {}) {
                 filteredMails = filteredMails.filter(mail => regExp.test(mail.subject) || regExp.test(mail.body))
             }
 
-            if (filterBy.isRead) {
+            if (filterBy.isRead !== undefined) {
                 filteredMails = filteredMails.filter(mail => mail.isRead === filterBy.isRead)
             }
 
-            if (filterBy.isStared) {
+            if (filterBy.isStared !== undefined) {
                 filteredMails = filteredMails.filter(mail => mail.isStared === filterBy.isStared)
             }
 
