@@ -1,5 +1,6 @@
 import { AddNote } from '../cmps/AddNote.jsx'
 import { NoteList } from '../cmps/NoteList.jsx'
+
 export function NoteTrash({ listNoteProps }) {
     return (
         <React.Fragment>
