@@ -13,7 +13,7 @@ import { NoteSearch } from './NoteSearch.jsx'
 const { useState, useEffect, useRef } = React
 const { Route, Routes, Navigate } = ReactRouterDOM
 
-export function NoteIndex({ rootFilterBy, setApp }) {
+export function NoteIndex({ rootFilterBy, setApp, mailRef, noteRef }) {
     const [notes, setNotes] = useState(null)
     const [filterBy, setFilterBy] = useState({ ...rootFilterBy })
     const [noteToEdit, setNoteToEdit] = useState(null)

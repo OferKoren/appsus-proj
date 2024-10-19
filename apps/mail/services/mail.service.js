@@ -1,19 +1,19 @@
 import { storageService } from './storage.service.js'
 import { asyncStorageService } from './async-storage.service.js'
 
-
 export const mailService = {
     query,
     remove,
     getById,
     add,
+    save,  
     getFilterFromSearchParams,
     toggleReadStatus,
-    toggleStarStatus
-
-
+    toggleStarStatus,
+    saveDraft,
+    moveToTrash,
+    removePermanently
 }
-
 
 const MAIL_KEY = 'mailDB'
 const loggedinUser = {
@@ -22,22 +22,25 @@ const loggedinUser = {
 }
 
 let mails = storageService.loadFromStorage(MAIL_KEY) || _createMails()
+
 storageService.saveToStorage(MAIL_KEY, mails)
 
 function query(filterBy = {}) {
-    return Promise.resolve()
-        .then(() => {
+    return storageService.query(MAIL_KEY)
+        .then(mails => {
+            
             let filteredMails = mails
 
             if (filterBy.status) {
                 if (filterBy.status === 'inbox') {
-                    filteredMails = filteredMails.filter(mail => mail.to === loggedinUser.email)
+                    filteredMails = filteredMails.filter(mail => 
+                        (mail.to === loggedinUser.email || mail.from === loggedinUser.email) && !mail.isDraft && !mail.removedAt)
                 } else if (filterBy.status === 'sent') {
-                    filteredMails = filteredMails.filter(mail => mail.from === loggedinUser.email)
+                    filteredMails = filteredMails.filter(mail => mail.isSent)
                 } else if (filterBy.status === 'trash') {
-                    filteredMails = filteredMails.filter(mail => mail.removedAt)
+                    filteredMails = filteredMails.filter(mail => mail.removedAt) 
                 } else if (filterBy.status === 'draft') {
-                    filteredMails = filteredMails.filter(mail => !mail.sentAt)
+                    filteredMails = filteredMails.filter(mail => mail.isDraft && !mail.removedAt)
                 }
             }
 
@@ -50,20 +53,23 @@ function query(filterBy = {}) {
                 filteredMails = filteredMails.filter(mail => mail.isRead === filterBy.isRead)
             }
 
-            if (filterBy.isStared !== undefined) {
-                filteredMails = filteredMails.filter(mail => mail.isStared === filterBy.isStared)
+            if (filterBy.isStarred !== undefined) {
+                filteredMails = filteredMails.filter(mail => mail.isStarred === filterBy.isStarred)
             }
-
-            if (filterBy.labels && filterBy.labels.length) {
-                filteredMails = filteredMails.filter(mail =>
-                    filterBy.labels.some(label => mail.labels && mail.labels.includes(label))
-                )
-            }
+console.log('end of function');
 
             return filteredMails
         })
 }
 
+
+function save(mail) {
+    if (mail.id) {
+        return asyncStorageService.put(MAIL_KEY, mail)
+    } else {
+        return asyncStorageService.post(MAIL_KEY, mail)
+    }
+}
 
 function remove(mailId) {
     const idx = mails.findIndex(mail => mail.id === mailId)
@@ -96,7 +102,6 @@ function _createMails() {
     ]
 }
 
-
 function getById(mailId) {
     return storageService.query(MAIL_KEY).then(mails => {
         const mail = mails.find(mail => mail.id === mailId)
@@ -110,8 +115,18 @@ function getById(mailId) {
 }
 
 function add(mail) {
-    return asyncStorageService.post(MAIL_KEY, mail)
+    if (!mail.id) {
+        mail.id = Date.now().toString() 
+    }
+    const existingMailIndex = mails.findIndex(existingMail => existingMail.id === mail.id)
+    if (existingMailIndex !== -1) {
+        mails[existingMailIndex] = { ...mail } 
+    } else {
+        mails.push(mail) 
+    }
+    return asyncStorageService.post(MAIL_KEY, mail) 
 }
+
 
 function remove(mailId) {
     return asyncStorageService.remove(MAIL_KEY, mailId)
@@ -135,10 +150,43 @@ function toggleReadStatus(mailId, isRead = null) {
     })
 }
 
-export function toggleStarStatus(mailId) {
+function toggleStarStatus(mailId) {
     return asyncStorageService.get(MAIL_KEY, mailId).then((mail) => {
         mail.isStarred = !mail.isStarred
         asyncStorageService.put(MAIL_KEY, mail) 
         return mail 
     })
 }
+
+function saveDraft(draftMail) {
+    if (!draftMail.id) {
+        draftMail.id = Date.now().toString() 
+    }
+
+    const existingDraftIndex = mails.findIndex(mail => mail.id === draftMail.id)
+
+    if (existingDraftIndex !== -1) {
+        mails[existingDraftIndex] = { ...draftMail }
+    } else {
+        mails.push(draftMail)
+    }
+
+    draftMail.isDraft = true
+
+    storageService.saveToStorage(MAIL_KEY, mails)
+
+    return asyncStorageService.put(MAIL_KEY, draftMail)
+}
+
+
+function moveToTrash(mailId) {
+    return asyncStorageService.get(MAIL_KEY, mailId).then((mail) => {
+        mail.removedAt = Date.now() 
+        return asyncStorageService.put(MAIL_KEY, mail)
+    })
+}
+
+function removePermanently(mailId) {
+    return asyncStorageService.remove(MAIL_KEY, mailId)
+}
+

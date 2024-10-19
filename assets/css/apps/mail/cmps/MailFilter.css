@@ -1,0 +1,39 @@
+.filterBy-wrapper {
+    box-sizing: border-box;
+    width: 100%;
+    padding-inline-start: 4em;
+}
+
+.mail-filterBy {
+    display: flex;
+    align-items: center;
+    background-color: var(--clr-filterBy);
+    padding: 0.6em 0.2em;
+    border-radius: 0.5em;
+    height: fit-content;
+    width: clamp(200px, 100%, 723px);
+}
+
+.mail-filter-by-txt {
+    font-size: 1.2em;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    width: 100%;
+}
+
+.mail-filterBy:has(input:focus) {
+    background-color: white;
+    box-shadow: 0 2px 2px rgba(60, 64, 67, 0.3);
+}
+
+.search-icon {
+    font-size: 1.5em;
+    padding-right: 10px;
+    color: var(--clr-icon);
+}
+.search-icon {
+    font-size: 16px; 
+    color: black;
+    margin-right: 8px; 
+}

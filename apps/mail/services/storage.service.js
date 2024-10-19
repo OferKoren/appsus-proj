@@ -1,6 +1,7 @@
 export const storageService = {
     loadFromStorage,
     saveToStorage,
+    query
 }
 
 function saveToStorage(key, val) {
@@ -10,4 +11,9 @@ function saveToStorage(key, val) {
 function loadFromStorage(key) {
     var val = localStorage.getItem(key)
     return JSON.parse(val)
+}
+
+function query(entityType, delay = 0) {
+    var entities = JSON.parse(localStorage.getItem(entityType)) || []
+    return new Promise(resolve => setTimeout(() => resolve(entities), delay))
 }

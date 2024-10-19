@@ -1,57 +1,75 @@
-// import { useState } from 'react'
-const { useState } = React
-import { mailService } from '../services/mail.service.js'
+const { useState, useEffect } = React
 
-export function MailComposeModal({ onClose, onSendMail }) {
-    const [mail, setMail] = useState({ to: '', subject: '', body: '' })
+export function MailComposeModal({ onClose, onSendMail, onSaveDraft,draftMail }) {
+    const [mail, setMail] = useState(draftMail || { to: '', subject: '', body: '' })
+    const [isDraftSaved, setIsDraftSaved] = useState(false)
+    const [isMailSent, setIsMailSent] = useState(false)
 
+    useEffect(() => {
+        return () => {
+            if (!isDraftSaved && (mail.subject || mail.body || mail.to)) {
+            }
+        }
+    }, [isDraftSaved, mail])
+    
     function handleChange({ target }) {
         const { name, value } = target
         setMail((prevMail) => ({ ...prevMail, [name]: value }))
     }
 
-    /* function onSendMail(ev) {
+    function handleSubmit(ev) {
         ev.preventDefault()
+        if (isMailSent) return 
 
-        const newMail = {
-            ...mail,
-            from: 'user@appsus.com', 
-            sentAt: Date.now()
+        setIsMailSent(true) 
+        if (isDraftSaved) return
+        setIsDraftSaved(true)
+        onSendMail(ev, mail)
+    }
+
+    function handleClose() {
+        if (mail.subject || mail.body || mail.to) {
+            const draftMail = {
+                ...mail,
+                isDraft: true,
+                sentAt: Date.now(), 
+                status: 'draft' 
+            }
+            onSaveDraft(draftMail)
+            setIsDraftSaved(true)
         }
-
-        mailService.add(newMail)
-            .then(() => {
-                onMailAdded()
-                onClose()
-            })
-            .catch(err => {
-                console.error('Failed to send mail:', err)
-            })
-    } */
+        onClose()
+    }
 
     return (
-        <div className="mail-compose-modal">
+        <section className="mail-compose-modal">
             <div className="modal-content">
-                <button className="close-btn" onClick={onClose}>
-                    ✖
-                </button>
-                <h2>Compose Mail</h2>
-                <form onSubmit={(ev) => onSendMail(ev, mail)}>
-                    <label>
-                        To:
-                        <input type="email" name="to" value={mail.to} onChange={handleChange} required />
-                    </label>
-                    <label>
-                        Subject:
-                        <input type="text" name="subject" value={mail.subject} onChange={handleChange} required />
-                    </label>
-                    <label>
-                        Body:
-                        <textarea name="body" value={mail.body} onChange={handleChange} required></textarea>
-                    </label>
+                <button className="close-btn" onClick={handleClose}>X</button>
+                <form onSubmit={handleSubmit}>
+                    <input
+                        type="email"
+                        name="to"
+                        placeholder="To"
+                        value={mail.to}
+                        onChange={handleChange}
+                    />
+                    <input
+                        type="text"
+                        name="subject"
+                        placeholder="Subject"
+                        value={mail.subject}
+                        onChange={handleChange}
+                    />
+                    <textarea
+                        name="body"
+                        placeholder="Body"
+                        value={mail.body}
+                        onChange={handleChange}
+                    ></textarea>
                     <button type="submit">Send</button>
                 </form>
             </div>
-        </div>
+        </section>
     )
 }
+
