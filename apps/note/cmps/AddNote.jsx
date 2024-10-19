@@ -5,7 +5,7 @@ import { DynamicNote } from './notes/DynamicNote.jsx'
 const { useState, useEffect, useRef } = React
 // import {} from '../../../assets/img/notes-icons/'
 export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerRef, isClrRef, mailRef }) {
-    mailRef.current = {
+    /*  mailRef.current = {
         id: 'e101',
         subject: 'Miss you!',
         body: 'Would love to catch up sometime',
@@ -13,7 +13,7 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
         sentAt: Date.now(),
         from: 'friend@social.com',
         to: `loggedinUser.email`,
-    }
+    } */
     let initNote = {}
     if (mailRef.current) {
         initNote = formatMailIntoNote(mailRef.current)

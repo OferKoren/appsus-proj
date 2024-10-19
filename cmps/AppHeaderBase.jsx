@@ -43,8 +43,9 @@ export function AppHeaderBase({ app, setApp, filterBy, onSetFilterBy, children }
     )
     function HeaderNav({ setApp, ev }) {
         const buttonRect = ev.target.getBoundingClientRect()
-        const top = buttonRect.bottom + window.scrollY
-        const left = buttonRect.left + window.scrollX
+        const top = buttonRect.bottom
+        const left = buttonRect.left
+
         const calculatedLeft = parseInt(left) + 'px'
         return (
             <nav className="header-nav" style={{ top, left: calculatedLeft, transform: 'translate(-80%, 12%)' }}>
