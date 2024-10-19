@@ -15,7 +15,21 @@ export function NoteList({
 }) {
     const notesMap = mapNotes()
     const pinRef = useRef()
+    const noteListRef = useRef(null)
+    const [numOfColumns, setNumOfColums] = useState(5)
     const navigate = useNavigate()
+    useEffect(() => {
+        listenToResize()
+        window.addEventListener('resize', listenToResize)
+        return () => {
+            window.removeEventListener('resize', listenToResize)
+        }
+    }, [])
+    function listenToResize() {
+        console.log(numOfColumns)
+        const num = Math.floor(noteListRef.current.offsetWidth / 240)
+        setNumOfColums(() => num)
+    }
     function mapNotes() {
         return notes.reduce(
             (map, note) => {
@@ -39,7 +53,8 @@ export function NoteList({
         navigate('/mail')
     }
     function createNoteList(noteArr) {
-        return noteArr.map((note) => {
+        const columsArr = []
+        const elNotes = noteArr.map((note) => {
             const notActiveSrc = './assets/img/notes-icons/pinned-not-active.svg'
             const activeSrc = './assets/img/notes-icons/pinned-active-icon.svg'
             const threeDots = './assets/img/notes-icons/small-three-dots-icon.svg'
@@ -84,10 +99,21 @@ export function NoteList({
                 </div>
             )
         })
+        for (let i = 0; i < numOfColumns; i++) {
+            const column = (
+                <div key={i} className={`note-list-column ${i}`}>
+                    {elNotes.filter((note, idx) => {
+                        return (idx + 1) % numOfColumns === i + 1
+                    })}
+                </div>
+            )
+            columsArr.push(column)
+        }
+        return columsArr
     }
 
     return (
-        <section className="note-list-container">
+        <section className="note-list-container" ref={noteListRef}>
             <h2>Pinned Notes</h2>
             <section className="note-list pinned">{createNoteList(notesMap.pinned)}</section>
 

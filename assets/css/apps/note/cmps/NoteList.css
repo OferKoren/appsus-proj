@@ -2,7 +2,7 @@
 .note-list {
     display: grid;
 
-    grid-template-columns: repeat(auto-fit, minmax(180px, 200px));
+    grid-template-columns: repeat(auto-fit, minmax(180px, 240px));
     gap: 1em;
     align-items: start;
 }
@@ -13,4 +13,9 @@
     font-family: 'PT Sans';
     font-weight: normal;
     padding-inline-start: 1em;
+}
+.note-list-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625em;
 }
