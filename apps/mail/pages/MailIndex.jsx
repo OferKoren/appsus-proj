@@ -20,7 +20,9 @@ export function MailIndex({ rootFilterBy, setApp, noteRef, mailRef, sendToNote }
     const [compose, setCompose] = useState(false)
     const [sortCriteria, setSortCriteria] = useState('date')
     const [draftMail, setDraftMail] = useState(null)
-
+    useEffect(() => {
+        if (noteRef.current) setCompose(true)
+    }, [noteRef])
     useEffect(() => {
         setFilterBy({ ...rootFilterBy })
     }, [rootFilterBy])
@@ -262,6 +264,7 @@ export function MailIndex({ rootFilterBy, setApp, noteRef, mailRef, sendToNote }
                         onSendMail={onSendMail}
                         onSaveDraft={onSaveDraft}
                         draftMail={draftMail}
+                        noteRef={noteRef}
                     />
                 )}
             </main>
