@@ -12,8 +12,16 @@ export function MailFilter({ filterBy, onSetFilterBy }) {
     }
 
     return (
-        <section className="mail-filter">
-            <input type="text" placeholder="Search mails" value={searchTxt} onChange={handleChange} />
-        </section>
+        <div className="filterBy-wrapper">
+            <div className="mail-filterBy">
+                <i className="fa fa-search search-icon"></i> 
+                <input
+                    className="mail-filter-by-txt"
+                    type="text"
+                    value={searchTxt}
+                    onChange={handleChange}
+                />
+            </div>
+        </div>
     )
 }

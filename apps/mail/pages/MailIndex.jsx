@@ -231,7 +231,7 @@ export function MailIndex({ rootFilterBy, setApp }) {
                         All
                     </button>
                 </div>
-                <MailFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
+                {/* <MailFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} /> */}
                 <div className="mail-list-container">
                     <MailList mails={mails} onRemoveMail={onRemoveMail} onToggleReadStatus={onToggleReadStatus} onToggleStar={onToggleStar} onEditDraft={onEditDraft}/>
                 </div>

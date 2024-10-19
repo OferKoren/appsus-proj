@@ -23,7 +23,7 @@ function post(entityType, newEntity) {
     newEntity = {...newEntity}
     newEntity.id = _makeId()
     return query(entityType).then(entities => {
-        entities.push(newEntity)
+        entities.push(newEntity)  
         _save(entityType, entities)
         return newEntity
     })
@@ -48,7 +48,6 @@ function remove(entityType, entityId) {
     })
 }
 
-// Private functions
 
 function _save(entityType, entities) {
     localStorage.setItem(entityType, JSON.stringify(entities))

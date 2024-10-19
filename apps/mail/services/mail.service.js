@@ -166,7 +166,7 @@ function saveDraft(draftMail) {
     if (existingDraftIndex !== -1) {
         mails[existingDraftIndex] = { ...draftMail }
     } else {
-        mails.push(draftMail) // Only push if it’s a new draft
+        mails.push(draftMail)
     }
 
     draftMail.isDraft = true
