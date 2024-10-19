@@ -59,8 +59,6 @@
 }
 
 .delete-btn {
-    margin-left: 10px;
-    color: #d93025;
     cursor: pointer;
     background: none;
     border: none;
@@ -231,3 +229,25 @@
 }
 
 
+.paper-plane-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 5px;
+    font-size: 14px;
+    color: #555; 
+}
+
+
+.toggle-read-status-btn, .delete-btn, .paper-plane-btn {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none; 
+}
+
+.mail-preview:hover .toggle-read-status-btn,
+.mail-preview:hover .delete-btn,
+.mail-preview:hover .paper-plane-btn {
+    opacity: 1;
+    pointer-events: auto; 
+}

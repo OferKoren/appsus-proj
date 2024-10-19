@@ -204,7 +204,7 @@ export function MailIndex({ rootFilterBy, setApp, noteRef, mailRef }) {
         } else {
             const draftMail = {
                 ...mail,
-                id: mail.id || utilService.makeId(),
+                id: mail.id,
                 from: 'user@appsus.com',
                 sentAt: Date.now(),
                 isDraft: true,
