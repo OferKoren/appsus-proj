@@ -1,6 +1,6 @@
 const { Route, Routes } = ReactRouterDOM
 const Router = ReactRouterDOM.HashRouter
-const { useState, useEffect } = React
+const { useState, useEffect, useRef } = React
 import { AppHeader } from './cmps/AppHeader.jsx'
 import { About } from './pages/About.jsx'
 import { Home } from './pages/Home.jsx'
@@ -12,7 +12,8 @@ import { NoteIndex } from './apps/note/pages/NoteIndex.jsx'
 export function App() {
     const [app, setApp] = useState('Appsus')
     const [filterBy, setFilterBy] = useState({})
-
+    const mailRef = useRef(null)
+    const noteRef = useRef(null)
     function onSetFilterBy(newFilter) {
         setFilterBy((prevFilter) => ({ ...prevFilter, ...newFilter }))
     }
@@ -38,11 +39,11 @@ export function App() {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/about" element={<About />} />
-                    <Route path="/mail" element={<MailIndex rootFilterBy={filterBy} setApp={setApp} />} />
+                    <Route path="/mail" element={<MailIndex rootFilterBy={filterBy} setApp={setApp} mailRef={mailRef} noteRef={noteRef} />} />
                     <Route path="/mail/:mailId" element={<MailDetails />} />
                     <Route path="/mail/compose" element={<MailCompose />} />
 
-                    <Route path="/note" element={<NoteIndex rootFilterBy={filterBy} setApp={setApp} />} />
+                    <Route path="/note" element={<NoteIndex rootFilterBy={filterBy} setApp={setApp} mailRef={mailRef} noteRef={noteRef} />} />
                 </Routes>
             </section>
         </Router>

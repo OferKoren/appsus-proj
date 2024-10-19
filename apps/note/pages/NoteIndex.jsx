@@ -6,7 +6,7 @@ import { EditNote } from '../cmps/EditNote.jsx'
 import { ColorPicker } from '../cmps/ColorPicker.jsx'
 const { useState, useEffect, useRef } = React
 
-export function NoteIndex({ rootFilterBy, setApp }) {
+export function NoteIndex({ rootFilterBy, setApp, mailRef, noteRef }) {
     const [notes, setNotes] = useState(null)
     const [filterBy, setFilterBy] = useState({ ...rootFilterBy })
     const [noteToEdit, setNoteToEdit] = useState(null)
@@ -131,6 +131,8 @@ export function NoteIndex({ rootFilterBy, setApp }) {
                 colorPickerRef={colorPickerRef}
                 setIsClrBtn={setIsClrBtn}
                 testing={testing}
+                mailRef={mailRef}
+                noteRef={noteRef}
             />
             <NoteList
                 notes={notes}

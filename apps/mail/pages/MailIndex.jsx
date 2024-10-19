@@ -9,7 +9,7 @@ import { MailFolderFilter } from '../cmps/MailFolderFilter.jsx'
 import { MailList } from '../cmps/MailList.jsx'
 import { MailComposeModal } from '../cmps/MailComposeModal.jsx'
 
-export function MailIndex({ rootFilterBy, setApp }) {
+export function MailIndex({ rootFilterBy, setApp, noteRef, mailRef }) {
     const [mails, setMails] = useState([])
     const [unreadCount, setUnreadCount] = useState(0)
     const [starCount, setStarCount] = useState(0)
@@ -46,29 +46,28 @@ export function MailIndex({ rootFilterBy, setApp }) {
         setStarCount(countStars)
     }, [mails])
 
-
     function loadMails() {
         mailService
             .query(filterBy)
             .then((fetchedMails) => {
-                
                 const mailsWithFormattedDate = fetchedMails.map((mail) => ({
                     ...mail,
                     id: mail.id || Date.now().toString(),
                     date: new Date(mail.sentAt).toLocaleString(),
                 }))
-                
-                const filteredMails = filterBy.status === 'starred'
-                    ? mailsWithFormattedDate.filter(mail => mail.isStarred)
-                    : filterBy.status === 'draft'
-                        ? mailsWithFormattedDate.filter(mail => mail.isDraft)
-                        : mailsWithFormattedDate.filter(mail => !mail.isDraft)
-                
-                const sortedMails = sortMails(filteredMails) 
-    
-                setMails(sortedMails) 
-    
-                const unreadCount = fetchedMails.filter(mail => !mail.isRead && !mail.isDraft).length
+
+                const filteredMails =
+                    filterBy.status === 'starred'
+                        ? mailsWithFormattedDate.filter((mail) => mail.isStarred)
+                        : filterBy.status === 'draft'
+                        ? mailsWithFormattedDate.filter((mail) => mail.isDraft)
+                        : mailsWithFormattedDate.filter((mail) => !mail.isDraft)
+
+                const sortedMails = sortMails(filteredMails)
+
+                setMails(sortedMails)
+
+                const unreadCount = fetchedMails.filter((mail) => !mail.isRead && !mail.isDraft).length
                 setUnreadCount(unreadCount)
             })
             .catch((err) => {
@@ -77,25 +76,26 @@ export function MailIndex({ rootFilterBy, setApp }) {
     }
 
     function onRemoveMail(mailId) {
-        const mail = mails.find(mail => mail.id === mailId)
-        
+        const mail = mails.find((mail) => mail.id === mailId)
+
         if (filterBy.status === 'trash') {
-            mailService.removePermanently(mailId)
+            mailService
+                .removePermanently(mailId)
                 .then(() => {
-                    setMails(prevMails => prevMails.filter(mail => mail.id !== mailId))
+                    setMails((prevMails) => prevMails.filter((mail) => mail.id !== mailId))
                     showSuccessMsg('Mail permanently deleted')
                 })
-                .catch(err => console.error('Error deleting mail permanently', err))
+                .catch((err) => console.error('Error deleting mail permanently', err))
         } else {
-            mailService.moveToTrash(mailId)
+            mailService
+                .moveToTrash(mailId)
                 .then(() => {
-                    setMails(prevMails => prevMails.filter(mail => mail.id !== mailId))
+                    setMails((prevMails) => prevMails.filter((mail) => mail.id !== mailId))
                     showSuccessMsg('Mail moved to Trash')
                 })
-                .catch(err => console.error('Error moving mail to trash', err))
+                .catch((err) => console.error('Error moving mail to trash', err))
         }
     }
-    
 
     function sortMails(mails) {
         return [...mails].sort((a, b) => {
@@ -146,44 +146,41 @@ export function MailIndex({ rootFilterBy, setApp }) {
 
     function onSendMail(ev, mail) {
         ev.preventDefault()
-    
+
         const newMail = {
             ...mail,
             from: 'user@appsus.com',
             sentAt: Date.now(),
             isDraft: false,
             isSent: true,
-            
         }
-                    // if(mail.isDraft){
-                    //     setMails((prevMails) => {
-                    //         const updatedMails = prevMails.filter(m => m.id !== mail.id)
-                    //         console.log(updatedMails, 'updatedMails');
-                            
-                    //         const mailWithDate = { ...res, date: new Date(res.sentAt).toLocaleString() }
-                    //         const savedTest = [mailWithDate, ...updatedMails]
-                            
-        
-                    //         return savedTest
-                    //     })
-                        
-                    // }
-                    // mail.isDraft = false
+        // if(mail.isDraft){
+        //     setMails((prevMails) => {
+        //         const updatedMails = prevMails.filter(m => m.id !== mail.id)
+        //         console.log(updatedMails, 'updatedMails');
+
+        //         const mailWithDate = { ...res, date: new Date(res.sentAt).toLocaleString() }
+        //         const savedTest = [mailWithDate, ...updatedMails]
+
+        //         return savedTest
+        //     })
+
+        // }
+        // mail.isDraft = false
         mailService
             .add(newMail)
             .then((res) => {
-                setCompose(false) 
-    
+                setCompose(false)
+
                 setMails((prevMails) => {
-                    const updatedMails = prevMails.filter(m => m.id !== mail.id)
+                    const updatedMails = prevMails.filter((m) => m.id !== mail.id)
                     const mailWithDate = { ...res, date: new Date(res.sentAt).toLocaleString() }
                     const savedTest = [mailWithDate, ...updatedMails]
-                    console.log("setMails  savedTest:", savedTest)
+                    console.log('setMails  savedTest:', savedTest)
 
                     return savedTest
                 })
-    
-    
+
                 showSuccessMsg('Mail sent successfully')
             })
             .catch((err) => {
@@ -192,43 +189,38 @@ export function MailIndex({ rootFilterBy, setApp }) {
             })
     }
 
-    
-    
     function onSaveDraft(mail) {
-    const existingDraftIndex = mails.findIndex(existingMail => existingMail.id === mail.id)
+        const existingDraftIndex = mails.findIndex((existingMail) => existingMail.id === mail.id)
 
-    if (existingDraftIndex !== -1) {
-        const updatedMails = [...mails]
-        updatedMails[existingDraftIndex] = {
-            ...mail,
-            sentAt: Date.now(),
-            isDraft: true
-        }
-        setMails(updatedMails)
-        mailService.saveDraft(updatedMails[existingDraftIndex])
-    } else {
-        const draftMail = {
-            ...mail,
-            id: mail.id || utilService.makeId(), 
-            from: 'user@appsus.com',
-            sentAt: Date.now(),
-            isDraft: true,
+        if (existingDraftIndex !== -1) {
+            const updatedMails = [...mails]
+            updatedMails[existingDraftIndex] = {
+                ...mail,
+                sentAt: Date.now(),
+                isDraft: true,
+            }
+            setMails(updatedMails)
+            mailService.saveDraft(updatedMails[existingDraftIndex])
+        } else {
+            const draftMail = {
+                ...mail,
+                id: mail.id || utilService.makeId(),
+                from: 'user@appsus.com',
+                sentAt: Date.now(),
+                isDraft: true,
+            }
+
+            setMails((prevMails) => [...prevMails, draftMail])
+            mailService.saveDraft(draftMail)
         }
 
-        setMails((prevMails) => [...prevMails, draftMail])
-        mailService.saveDraft(draftMail)
+        showSuccessMsg('Draft saved successfully')
     }
-
-    showSuccessMsg('Draft saved successfully')
-}
-
-    
 
     function onEditDraft(mail) {
-        setDraftMail(mail) 
-        setCompose(true)    
+        setDraftMail(mail)
+        setCompose(true)
     }
-
 
     if (!mails) return <h1>Loading...</h1>
     return (
@@ -254,9 +246,22 @@ export function MailIndex({ rootFilterBy, setApp }) {
                 </div>
                 {/* <MailFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} /> */}
                 <div className="mail-list-container">
-                    <MailList mails={mails} onRemoveMail={onRemoveMail} onToggleReadStatus={onToggleReadStatus} onToggleStar={onToggleStar} onEditDraft={onEditDraft}/>
+                    <MailList
+                        mails={mails}
+                        onRemoveMail={onRemoveMail}
+                        onToggleReadStatus={onToggleReadStatus}
+                        onToggleStar={onToggleStar}
+                        onEditDraft={onEditDraft}
+                    />
                 </div>
-                {compose && <MailComposeModal onClose={() => setCompose(() => false)} onSendMail={onSendMail} onSaveDraft={onSaveDraft} draftMail={draftMail}/>}
+                {compose && (
+                    <MailComposeModal
+                        onClose={() => setCompose(() => false)}
+                        onSendMail={onSendMail}
+                        onSaveDraft={onSaveDraft}
+                        draftMail={draftMail}
+                    />
+                )}
             </main>
         </section>
     )

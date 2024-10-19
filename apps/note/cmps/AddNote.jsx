@@ -4,7 +4,7 @@ import { ColorPicker } from './ColorPicker.jsx'
 import { DynamicNote } from './notes/DynamicNote.jsx'
 const { useState, useEffect, useRef } = React
 // import {} from '../../../assets/img/notes-icons/'
-export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerRef, setIsClrBtn, isClrRef, testing }) {
+export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerRef, isClrRef, mailRef }) {
     const initNote = noteToEdit ? deepCopy(noteToEdit) : noteService.getEmptyNote()
     const [note, setNote] = useState(initNote)
     const [isEdit, setIsEdit] = useState(false)
