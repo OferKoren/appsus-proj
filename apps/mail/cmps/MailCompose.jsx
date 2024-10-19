@@ -12,29 +12,29 @@ export function MailCompose() {
         setMail(prevMail => ({ ...prevMail, [name]: value }))
     }
 
-    function onSendMail(ev) {
-        ev.preventDefault()
-        if(isMailSent) return
-        setIsMailSent(true)
+    // function onSendMail(ev) {
+    //     ev.preventDefault()
+    //     if(isMailSent) return
+    //     setIsMailSent(true)
     
        
-        const newMail = {
-            ...mail,
-            from: 'user@appsus.com',
-            sentAt: Date.now(),
-            isDraft: false 
-        }
-    
-        mailService.add(newMail)
-            .then(() => {
-                showSuccessMsg('Mail sent successfully')
-                navigate('/mail', { state: { hasMailsChanged: true } })
-            })
-            .catch(err => {
-                console.error('Failed to send mail:', err)
-                showErrorMsg('Failed to send mail')
-            })
-    }
+    //     const newMail = {
+    //         ...mail,
+    //         from: 'user@appsus.com',
+    //         sentAt: Date.now(),
+    //         isDraft: false 
+    //     }
+    //     console.log("new mail MailCompose")
+    //     mailService.add(newMail)
+    //         .then(() => {
+    //             showSuccessMsg('Mail sent successfully')
+    //             navigate('/mail', { state: { hasMailsChanged: true } })
+    //         })
+    //         .catch(err => {
+    //             console.error('Failed to send mail:', err)
+    //             showErrorMsg('Failed to send mail')
+    //         })
+    // }
     
 
     return (

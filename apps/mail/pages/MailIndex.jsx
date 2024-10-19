@@ -51,6 +51,7 @@ export function MailIndex({ rootFilterBy, setApp }) {
         mailService
             .query(filterBy)
             .then((fetchedMails) => {
+                
                 const mailsWithFormattedDate = fetchedMails.map((mail) => ({
                     ...mail,
                     id: mail.id || Date.now().toString(),
@@ -150,19 +151,38 @@ export function MailIndex({ rootFilterBy, setApp }) {
             ...mail,
             from: 'user@appsus.com',
             sentAt: Date.now(),
-            isDraft: false 
+            isDraft: false,
+            isSent: true,
+            
         }
-    
+                    // if(mail.isDraft){
+                    //     setMails((prevMails) => {
+                    //         const updatedMails = prevMails.filter(m => m.id !== mail.id)
+                    //         console.log(updatedMails, 'updatedMails');
+                            
+                    //         const mailWithDate = { ...res, date: new Date(res.sentAt).toLocaleString() }
+                    //         const savedTest = [mailWithDate, ...updatedMails]
+                            
+        
+                    //         return savedTest
+                    //     })
+                        
+                    // }
+                    // mail.isDraft = false
         mailService
             .add(newMail)
-            .then((newMail) => {
+            .then((res) => {
                 setCompose(false) 
     
                 setMails((prevMails) => {
                     const updatedMails = prevMails.filter(m => m.id !== mail.id)
-                    const mailWithDate = { ...newMail, date: new Date(newMail.sentAt).toLocaleString() }
-                    return [mailWithDate, ...updatedMails]
+                    const mailWithDate = { ...res, date: new Date(res.sentAt).toLocaleString() }
+                    const savedTest = [mailWithDate, ...updatedMails]
+                    console.log("setMails  savedTest:", savedTest)
+
+                    return savedTest
                 })
+    
     
                 showSuccessMsg('Mail sent successfully')
             })
@@ -171,6 +191,7 @@ export function MailIndex({ rootFilterBy, setApp }) {
                 showErrorMsg('Failed to send mail')
             })
     }
+
     
     
     function onSaveDraft(mail) {

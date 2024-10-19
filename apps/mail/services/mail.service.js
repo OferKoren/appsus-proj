@@ -22,11 +22,13 @@ const loggedinUser = {
 }
 
 let mails = storageService.loadFromStorage(MAIL_KEY) || _createMails()
+
 storageService.saveToStorage(MAIL_KEY, mails)
 
 function query(filterBy = {}) {
     return storageService.query(MAIL_KEY)
         .then(mails => {
+            
             let filteredMails = mails
 
             if (filterBy.status) {
@@ -34,7 +36,7 @@ function query(filterBy = {}) {
                     filteredMails = filteredMails.filter(mail => 
                         (mail.to === loggedinUser.email || mail.from === loggedinUser.email) && !mail.isDraft && !mail.removedAt)
                 } else if (filterBy.status === 'sent') {
-                    filteredMails = filteredMails.filter(mail => mail.from === loggedinUser.email && !mail.removedAt)
+                    filteredMails = filteredMails.filter(mail => mail.isSent)
                 } else if (filterBy.status === 'trash') {
                     filteredMails = filteredMails.filter(mail => mail.removedAt) 
                 } else if (filterBy.status === 'draft') {
@@ -54,6 +56,7 @@ function query(filterBy = {}) {
             if (filterBy.isStarred !== undefined) {
                 filteredMails = filteredMails.filter(mail => mail.isStarred === filterBy.isStarred)
             }
+console.log('end of function');
 
             return filteredMails
         })
@@ -121,7 +124,6 @@ function add(mail) {
     } else {
         mails.push(mail) 
     }
-    storageService.saveToStorage(MAIL_KEY, mails) 
     return asyncStorageService.post(MAIL_KEY, mail) 
 }
 
