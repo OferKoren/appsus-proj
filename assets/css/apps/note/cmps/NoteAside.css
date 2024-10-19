@@ -2,9 +2,29 @@
     grid-column: 1;
     /* background-color: green; */
 }
-.notes-nav {
-    display: flex;
-    flex-direction: column;
+.aside-item {
+    grid-template-columns: 40px 0;
+    display: grid;
+    gap: 1em;
+    grid-auto-flow: column;
     align-items: center;
+    transition: 0.4s;
+}
+.notes-nav:hover .aside-item {
+    grid-template-columns: 40px auto;
+}
+.aside-item span {
+    min-width: 0;
+    transition: width 0.4s;
+}
+.aside-item span {
+    width: auto;
+    grid-column: 2;
+    overflow: hidden;
+}
+.notes-nav {
+    padding-inline-start: 1em;
+    display: grid;
+
     gap: 1em;
 }

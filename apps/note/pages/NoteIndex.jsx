@@ -11,7 +11,7 @@ import { NoteTrash } from './NoteTrash.jsx'
 import { NoteSearch } from './NoteSearch.jsx'
 
 const { useState, useEffect, useRef } = React
-const { Route, Routes, Navigate } = ReactRouterDOM
+const { Route, Routes, Navigate, useParams } = ReactRouterDOM
 
 export function NoteIndex({ rootFilterBy, setApp, mailRef, noteRef }) {
     const [notes, setNotes] = useState(null)
