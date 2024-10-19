@@ -60,7 +60,7 @@ export function AppHeaderBase({ app, setApp, filterBy, onSetFilterBy, children }
                         <img src="./assets/img/gmail-icons/gmail-nav-icon2.png" alt="" />
                     </div>
                 </NavLink>
-                <NavLink to="/note" onClick={() => setApp('Keep')}>
+                <NavLink to="/note" onClick={() => setApp('Note')}>
                     <div className="img-wrapper">
                         <img src="./assets/img/notes-icons/keep-nav-icon2.png" alt="" />
                     </div>

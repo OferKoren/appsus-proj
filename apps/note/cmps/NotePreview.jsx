@@ -2,7 +2,7 @@ const { useState, useEffect } = React
 
 export function NotePreview({ notes, note, onUpdateNote }) {
     const { id, createdAt, type, isPinned, style, info } = note
-    const { title, txt, url } = info
+    const { title, txt, url, videoUrl } = info
     const [todos, setTodos] = useState(info.todos)
 
     useEffect(() => {}, [todos])
@@ -16,6 +16,7 @@ export function NotePreview({ notes, note, onUpdateNote }) {
             {title && <h3 className="note-preview-title">{title}</h3>}
             {txt && <p className="note-preview-text">{txt}</p>}
             {url && <img src={url} />}
+            {videoUrl && <iframe src={videoUrl} frameBorder="0" style={{ width: '100%' }}></iframe>}
             {todos && <TodosPreview />}
         </section>
     )

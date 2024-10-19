@@ -28,7 +28,7 @@ export function App() {
                     status: 'inbox',
                 }))
                 break
-            case 'Keep':
+            case 'Note':
                 setFilterBy(noteService.getDefaultFilter())
         }
     }, [app])

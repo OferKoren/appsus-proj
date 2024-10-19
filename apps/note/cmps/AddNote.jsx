@@ -61,7 +61,7 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
             if (isColorPicker) return null
             const note1 = noteRef.current
             const info = note1.info
-            if ((info.txt || info.title || info.todos.length > 0) && !noteToEdit) {
+            if ((info.txt || info.title || info.todos.length > 0 || info.url || info.videoUrl) && !noteToEdit) {
                 return null
             }
             setIsEdit(false)
@@ -90,7 +90,7 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
                 value = target.checked
                 break
         }
-        if (field === 'txt' || field === 'title') {
+        if (field === 'txt' || field === 'title' || field === 'videoUrl') {
             setNote((prevNote) => {
                 const info = { ...prevNote.info, [field]: value }
                 return { ...prevNote, info }
@@ -122,14 +122,14 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
     function onAddNote(ev, EditedNote = null) {
         ev.preventDefault()
         const noteToAdd = EditedNote ? EditedNote : { ...note }
-
+        console.log(noteToAdd)
         if (noteToAdd.type === 'NoteTodo') {
             const todos = noteToAdd.info.todos
             todos.splice(todos.length - 1, 1)
             noteToAdd.info.todos === todos
         }
         const info = { ...note.info }
-        if (info.txt || info.title || info.todos.length > 0 || info.url) addNote(noteToAdd)
+        if (info.txt || info.title || info.todos.length > 0 || info.url || info.videoUrl) addNote(noteToAdd)
         setIsEdit(false)
         setNote(noteService.getEmptyNote())
     }
@@ -155,7 +155,7 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
     return (
         <div className="add-note" onClick={() => setIsEdit(true)} style={note.style}>
             <form ref={formRef} action="" className="add-note-form" onSubmit={onAddNote}>
-                <DynamicNote note={note} handleChange={handleChange} isEdit={isEdit} />
+                <DynamicNote note={note} handleChange={handleChange} isEdit={isEdit} formRef={formRef} setNote={setNote} />
                 <input
                     ref={inputRef}
                     type="file"

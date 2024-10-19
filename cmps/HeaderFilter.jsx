@@ -6,7 +6,7 @@ export function HeaderFilter({ app, filterBy, onSetFilterBy }) {
         case 'Mail': {
             return <MailFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
         }
-        case 'Keep': {
+        case 'Note': {
             return <NoteFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} noteService={noteService} />
         }
     }

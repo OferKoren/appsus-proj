@@ -16,7 +16,7 @@ export function NoteList({
     const notesMap = mapNotes()
     const pinRef = useRef()
     const noteListRef = useRef(null)
-    const [numOfColumns, setNumOfColums] = useState(5)
+    const [numOfColumns, setNumOfColums] = useState()
     const navigate = useNavigate()
     useEffect(() => {
         listenToResize()
@@ -27,7 +27,8 @@ export function NoteList({
     }, [])
     function listenToResize() {
         console.log(numOfColumns)
-        const num = Math.floor(noteListRef.current.offsetWidth / 240)
+        let num = Math.floor(noteListRef.current.offsetWidth / 240)
+        if (num === 0) num = 1
         setNumOfColums(() => num)
     }
     function mapNotes() {

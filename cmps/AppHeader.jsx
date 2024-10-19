@@ -8,7 +8,7 @@ export function AppHeader(props) {
     switch (props.app) {
         case 'Appsus':
             return <AppHeaderBase {...props} />
-        case 'Keep':
+        case 'Note':
             return <NoteHeader {...props} />
         case 'Mail':
             return (
