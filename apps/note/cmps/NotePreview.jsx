@@ -1,7 +1,7 @@
 const { useState, useEffect } = React
-import { deepCopy } from '../../../services/util.service.js'
+
 export function NotePreview({ notes, note, onUpdateNote }) {
-    const { id, createdAt, type, isPinned, style, info } = deepCopy(note)
+    const { id, createdAt, type, isPinned, style, info } = note
     const { title, txt, url } = info
     const [todos, setTodos] = useState(info.todos)
 

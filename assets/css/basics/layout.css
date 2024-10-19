@@ -1,9 +1,9 @@
 .main-layout {
     display: grid;
     grid-template-columns:
-        minmax(20px, 1fr)
-        minmax(auto, 1080px)
-        minmax(20px, 1fr);
+        minmax(20px, 200px)
+        minmax(auto, 1fr)
+        20px;
 }
 .main-layout .full {
     grid-column: 1 / -1;

@@ -1,5 +1,5 @@
 import { noteService } from '../services/note.service.js'
-import { deepCopy } from '../../../services/util.service.js'
+// import { deepCopy } from '../../../services/util.service.js'
 import { NoteList } from '../cmps/NoteList.jsx'
 import { AddNote } from '../cmps/AddNote.jsx'
 import { EditNote } from '../cmps/EditNote.jsx'
@@ -8,6 +8,7 @@ import { NoteAside } from '../cmps/NoteAside.jsx'
 import { NoteHome } from './NoteHome.jsx'
 import { NoteArchive } from './NoteArchive.jsx'
 import { NoteTrash } from './NoteTrash.jsx'
+import { NoteSearch } from './NoteSearch.jsx'
 
 const { useState, useEffect, useRef } = React
 const { Route, Routes, Navigate } = ReactRouterDOM
@@ -74,7 +75,7 @@ export function NoteIndex({ rootFilterBy, setApp }) {
                 // alert(JSON.stringify(prevNotes[idx], null, 2))
                 const newNotes = [...prevNotes]
                 newNotes.splice(idx, 1, updatedNote)
-                return deepCopy(newNotes)
+                return newNotes
             })
         })
     }
@@ -84,7 +85,7 @@ export function NoteIndex({ rootFilterBy, setApp }) {
         addNote(note, true)
     }
     function onEditNote(note) {
-        setNoteToEdit(() => deepCopy(note))
+        setNoteToEdit(() => ({ ...note }))
     }
     function onToggleColorPicker(close, ev, note, setNote) {
         if (close) {
@@ -128,7 +129,8 @@ export function NoteIndex({ rootFilterBy, setApp }) {
             <Routes>
                 <Route path="/" element={<Navigate to="/note/noteHome" />} />
                 <Route path="/noteHome" element={<NoteHome addNoteProps={addNoteProps} listNoteProps={listNoteProps} />} />
-                {/* <Route path="/filter" element={<NoteHome addNoteProps={addNoteProps} listNoteProps={listNoteProps} />} /> */}
+                <Route path="/search" element={<NoteSearch addNoteProps={addNoteProps} listNoteProps={listNoteProps} setFilterBy={setFilterBy} />} />
+                <Route path="/search/:filterBy" element={<NoteSearch addNoteProps={addNoteProps} listNoteProps={listNoteProps} />} />
                 <Route path="/archive" element={<NoteArchive listNoteProps={listNoteProps} />} />
                 <Route path="/trash" element={<NoteTrash listNoteProps={listNoteProps} />} />
             </Routes>

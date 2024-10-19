@@ -1,11 +1,11 @@
-import { deepCopy } from '../../../services/util.service.js'
+// import { deepCopy } from '../../../services/util.service.js'
 import { noteService } from '../services/note.service.js'
 import { ColorPicker } from './ColorPicker.jsx'
 import { DynamicNote } from './notes/DynamicNote.jsx'
 const { useState, useEffect, useRef } = React
 // import {} from '../../../assets/img/notes-icons/'
 export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerRef, isClrRef }) {
-    const initNote = noteToEdit ? deepCopy(noteToEdit) : noteService.getEmptyNote()
+    const initNote = noteToEdit ? { ...noteToEdit } : noteService.getEmptyNote()
     const [note, setNote] = useState(initNote)
     const [isEdit, setIsEdit] = useState(false)
 
@@ -52,7 +52,7 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
 
     function handleChange({ target }, newNote = null) {
         if (newNote) {
-            setNote(() => deepCopy(newNote))
+            setNote(() => ({ ...newNote }))
             return
         }
 
@@ -129,6 +129,7 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
     const colorsIconSrc = './assets/img/notes-icons/color-pallet-icon.svg'
     const todoIconSrc = './assets/img/notes-icons/checked-box-icon.svg'
     const addPictureIconSrc = './assets/img/notes-icons/add-pitcure-icon.svg'
+    const addVideoSrc = './assets/img/notes-icons/youtube-icon.svg'
     return (
         <div className="add-note" onClick={() => setIsEdit(true)} style={note.style}>
             <form ref={formRef} action="" className="add-note-form" onSubmit={onAddNote}>
@@ -184,6 +185,9 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
                         }}
                     >
                         <img src={addPictureIconSrc} alt="" />
+                    </button>
+                    <button className="video-btn btn" onClick={() => changeNoteType('NoteVideo')}>
+                        <img src={addVideoSrc} alt="" />
                     </button>
                 </React.Fragment>
             )}

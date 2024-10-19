@@ -1,3 +1,10 @@
-export function NoteVideo() {
-    return <section className="note-video">note video</section>
+export function NoteVideo({ isEdit, handleChange, note }) {
+    return (
+        <React.Fragment>
+            {isEdit && (
+                <input autoComplete="off" type="text" name="title" id="title" placeholder="title" onChange={handleChange} value={note.info.title} />
+            )}
+            <input type="text" autoComplete="off" name="txt" id="txt" placeholder="Enter url here..." onChange={handleChange} value={note.info.txt} />
+        </React.Fragment>
+    )
 }

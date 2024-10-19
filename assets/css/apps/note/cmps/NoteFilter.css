@@ -20,6 +20,10 @@
     border: none;
     outline: none;
     width: 100%;
+    padding-inline-start: 0.5em;
+}
+.note-filter-by-label {
+    padding-inline-start: 0.5em;
 }
 .note-filterBy:has(input:focus) {
     background-color: white;

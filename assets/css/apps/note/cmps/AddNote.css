@@ -24,7 +24,7 @@
     background-color: transparent;
 }
 .add-note .btns-control-panel {
-    background-color: aqua;
+    /* background-color: aqua; */
     display: flex;
 }
 
@@ -47,6 +47,9 @@
 }
 .add-note .img-btn {
     right: 4em;
+}
+.add-note .video-btn {
+    right: 7em;
 }
 .add-note .pin-btn {
     right: 0;

@@ -28,6 +28,9 @@ function query(filterBy = {}) {
                 return isInTitle || isInTxt || isInTodos
             })
         }
+        if (filterBy.type) {
+            notes = notes.filter((note) => note.type === filterBy.type)
+        }
 
         return notes
     })
@@ -55,14 +58,14 @@ function getEmptyNote(title = '', txt = '') {
     // return { title, txt, type: 'NoteTxt', isPinned: false }
     return {
         type: 'NoteTxt',
-        info: { txt: '', title: '', todos: [], url: '' },
+        info: { txt: '', title: '', todos: [], url: '', videoUrl: '' },
         isPinned: false,
         style: {},
     }
 }
 
 function getDefaultFilter() {
-    return { txt: '', price: '' }
+    return { txt: '', tag: '', type: '' }
 }
 
 function getFilterFromSearchParams(searchParams) {

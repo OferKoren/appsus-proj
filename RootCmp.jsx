@@ -8,7 +8,7 @@ import { MailIndex } from './apps/mail/pages/MailIndex.jsx'
 import { MailDetails } from './apps/mail/pages/MailDetails.jsx'
 import { MailCompose } from './apps/mail/cmps/MailCompose.jsx'
 import { NoteIndex } from './apps/note/pages/NoteIndex.jsx'
-
+import { noteService } from './apps/note/services/note.service.js'
 export function App() {
     const [app, setApp] = useState('Appsus')
     const [filterBy, setFilterBy] = useState({})
@@ -25,10 +25,7 @@ export function App() {
                 }))
                 break
             case 'Keep':
-                setFilterBy(() => ({
-                    txt: '',
-                    tag: '',
-                }))
+                setFilterBy(noteService.getDefaultFilter())
         }
     }, [app])
     return (
