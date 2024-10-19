@@ -35,7 +35,7 @@ export function NoteIndex({ rootFilterBy, setApp, mailRef, noteRef }) {
     }, [isClrBtn]) */
 
     useEffect(() => {
-        setApp('Keep')
+        setApp('Note')
         document.addEventListener('mousedown', handleClickOutsideColorPicker)
         return () => {
             document.removeEventListener('mousedown', handleClickOutsideColorPicker)

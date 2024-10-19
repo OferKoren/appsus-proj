@@ -1,40 +1,21 @@
 .note-wrapper {
     position: relative;
-}
-.note-wrapper:hover .note-preview {
-    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
-}
-.btns-wrapper {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transition: 0.4s;
-}
-.btns-wrapper > * {
-    position: absolute;
-}
-.note-wrapper:hover .btns-wrapper {
-    opacity: 1;
-}
-.note-wrapper .delete-btn {
-    right: 0;
-}
-.note-wrapper .bottom-btns {
-    bottom: 0;
-}
-
-.btns-wrapper .btn {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-}
-
-.btns-wrapper .more-btn {
-    bottom: 0;
-}
-.note-preview {
-    padding: 1em;
+    padding: 1.2em 1em 0.2em 1em;
     border: 1px solid lightgray;
 
     border-radius: 1em;
+}
+.note-wrapper:hover {
+    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+}
+.note-wrapper .pin-btn {
+    position: absolute;
+    top: -4px;
+    left: 0;
+}
+.note-wrapper .btn {
+    opacity: 0;
+}
+.note-wrapper:hover .btn {
+    opacity: 1;
 }
