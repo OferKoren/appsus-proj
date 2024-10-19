@@ -5,14 +5,29 @@ import { DynamicNote } from './notes/DynamicNote.jsx'
 const { useState, useEffect, useRef } = React
 // import {} from '../../../assets/img/notes-icons/'
 export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerRef, isClrRef, mailRef }) {
-    const initNote = noteToEdit ? deepCopy(noteToEdit) : noteService.getEmptyNote()
+    mailRef.current = {
+        id: 'e101',
+        subject: 'Miss you!',
+        body: 'Would love to catch up sometime',
+        isRead: false,
+        sentAt: Date.now(),
+        from: 'friend@social.com',
+        to: `loggedinUser.email`,
+    }
+    let initNote = {}
+    if (mailRef.current) {
+        initNote = formatMailIntoNote(mailRef.current)
+    } else initNote = noteToEdit ? deepCopy(noteToEdit) : noteService.getEmptyNote()
+
     const [note, setNote] = useState(initNote)
-    const [isEdit, setIsEdit] = useState(false)
+
+    const [isEdit, setIsEdit] = useState(!!mailRef.current)
 
     const formRef = useRef()
     const pinRef = useRef()
     const noteRef = useRef(note)
     const inputRef = useRef(null)
+    mailRef.current = null
 
     useEffect(() => {
         noteRef.current = note
@@ -30,7 +45,14 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
             setIsEdit(true)
         }
     }, [])
-
+    function formatMailIntoNote(mail) {
+        const noteFromMail = noteService.getEmptyNote()
+        const { subject, body } = mail
+        const newTitle = `Mail-Subject: ${subject}`
+        const txt = `Mail Date:  ${body}`
+        noteFromMail.info = { ...noteFromMail, title: newTitle, txt }
+        return noteFromMail
+    }
     function handleClickOutside(ev) {
         const isColorPicker = colorPickerRef.current && colorPickerRef.current.contains(ev.target)
         const isNotForm = formRef.current && !formRef.current.contains(ev.target)

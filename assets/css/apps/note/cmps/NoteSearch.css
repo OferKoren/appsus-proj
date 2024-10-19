@@ -12,8 +12,8 @@
     background-color: var(--clr-note-type-filter);
     width: clamp(50px, 12.5vw, 200px);
     height: clamp(50px, 12.5vw, 200px);
-    transition: box-shadow 0.4s;
+    transition: box-shadow 0.3s;
 }
 .categroy-card.type:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3s); /* Gentle lift */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Gentle lift */
 }
