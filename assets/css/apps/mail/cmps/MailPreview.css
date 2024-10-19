@@ -97,9 +97,9 @@
     background-color: white;
     padding: 20px;
     border-radius: 8px;
-    width: 400px; /* Adjust as needed */
-    height: auto; /* Allow dynamic height */
-    max-height: 60vh; /* Prevent overflow if too much content */
+    width: 400px;
+    height: auto; 
+    max-height: 60vh;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     font-family: 'Arial', sans-serif;
@@ -133,7 +133,7 @@
 }
 
 .mail-compose-modal textarea {
-    min-height: 80px; /* Make the text box smaller */
+    min-height: 80px; 
     resize: vertical;
 }
 
@@ -161,14 +161,14 @@
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s ease;
-    align-self: flex-end; /* Right-align the button */
+    align-self: flex-end; 
 }
 
 .mail-compose-modal button[type="submit"]:hover {
     background-color: #357ABD;
 }
 
-/* Optional overlay (can be skipped if it's just at the bottom) */
+
 .mail-compose-modal-overlay {
     position: fixed;
     top: 0;

@@ -46,6 +46,7 @@ export function MailIndex({ rootFilterBy, setApp }) {
         setStarCount(countStars)
     }, [mails])
 
+
     function loadMails() {
         mailService
             .query(filterBy)
@@ -55,34 +56,45 @@ export function MailIndex({ rootFilterBy, setApp }) {
                     id: mail.id || Date.now().toString(),
                     date: new Date(mail.sentAt).toLocaleString(),
                 }))
+                
                 const filteredMails = filterBy.status === 'starred'
                     ? mailsWithFormattedDate.filter(mail => mail.isStarred)
                     : filterBy.status === 'draft'
                         ? mailsWithFormattedDate.filter(mail => mail.isDraft)
                         : mailsWithFormattedDate.filter(mail => !mail.isDraft)
-
-                setMails(filteredMails)
+                
+                const sortedMails = sortMails(filteredMails) 
+    
+                setMails(sortedMails) 
+    
                 const unreadCount = fetchedMails.filter(mail => !mail.isRead && !mail.isDraft).length
                 setUnreadCount(unreadCount)
-                
-                mailsWithFormattedDate = sortMails(mailsWithFormattedDate)
             })
-
             .catch((err) => {
                 showErrorMsg('Failed to load mails')
             })
     }
+
     function onRemoveMail(mailId) {
-        mailService
-            .remove(mailId)
-            .then(() => {
-                setMails((mails) => mails.filter((mail) => mail.id !== mailId))
-                setUnreadCount((prev) => mails.filter((mail) => !mail.isRead && mail.id !== mailId).length)
-            })
-            .catch((err) => {
-                console.error('Error deleting mail:', err)
-            })
+        const mail = mails.find(mail => mail.id === mailId)
+        
+        if (filterBy.status === 'trash') {
+            mailService.removePermanently(mailId)
+                .then(() => {
+                    setMails(prevMails => prevMails.filter(mail => mail.id !== mailId))
+                    showSuccessMsg('Mail permanently deleted')
+                })
+                .catch(err => console.error('Error deleting mail permanently', err))
+        } else {
+            mailService.moveToTrash(mailId)
+                .then(() => {
+                    setMails(prevMails => prevMails.filter(mail => mail.id !== mailId))
+                    showSuccessMsg('Mail moved to Trash')
+                })
+                .catch(err => console.error('Error moving mail to trash', err))
+        }
     }
+    
 
     function sortMails(mails) {
         return [...mails].sort((a, b) => {
@@ -213,7 +225,7 @@ export function MailIndex({ rootFilterBy, setApp }) {
                         Date
                     </button>
                     <button className={sortCriteria === 'subject' ? 'active' : ''} onClick={() => setSortCriteria('subject')}>
-                        Subject
+                        Title
                     </button>
                     <button className={sortCriteria === 'all' ? 'active' : ''} onClick={() => setSortCriteria('all')}>
                         All

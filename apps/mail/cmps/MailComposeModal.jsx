@@ -3,7 +3,15 @@ const { useState, useEffect } = React
 export function MailComposeModal({ onClose, onSendMail, onSaveDraft,draftMail }) {
     const [mail, setMail] = useState(draftMail || { to: '', subject: '', body: '' })
     const [isDraftSaved, setIsDraftSaved] = useState(false)
+    const [isMailSent, setIsMailSent] = useState(false)
 
+    useEffect(() => {
+        return () => {
+            if (!isDraftSaved && (mail.subject || mail.body || mail.to)) {
+            }
+        }
+    }, [isDraftSaved, mail])
+    
     function handleChange({ target }) {
         const { name, value } = target
         setMail((prevMail) => ({ ...prevMail, [name]: value }))
@@ -11,6 +19,11 @@ export function MailComposeModal({ onClose, onSendMail, onSaveDraft,draftMail })
 
     function handleSubmit(ev) {
         ev.preventDefault()
+        if (isMailSent) return 
+
+        setIsMailSent(true) 
+        if (isDraftSaved) return
+        setIsDraftSaved(true)
         onSendMail(ev, mail)
     }
 

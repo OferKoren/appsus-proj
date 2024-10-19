@@ -10,7 +10,9 @@ export const mailService = {
     getFilterFromSearchParams,
     toggleReadStatus,
     toggleStarStatus,
-    saveDraft
+    saveDraft,
+    moveToTrash,
+    removePermanently
 }
 
 const MAIL_KEY = 'mailDB'
@@ -30,13 +32,13 @@ function query(filterBy = {}) {
             if (filterBy.status) {
                 if (filterBy.status === 'inbox') {
                     filteredMails = filteredMails.filter(mail => 
-                        (mail.to === loggedinUser.email || mail.from === loggedinUser.email) && !mail.isDraft)
+                        (mail.to === loggedinUser.email || mail.from === loggedinUser.email) && !mail.isDraft && !mail.removedAt)
                 } else if (filterBy.status === 'sent') {
-                    filteredMails = filteredMails.filter(mail => mail.from === loggedinUser.email)
+                    filteredMails = filteredMails.filter(mail => mail.from === loggedinUser.email && !mail.removedAt)
                 } else if (filterBy.status === 'trash') {
-                    filteredMails = filteredMails.filter(mail => mail.removedAt)
+                    filteredMails = filteredMails.filter(mail => mail.removedAt) 
                 } else if (filterBy.status === 'draft') {
-                    filteredMails = filteredMails.filter(mail => mail.isDraft)
+                    filteredMails = filteredMails.filter(mail => mail.isDraft && !mail.removedAt)
                 }
             }
 
@@ -49,19 +51,14 @@ function query(filterBy = {}) {
                 filteredMails = filteredMails.filter(mail => mail.isRead === filterBy.isRead)
             }
 
-            if (filterBy.isStared !== undefined) {
-                filteredMails = filteredMails.filter(mail => mail.isStared === filterBy.isStared)
-            }
-
-            if (filterBy.labels && filterBy.labels.length) {
-                filteredMails = filteredMails.filter(mail =>
-                    filterBy.labels.some(label => mail.labels && mail.labels.includes(label))
-                )
+            if (filterBy.isStarred !== undefined) {
+                filteredMails = filteredMails.filter(mail => mail.isStarred === filterBy.isStarred)
             }
 
             return filteredMails
         })
 }
+
 
 function save(mail) {
     if (mail.id) {
@@ -115,12 +112,19 @@ function getById(mailId) {
 }
 
 function add(mail) {
-    if (!mail.id) 
+    if (!mail.id) {
         mail.id = Date.now().toString() 
-    mails.push(mail) 
+    }
+    const existingMailIndex = mails.findIndex(existingMail => existingMail.id === mail.id)
+    if (existingMailIndex !== -1) {
+        mails[existingMailIndex] = { ...mail } 
+    } else {
+        mails.push(mail) 
+    }
     storageService.saveToStorage(MAIL_KEY, mails) 
     return asyncStorageService.post(MAIL_KEY, mail) 
 }
+
 
 function remove(mailId) {
     return asyncStorageService.remove(MAIL_KEY, mailId)
@@ -162,13 +166,25 @@ function saveDraft(draftMail) {
     if (existingDraftIndex !== -1) {
         mails[existingDraftIndex] = { ...draftMail }
     } else {
-        mails.push(draftMail)
+        mails.push(draftMail) // Only push if it’s a new draft
     }
 
-    draftMail.sentAt = null 
     draftMail.isDraft = true
 
     storageService.saveToStorage(MAIL_KEY, mails)
 
-    return asyncStorageService.post(MAIL_KEY, draftMail)
+    return asyncStorageService.put(MAIL_KEY, draftMail)
 }
+
+
+function moveToTrash(mailId) {
+    return asyncStorageService.get(MAIL_KEY, mailId).then((mail) => {
+        mail.removedAt = Date.now() 
+        return asyncStorageService.put(MAIL_KEY, mail)
+    })
+}
+
+function removePermanently(mailId) {
+    return asyncStorageService.remove(MAIL_KEY, mailId)
+}
+

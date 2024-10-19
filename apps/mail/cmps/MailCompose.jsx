@@ -4,6 +4,7 @@ import { mailService } from '../services/mail.service.js'
 
 export function MailCompose() {
     const [mail, setMail] = useState({ to: '', subject: '', body: '' })
+    const [isMailSent, setIsMailSent] = useState(false) 
     const navigate = useNavigate()
 
     function handleChange({ target }) {
@@ -13,23 +14,28 @@ export function MailCompose() {
 
     function onSendMail(ev) {
         ev.preventDefault()
-
+        if(isMailSent) return
+        setIsMailSent(true)
+    
+       
         const newMail = {
             ...mail,
-            from: 'user@appsus.com', 
-            sentAt: Date.now()
-            
+            from: 'user@appsus.com',
+            sentAt: Date.now(),
+            isDraft: false 
         }
-
+    
         mailService.add(newMail)
             .then(() => {
-                navigate('/mail', { state: {hasMailsChanged: true } 
-        })
-        })
+                showSuccessMsg('Mail sent successfully')
+                navigate('/mail', { state: { hasMailsChanged: true } })
+            })
             .catch(err => {
                 console.error('Failed to send mail:', err)
+                showErrorMsg('Failed to send mail')
             })
     }
+    
 
     return (
         <section className="mail-compose">
