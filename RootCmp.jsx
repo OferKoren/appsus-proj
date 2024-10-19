@@ -17,6 +17,7 @@ export function App() {
     function onSetFilterBy(newFilter) {
         setFilterBy((prevFilter) => ({ ...prevFilter, ...newFilter }))
     }
+
     useEffect(() => {
         switch (app) {
             case 'Mail':
@@ -40,7 +41,7 @@ export function App() {
                     <Route path="/mail/:mailId" element={<MailDetails />} />
                     <Route path="/mail/compose" element={<MailCompose />} />
 
-                    <Route path="/note/*" element={<NoteIndex rootFilterBy={filterBy} setApp={setApp} />} />
+                    <Route path="/note/*" element={<NoteIndex rootFilterBy={filterBy} setApp={setApp} mailRef={mailRef} noteRef={noteRef} />} />
                 </Routes>
             </section>
         </Router>
