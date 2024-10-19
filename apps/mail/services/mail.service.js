@@ -56,7 +56,6 @@ function query(filterBy = {}) {
             if (filterBy.isStarred !== undefined) {
                 filteredMails = filteredMails.filter(mail => mail.isStarred === filterBy.isStarred)
             }
-console.log('end of function');
 
             return filteredMails
         })

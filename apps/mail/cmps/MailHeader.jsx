@@ -39,8 +39,8 @@ export function MailHeader({ onSetFilterBy }) {
                             <i className="fa-regular fa-star"></i> Starred
                         </li>
                         <li onClick={() => handleFolderChange('sent')}>
-                            <i className="fa-solid fa-paper-plane"></i> Sent
-                        </li>
+                        <span className="material-symbols-outlined">send</span> Sent
+                         </li>
                         <li onClick={() => handleFolderChange('draft')}>
                             <i className="fa-solid fa-file"></i> Draft
                         </li>

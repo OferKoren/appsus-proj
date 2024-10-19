@@ -26,6 +26,13 @@
 .sort-buttons button:hover {
     background-color: #f1f3f4;
 }
+.material-symbols-outlined {
+    font-size: 5px; 
+    vertical-align: middle; 
+    margin-right: 5px; 
+    font-weight: lighter;
+
+}
 /* .hamburger-btn {
     display: flex;
     position: relative;
