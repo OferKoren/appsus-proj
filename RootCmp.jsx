@@ -9,11 +9,13 @@ import { MailDetails } from './apps/mail/pages/MailDetails.jsx'
 import { MailCompose } from './apps/mail/cmps/MailCompose.jsx'
 import { NoteIndex } from './apps/note/pages/NoteIndex.jsx'
 import { noteService } from './apps/note/services/note.service.js'
+
 export function App() {
     const [app, setApp] = useState('Appsus')
     const [filterBy, setFilterBy] = useState({})
-    const mailRef = useRef(null)
-    const noteRef = useRef(null)
+    const mailRef = useRef()
+    const noteRef = useRef()
+
     function onSetFilterBy(newFilter) {
         setFilterBy((prevFilter) => ({ ...prevFilter, ...newFilter }))
     }

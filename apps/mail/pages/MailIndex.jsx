@@ -9,7 +9,7 @@ import { MailFolderFilter } from '../cmps/MailFolderFilter.jsx'
 import { MailList } from '../cmps/MailList.jsx'
 import { MailComposeModal } from '../cmps/MailComposeModal.jsx'
 
-export function MailIndex({ rootFilterBy, setApp, noteRef, mailRef }) {
+export function MailIndex({ rootFilterBy, setApp, noteRef, mailRef, sendToNote }) {
     const [mails, setMails] = useState([])
     const [unreadCount, setUnreadCount] = useState(0)
     const [starCount, setStarCount] = useState(0)
@@ -224,6 +224,7 @@ export function MailIndex({ rootFilterBy, setApp, noteRef, mailRef }) {
         setCompose(true)
     }
 
+
     if (!mails) return <h1>Loading...</h1>
     return (
         <section className="mail-index full">
@@ -250,6 +251,7 @@ export function MailIndex({ rootFilterBy, setApp, noteRef, mailRef }) {
                 <div className="mail-list-container">
                     <MailList
                         mails={mails}
+                        mailRef={mailRef}
                         onRemoveMail={onRemoveMail}
                         onToggleReadStatus={onToggleReadStatus}
                         onToggleStar={onToggleStar}

@@ -36,8 +36,8 @@ export function MailFolderFilter({ onSetFilterBy, unreadCount, starCount }) {
             className={activeFolder === 'sent' ? 'active' : ''} 
             onClick={() => handleFolderChange('sent')}
         >
-            <i className="fa-solid fa-paper-plane"></i> Sent
-        </button>
+  <span className="material-symbols-outlined">send</span> Sent     
+     </button>
         <button 
             data-folder="draft"
             className={activeFolder === 'draft' ? 'active' : ''} 
