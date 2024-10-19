@@ -20,7 +20,9 @@ export function MailIndex({ rootFilterBy, setApp, noteRef, mailRef }) {
     const [compose, setCompose] = useState(false)
     const [sortCriteria, setSortCriteria] = useState('date')
     const [draftMail, setDraftMail] = useState(null)
-
+    useEffect(() => {
+        if (noteRef.current) setCompose(true)
+    }, [noteRef])
     useEffect(() => {
         setFilterBy({ ...rootFilterBy })
     }, [rootFilterBy])
@@ -204,7 +206,7 @@ export function MailIndex({ rootFilterBy, setApp, noteRef, mailRef }) {
         } else {
             const draftMail = {
                 ...mail,
-                id: mail.id || utilService.makeId(),
+                id: mail.id,
                 from: 'user@appsus.com',
                 sentAt: Date.now(),
                 isDraft: true,
@@ -260,6 +262,7 @@ export function MailIndex({ rootFilterBy, setApp, noteRef, mailRef }) {
                         onSendMail={onSendMail}
                         onSaveDraft={onSaveDraft}
                         draftMail={draftMail}
+                        noteRef={noteRef}
                     />
                 )}
             </main>

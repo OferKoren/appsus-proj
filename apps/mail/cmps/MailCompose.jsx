@@ -3,26 +3,25 @@ const { useNavigate } = ReactRouterDOM
 import { mailService } from '../services/mail.service.js'
 
 export function MailCompose() {
-    const [mail, setMail] = useState({ to: '', subject: '', body: '' })
-    const [isMailSent, setIsMailSent] = useState(false) 
+    const [mail, setMail] = useState({ to: 'asdas', subject: '', body: '' })
+    const [isMailSent, setIsMailSent] = useState(false)
     const navigate = useNavigate()
 
     function handleChange({ target }) {
         const { name, value } = target
-        setMail(prevMail => ({ ...prevMail, [name]: value }))
+        setMail((prevMail) => ({ ...prevMail, [name]: value }))
     }
 
     // function onSendMail(ev) {
     //     ev.preventDefault()
     //     if(isMailSent) return
     //     setIsMailSent(true)
-    
-       
+
     //     const newMail = {
     //         ...mail,
     //         from: 'user@appsus.com',
     //         sentAt: Date.now(),
-    //         isDraft: false 
+    //         isDraft: false
     //     }
     //     console.log("new mail MailCompose")
     //     mailService.add(newMail)
@@ -35,7 +34,6 @@ export function MailCompose() {
     //             showErrorMsg('Failed to send mail')
     //         })
     // }
-    
 
     return (
         <section className="mail-compose">
