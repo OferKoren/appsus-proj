@@ -60,7 +60,6 @@
     color: white;
 }
 
-/* Animated Notebook Wrapper */
 .animated-notebook-wrapper {
     position: relative;
     display: flex;
@@ -69,7 +68,6 @@
     margin-top: 50px;
 }
 
-/* Centered Animated Notebook */
 .animated-notebook {
     width: 150px;
     height: 200px;
@@ -103,7 +101,6 @@
     box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Notebook Animation */
 @keyframes openNotebook {
     0%, 100% {
         transform: rotate(10deg) translateX(0);
