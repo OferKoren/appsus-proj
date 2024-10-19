@@ -60,42 +60,48 @@ export function NoteList({
             const threeDots = './assets/img/notes-icons/small-three-dots-icon.svg'
             const colorPalletSrc = './assets/img/notes-icons/color-pallet-icon.svg'
             const mailIconSrc = './assets/img/notes-icons/mail-icon.svg'
+            const trashCanSrc = './assets/img/notes-icons/trash-can-icon.svg'
+            const duplicateSrc = './assets/img/notes-icons/duplicate-icon.svg'
             return (
-                <div key={note.id} className="note-wrapper" onClick={() => onEditNote(note)}>
-                    <div className="btns-wrapper">
-                        <button className="delete-btn btn" onClick={(ev) => onDeleteNote(ev, note.id)}>
-                            🗑️
-                        </button>
-
-                        <button className="pin-btn btn" onClick={(ev) => togglePin(ev, note)}>
-                            <img ref={pinRef} src={note.isPinned ? activeSrc : notActiveSrc} alt="" />
-                        </button>
-                        {/* <button className="dup-btn btn" onClick={() => onDuplicate(note)}>
-                            Duplicate
-                        </button> */}
-                        <div className="bottom-btns">
-                            <button className="btn more-btn">
-                                <img src={threeDots} alt="" />
-                            </button>
-
-                            <button
-                                className="btn color-btn"
-                                onClick={(ev) => {
-                                    // setIsClrBtn(true)
-                                    ev.stopPropagation()
-                                    isClrRef.current = true
-                                    onToggleColorPicker(null, ev, note, onUpdateNote)
-                                }}
-                            >
-                                <img src={colorPalletSrc} alt="" />
-                            </button>
-                            <button className="btn mail-btn" onClick={(ev) => sendToMail(ev, note)}>
-                                <img src={mailIconSrc} alt="" />
-                            </button>
-                        </div>
-                    </div>
-
+                <div key={note.id} className="note-wrapper" style={note.style} onClick={() => onEditNote(note)}>
+                    <button className="pin-btn btn" onClick={(ev) => togglePin(ev, note)}>
+                        <img ref={pinRef} src={note.isPinned ? activeSrc : notActiveSrc} alt="" />
+                    </button>
                     <NotePreview notes={notes} onUpdateNote={onUpdateNote} note={note} />
+
+                    <div className="bottom-btns">
+                        <button className="btn more-btn">
+                            <img src={threeDots} alt="" />
+                        </button>
+
+                        <button
+                            className="btn color-btn"
+                            onClick={(ev) => {
+                                // setIsClrBtn(true)
+                                ev.stopPropagation()
+                                isClrRef.current = true
+                                onToggleColorPicker(null, ev, note, onUpdateNote)
+                            }}
+                        >
+                            <img src={colorPalletSrc} alt="" />
+                        </button>
+                        <button className="btn mail-btn" onClick={(ev) => sendToMail(ev, note)}>
+                            <img src={mailIconSrc} alt="" />
+                        </button>
+                        <button
+                            className="btn duplicate-btn"
+                            onClick={(ev) => {
+                                ev.stopPropagation()
+                                onDuplicate(note)
+                            }}
+                        >
+                            <img src={duplicateSrc} alt="" />
+                        </button>
+
+                        <button className="delete-note-btn- btn" onClick={(ev) => onDeleteNote(ev, note.id)}>
+                            <img src={trashCanSrc} alt="" />
+                        </button>
+                    </div>
                 </div>
             )
         })
@@ -103,7 +109,7 @@ export function NoteList({
             const column = (
                 <div key={i} className={`note-list-column ${i}`}>
                     {elNotes.filter((note, idx) => {
-                        return (idx + 1) % numOfColumns === i + 1
+                        return idx % numOfColumns === i
                     })}
                 </div>
             )

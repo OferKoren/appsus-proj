@@ -17,7 +17,7 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
     let initNote = {}
     if (mailRef.current) {
         initNote = formatMailIntoNote(mailRef.current)
-    } else initNote = noteToEdit ? deepCopy(noteToEdit) : noteService.getEmptyNote()
+    } else initNote = noteToEdit ? { ...noteToEdit } : noteService.getEmptyNote()
 
     const [note, setNote] = useState(initNote)
 
