@@ -41,6 +41,7 @@
 
 .cta-button {
     background-color: #4A90E2;
+    outline: none;
     color: white;
     border: none;
 }
