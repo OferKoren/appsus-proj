@@ -71,7 +71,16 @@ export function NoteTodo({ isEdit, handleChange, note }) {
     return (
         <React.Fragment>
             {isEdit && (
-                <input autoComplete="off" type="text" name="title" id="title" placeholder="title" onChange={handleChange} value={note.info.title} />
+                <input
+                    autoComplete="off"
+                    type="text"
+                    className="title"
+                    name="title"
+                    id="title"
+                    placeholder="title"
+                    onChange={handleChange}
+                    value={note.info.title}
+                />
             )}
             {generateTodos()}
         </React.Fragment>
@@ -80,11 +89,34 @@ export function NoteTodo({ isEdit, handleChange, note }) {
 function TodoItem({ handleTodos, todo, onDeleteTodo }) {
     /* const idx = todos.findIndex((todo) => todo.id === todo.id)
         const todo = todos[idx] */
+    const xiconSrc = './assets/img/notes-icons/x-icon.svg'
+    const plusiconSrc = './assets/img/notes-icons/plus-icon.svg'
+    const emptyboxSrc = './assets/img/notes-icons/empty-box-icon.svg'
+    const checkedBoxSex = './assets/img/notes-icons/checked-box-icon.svg'
     return (
         <div key={todo.id} className="todo-item">
-            <input onChange={(ev) => handleTodos(ev, todo)} name={`doneAt`} type="checkbox" checked={!!todo.doneAt} />
-            <input onChange={(ev) => handleTodos(ev, todo)} name={`txt`} type="text" placeholder="write new todo" value={todo.txt} />
-            {todo.txt ? <button onClick={() => onDeleteTodo(todo.id)}>x</button> : <span>+</span>}
+            <label htmlFor={todo.id}>
+                <img src={todo.doneAt ? checkedBoxSex : emptyboxSrc} alt="" />
+            </label>
+            <input onChange={(ev) => handleTodos(ev, todo)} name={`doneAt`} id={todo.id} className="hidden" type="checkbox" checked={!!todo.doneAt} />
+            <input
+                autoComplete="off"
+                onChange={(ev) => handleTodos(ev, todo)}
+                className="todo-txt-input"
+                name={`txt`}
+                type="text"
+                placeholder="write new todo"
+                value={todo.txt}
+            />
+            {todo.txt ? (
+                <button className="todo-x-btn" onClick={() => onDeleteTodo(todo.id)}>
+                    <img src={xiconSrc} alt="" />
+                </button>
+            ) : (
+                <span>
+                    <img src={plusiconSrc} alt="" />
+                </span>
+            )}
         </div>
     )
 }

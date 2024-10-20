@@ -133,6 +133,10 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
         setIsEdit(false)
         setNote(noteService.getEmptyNote())
     }
+    function onCancel() {
+        setIsEdit(false)
+        setNote(noteService.getEmptyNote())
+    }
     function changeNoteType(toType) {
         setNote((prevNote) => ({ ...prevNote, type: toType }))
     }
@@ -152,8 +156,20 @@ export function AddNote({ addNote, noteToEdit, onToggleColorPicker, colorPickerR
     const todoIconSrc = './assets/img/notes-icons/checked-box-icon.svg'
     const addPictureIconSrc = './assets/img/notes-icons/add-pitcure-icon.svg'
     const addVideoSrc = './assets/img/notes-icons/youtube-icon.svg'
+    const xiconSrc = './assets/img/notes-icons/x-icon.svg'
     return (
         <div className="add-note" onClick={() => setIsEdit(true)} style={note.style}>
+            {isEdit && (
+                <button
+                    className="btn cancel-btn"
+                    onClick={(ev) => {
+                        ev.stopPropagation()
+                        onCancel()
+                    }}
+                >
+                    <img src={xiconSrc} alt="" />
+                </button>
+            )}
             <form ref={formRef} action="" className="add-note-form" onSubmit={onAddNote}>
                 <DynamicNote note={note} handleChange={handleChange} isEdit={isEdit} formRef={formRef} setNote={setNote} />
                 <input

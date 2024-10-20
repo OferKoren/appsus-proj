@@ -5,7 +5,16 @@ export function NoteImg({ isEdit, handleChange, note }) {
     return (
         <section className="note-img">
             {isEdit && (
-                <input autoComplete="off" type="text" name="title" id="title" placeholder="title" onChange={handleChange} value={note.info.title} />
+                <input
+                    autoComplete="off"
+                    type="text"
+                    className="title"
+                    name="title"
+                    id="title"
+                    placeholder="title"
+                    onChange={handleChange}
+                    value={note.info.title}
+                />
             )}
             {note.info.url && <img src={note.info.url} />}
         </section>

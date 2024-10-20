@@ -47,10 +47,30 @@ export function NotePreview({ notes, note, onUpdateNote }) {
 
     function TodosPreview() {
         return todos.map((todo) => {
+            const emptyboxSrc = './assets/img/notes-icons/empty-box-icon.svg'
+            const checkedBoxSrc = './assets/img/notes-icons/checked-box-icon.svg'
             return (
-                <div className="todo-preview" key={`1${todo.id}`}>
+                <div className="todo-preview flex space-between" key={`1${todo.id}`}>
                     <span>{todo.txt}</span>
-                    <input type="checkbox" name={`doneAt`} checked={!!todo.doneAt} onChange={(ev) => handleTodos(ev, todo)} />
+                    <label
+                        htmlFor={todo.id + 'preview'}
+                        onClick={(ev) => {
+                            ev.stopPropagation()
+                        }}
+                    >
+                        <img src={todo.doneAt ? checkedBoxSrc : emptyboxSrc} alt="" />
+                    </label>
+                    <input
+                        type="checkbox"
+                        name={`doneAt`}
+                        id={todo.id + 'preview'}
+                        checked={!!todo.doneAt}
+                        onChange={(ev) => {
+                            ev.stopPropagation()
+                            handleTodos(ev, todo)
+                        }}
+                        className="hidden"
+                    />
                 </div>
             )
         })

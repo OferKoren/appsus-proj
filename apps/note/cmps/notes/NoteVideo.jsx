@@ -25,7 +25,7 @@ export function NoteVideo({ isEdit, handleChange, note, formRef, setNote }) {
 
     return (
         <React.Fragment>
-            {isEdit && <input autoComplete="off" type="text" name="title" id="title" placeholder="title" onChange={handleChange} />}
+            {isEdit && <input autoComplete="off" type="text" className="title" name="title" id="title" placeholder="title" onChange={handleChange} />}
             <div className="flex">
                 <input
                     ref={videoUrlInputRef}

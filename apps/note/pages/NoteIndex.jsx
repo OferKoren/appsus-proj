@@ -11,22 +11,30 @@ import { NoteTrash } from './NoteTrash.jsx'
 import { NoteSearch } from './NoteSearch.jsx'
 
 const { useState, useEffect, useRef } = React
-const { Route, Routes, Navigate, useParams } = ReactRouterDOM
+const { Route, Routes, Navigate, useLocation } = ReactRouterDOM
 
 export function NoteIndex({ rootFilterBy, setApp, mailRef, noteRef }) {
     const [notes, setNotes] = useState(null)
     const [filterBy, setFilterBy] = useState({ ...rootFilterBy })
     const [noteToEdit, setNoteToEdit] = useState(null)
-
+    const location = useLocation()
+    const currPath = location.pathname
     const [colorPicker, setColorPicker] = useState({ isOpen: false, ev: null, note: null, setNote: null })
     const [isClrBtn, setIsClrBtn] = useState(false)
     const isClrRef = useRef(null)
     const colorPickerRef = useRef(null)
 
     useEffect(() => {
-        setFilterBy({ ...rootFilterBy })
+        setFilterBy((prevFilter) => ({ ...prevFilter, ...rootFilterBy }))
     }, [rootFilterBy])
-
+    useEffect(() => {
+        let page = currPath.split('/note/')[1]
+        page = page.split('/')[0]
+        const defFilter = noteService.getDefaultFilter()
+        if (page !== 'search') {
+            setFilterBy((p) => ({ ...defFilter, page }))
+        } else if (page) setFilterBy((prevFillter) => ({ ...prevFillter, page }))
+    }, [location])
     useEffect(() => {
         loadNotes()
     }, [filterBy])
@@ -36,6 +44,14 @@ export function NoteIndex({ rootFilterBy, setApp, mailRef, noteRef }) {
 
     useEffect(() => {
         setApp('Note')
+        let page = currPath.split('/note/')[1]
+        if (page) page = page.split('/')[0]
+        console.log('page ', page)
+        if (page) {
+            console.log('h')
+            setFilterBy((prevFillter) => ({ ...prevFillter, page }))
+        }
+
         document.addEventListener('mousedown', handleClickOutsideColorPicker)
         return () => {
             document.removeEventListener('mousedown', handleClickOutsideColorPicker)
@@ -77,9 +93,24 @@ export function NoteIndex({ rootFilterBy, setApp, mailRef, noteRef }) {
                 newNotes.splice(idx, 1, updatedNote)
                 return newNotes
             })
+            loadNotes()
         })
     }
-
+    function onArchive(note) {
+        const updatedNote = { ...note }
+        updatedNote.state = 'archived'
+        onUpdateNote(updatedNote)
+    }
+    function onTrash(note) {
+        const updatedNote = { ...note }
+        updatedNote.state = 'trash'
+        onUpdateNote(updatedNote)
+    }
+    function returnNoteToHome(note) {
+        const updatedNote = { ...note }
+        updatedNote.state = ''
+        onUpdateNote(updatedNote)
+    }
     function onDuplicate(note) {
         note.id = null
         addNote(note, true)
@@ -130,6 +161,10 @@ export function NoteIndex({ rootFilterBy, setApp, mailRef, noteRef }) {
         setIsClrBtn,
         isClrRef,
         noteRef,
+        page: filterBy.page,
+        onArchive,
+        onTrash,
+        returnNoteToHome,
     }
     return (
         <section className="note-index full main-layout">
@@ -142,6 +177,7 @@ export function NoteIndex({ rootFilterBy, setApp, mailRef, noteRef }) {
                 <Route path="/noteHome" element={<NoteHome addNoteProps={addNoteProps} listNoteProps={listNoteProps} />} />
                 <Route path="/search" element={<NoteSearch addNoteProps={addNoteProps} listNoteProps={listNoteProps} setFilterBy={setFilterBy} />} />
                 <Route path="/search/:filterBy" element={<NoteSearch addNoteProps={addNoteProps} listNoteProps={listNoteProps} />} />
+
                 <Route path="/archive" element={<NoteArchive listNoteProps={listNoteProps} />} />
                 <Route path="/trash" element={<NoteTrash listNoteProps={listNoteProps} />} />
             </Routes>

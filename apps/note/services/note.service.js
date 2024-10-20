@@ -31,7 +31,11 @@ function query(filterBy = {}) {
         if (filterBy.type) {
             notes = notes.filter((note) => note.type === filterBy.type)
         }
-
+        if (filterBy.page) {
+            if (filterBy.page === 'noteHome' || filterBy.page === 'search') notes = notes.filter((note) => note.state === '' || !note.state)
+            else if (filterBy.page === 'archive') notes = notes.filter((note) => note.state === 'archived')
+            else if (filterBy.page === 'trash') notes = notes.filter((note) => note.state === 'trash')
+        }
         return notes
     })
 }
@@ -58,6 +62,7 @@ function getEmptyNote(title = '', txt = '') {
     // return { title, txt, type: 'NoteTxt', isPinned: false }
     return {
         type: 'NoteTxt',
+        state: '',
         info: { txt: '', title: '', todos: [], url: '', videoUrl: '' },
         isPinned: false,
         style: {},

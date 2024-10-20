@@ -23,6 +23,9 @@
 .add-note input {
     background-color: transparent;
 }
+.add-note input.title {
+    font-size: 1.4em;
+}
 .add-note .btns-control-panel {
     /* background-color: aqua; */
     display: flex;
@@ -34,6 +37,17 @@
     top: 50%;
     transform: translateY(-50%);
     transition: 0.3s;
+}
+.add-note .todo-x-btn {
+    border: none;
+    cursor: pointer;
+    background: none;
+    border-radius: 50%;
+    padding: 0.4em 0.5em;
+    transition: 0.3s;
+}
+.add-note .todo-x-btn:hover {
+    background-color: var(--clr-hover-icon);
 }
 .add-note .btns-control-panel > * {
     position: static;
@@ -54,6 +68,10 @@
 .add-note .pin-btn {
     right: 0;
     top: 1.2em;
+}
+.add-note .cancel-btn {
+    top: 0.75em;
+    left: -0.25em;
 }
 .add-note .add-btn {
     border-radius: 0.2em;

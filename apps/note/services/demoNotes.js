@@ -3,6 +3,27 @@ const colors = ['white', '#FAAFA8', '#F39F76', '#FFF8B8', '#E2F6D3', '#B4DDD3', 
 function _createDemoNotes() {
     return [
         {
+            id: 'asdasd',
+            createdAt: 1112224,
+            type: 'NoteTodo',
+            isPinned: true,
+            info: {
+                title: 'Grocceries',
+                todos: [
+                    { txt: 'Apples', doneAt: null, id: 213 },
+                    { txt: 'Bananas', doneAt: 134234234, id: 214 },
+                    { txt: 'Carrots', doneAt: 12312423, id: 215 },
+                    { txt: 'Tomatoes', doneAt: null, id: 216 },
+                    { txt: 'Bread', doneAt: null, id: 217 },
+                    { txt: 'Milk', doneAt: null, id: 218 },
+                    { txt: 'Eggs', doneAt: null, id: 219 },
+                    { txt: 'Cheese', doneAt: 123132, id: 220 },
+                    { txt: 'Chicken', doneAt: null, id: 221 },
+                    { txt: 'Rice', doneAt: null, id: 222 },
+                ],
+            },
+        },
+        {
             id: 'n101',
             createdAt: 1112222,
             type: 'NoteTxt',
@@ -37,6 +58,19 @@ function _createDemoNotes() {
             },
             info: {
                 txt: 'dear diary. its been 8 days since i last wrote you',
+            },
+        },
+        {
+            id: 'n103',
+            createdAt: 11123222,
+            type: 'NoteVideo',
+            isPinned: false,
+            style: {
+                backgroundColor: '#FFF8B8',
+            },
+            info: {
+                txt: 'donna is awesome',
+                videoUrl: `https://www.youtube.com/embed/LAd2n-Fw7q4`,
             },
         },
         {
@@ -95,8 +129,8 @@ function _createDemoNotes() {
             type: 'NoteImg',
             isPinned: false,
             info: {
-                url: 'http://some-img/me',
-                title: 'Bobi and Me',
+                url: './assets/img/ofer-img.jpg',
+                title: 'Ofer trekking',
             },
             style: {
                 backgroundColor: '#F39F76',
