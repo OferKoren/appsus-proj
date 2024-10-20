@@ -61,7 +61,7 @@ function _createDemoNotes() {
             },
         },
         {
-            id: 'n103',
+            id: 'n10dsa3',
             createdAt: 11123222,
             type: 'NoteVideo',
             isPinned: false,

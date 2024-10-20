@@ -9,6 +9,9 @@ export function HeaderFilter({ app, filterBy, onSetFilterBy }) {
         case 'Note': {
             return <NoteFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} noteService={noteService} />
         }
+        case 'Appsus': {
+            return <div className="filler"></div>
+        }
     }
     return
 }

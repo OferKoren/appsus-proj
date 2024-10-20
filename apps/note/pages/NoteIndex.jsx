@@ -29,7 +29,7 @@ export function NoteIndex({ rootFilterBy, setApp, mailRef, noteRef }) {
     }, [rootFilterBy])
     useEffect(() => {
         let page = currPath.split('/note/')[1]
-        page = page.split('/')[0]
+        if (page) page = page.split('/')[0]
         const defFilter = noteService.getDefaultFilter()
         if (page !== 'search') {
             setFilterBy((p) => ({ ...defFilter, page }))
@@ -44,9 +44,9 @@ export function NoteIndex({ rootFilterBy, setApp, mailRef, noteRef }) {
 
     useEffect(() => {
         setApp('Note')
+        alert('got her')
         let page = currPath.split('/note/')[1]
         if (page) page = page.split('/')[0]
-        console.log('page ', page)
         if (page) {
             console.log('h')
             setFilterBy((prevFillter) => ({ ...prevFillter, page }))
