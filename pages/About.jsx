@@ -13,15 +13,17 @@ export function About() {
                     </a>
                 </div>
                 <div className="creator-card">
-                    <div className="placeholder-img"></div> {/* your image ahsheli */}
+                    <img src="./assets/img/ofer-img.jpg" alt="Ofer Koren" className="creator-img" /> {/* your image ahsheli */}
                     <h3>Ofer Koren</h3>
                     <p>Full Stack Web Developer</p>
-                    <p></p>
+                    <p>Have unhealthy habits dreaming about note applications</p>
+                    <p>if the dream was a bad one he may wake up in the middle of the night and start programming</p>
+                    <p>#true story</p>
                     <a href="https://github.com/OferKoren" target="_blank" className="github-link">
                         <i className="fa-brands fa-github"></i> GitHub
                     </a>
                 </div>
             </div>
         </section>
-    );
+    )
 }

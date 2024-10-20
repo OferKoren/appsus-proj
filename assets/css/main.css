@@ -40,5 +40,6 @@
 @import './apps/note/cmps/NoteFilter.css';
 @import './apps/note/cmps/NoteAside.css';
 @import './apps/note/cmps/NoteSearch.css';
+@import './apps/note/cmps/NoteTodo.css';
 
 @import './apps/note/pages/NoteIndex.css';

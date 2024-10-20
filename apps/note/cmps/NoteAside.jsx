@@ -10,11 +10,11 @@ export function NoteAside() {
                     <img src={lightbulbSrc} />
                     <span>notes</span>
                 </NavLink>
-                <NavLink to="/note/trash" className="aside-item">
+                <NavLink to="/note/archive" className="aside-item">
                     <img src={archiveSrc} />
                     <span>archive</span>
                 </NavLink>
-                <NavLink to="/note/archive" className="aside-item">
+                <NavLink to="/note/trash" className="aside-item">
                     <img src={trashCanbSrc} />
                     <span>trash</span>
                 </NavLink>

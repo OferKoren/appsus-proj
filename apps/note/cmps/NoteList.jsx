@@ -12,6 +12,10 @@ export function NoteList({
     togglePickerRef,
     setIsClrBtn,
     noteRef,
+    page,
+    onArchive,
+    onTrash,
+    returnNoteToHome,
 }) {
     const notesMap = mapNotes()
     const pinRef = useRef()
@@ -53,6 +57,7 @@ export function NoteList({
         console.log(noteRef)
         navigate('/mail')
     }
+
     function createNoteList(noteArr) {
         const columsArr = []
         const elNotes = noteArr.map((note) => {
@@ -63,6 +68,8 @@ export function NoteList({
             const mailIconSrc = './assets/img/notes-icons/mail-icon.svg'
             const trashCanSrc = './assets/img/notes-icons/trash-can-icon.svg'
             const duplicateSrc = './assets/img/notes-icons/duplicate-icon.svg'
+            const archiveSrc = './assets/img/notes-icons/archive-icon.svg'
+            const returnArchiveSrc = './assets/img/notes-icons/return-archive-icon.svg'
             return (
                 <div key={note.id} className="note-wrapper" style={note.style} onClick={() => onEditNote(note)}>
                     <button className="pin-btn btn" onClick={(ev) => togglePin(ev, note)}>
@@ -71,10 +78,6 @@ export function NoteList({
                     <NotePreview notes={notes} onUpdateNote={onUpdateNote} note={note} />
 
                     <div className="bottom-btns">
-                        <button className="btn more-btn">
-                            <img src={threeDots} alt="" />
-                        </button>
-
                         <button
                             className="btn color-btn"
                             onClick={(ev) => {
@@ -99,7 +102,36 @@ export function NoteList({
                             <img src={duplicateSrc} alt="" />
                         </button>
 
-                        <button className="delete-note-btn- btn" onClick={(ev) => onDeleteNote(ev, note.id)}>
+                        {page === 'archive' ? (
+                            <button
+                                className="btn archive-btn"
+                                onClick={(ev) => {
+                                    ev.stopPropagation()
+                                    returnNoteToHome(note)
+                                }}
+                            >
+                                <img src={returnArchiveSrc} alt="" />
+                            </button>
+                        ) : (
+                            <button
+                                className="btn archive-btn"
+                                onClick={(ev) => {
+                                    ev.stopPropagation()
+                                    onArchive(note)
+                                }}
+                            >
+                                <img src={archiveSrc} alt="" />
+                            </button>
+                        )}
+
+                        <button
+                            className="delete-note-btn- btn"
+                            onClick={(ev) => {
+                                ev.stopPropagation()
+                                if (page === 'trash') onDeleteNote(ev, note.id)
+                                else onTrash(note)
+                            }}
+                        >
                             <img src={trashCanSrc} alt="" />
                         </button>
                     </div>

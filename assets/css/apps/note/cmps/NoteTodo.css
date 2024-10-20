@@ -1,0 +1,7 @@
+.todo-item {
+    display: flex;
+    align-items: center;
+}
+input.todo-txt-input {
+    font-size: 1.125em;
+}

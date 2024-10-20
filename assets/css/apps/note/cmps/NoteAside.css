@@ -2,29 +2,56 @@
     grid-column: 1;
     /* background-color: green; */
 }
+
 .aside-item {
-    grid-template-columns: 40px 0;
     display: grid;
+    grid-template-columns: 40px 0;
     gap: 1em;
     grid-auto-flow: column;
     align-items: center;
-    transition: 0.4s;
+    position: relative;
+    border-radius: 0.4em;
+    transition: background-color 0.4s;
 }
+
+.aside-item span {
+    position: absolute;
+    left: 40px;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    white-space: nowrap;
+}
+
 .notes-nav:hover .aside-item {
     grid-template-columns: 40px auto;
 }
-.aside-item span {
-    min-width: 0;
-    transition: width 0.4s;
+
+.notes-nav:hover .aside-item span {
+    opacity: 1;
+    transform: translateX(0);
 }
-.aside-item span {
-    width: auto;
-    grid-column: 2;
-    overflow: hidden;
-}
+
 .notes-nav {
     padding-inline-start: 1em;
     display: grid;
-
     gap: 1em;
+}
+
+.notes-nav a img {
+    padding: 0.2em;
+    border-radius: 50%;
+    transition: background-color 0.4s;
+}
+.notes-nav a:not(.active):hover img {
+    background-color: var(--clr-hover-icon);
+}
+.notes-nav a.active img {
+    background-color: var(--clr-note-nav-picked);
+}
+.notes-nav .aside-item:not(.active):hover {
+    background-color: var(--clr-hover-icon);
+}
+.notes-nav .aside-item.active:hover {
+    background-color: var(--clr-note-nav-picked);
 }
